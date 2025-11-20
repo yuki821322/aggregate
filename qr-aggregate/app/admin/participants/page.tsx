@@ -1,8 +1,11 @@
 // app/admin/participants/page.tsx
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
-import { redirect } from "next/navigation";
+import { randomUUID } from "crypto";
+import EditModal from "./EditModal";
+
 
 // =======================================
 // Prisma v6：include を含む型の安全な定義
@@ -15,10 +18,32 @@ type EventAttendeeItem = EventWithAttendees["attendees"][number];
 // =======================================
 
 type ParticipantsPageProps = {
-  searchParams: {
+  searchParams: Promise<{
     eventId?: string;
-  };
+  }>;
 };
+// ★ Server Action: 参加者を更新
+async function updateParticipant(formData: FormData) {
+  "use server";
+
+  const participantId = formData.get("participantId")?.toString() ?? "";
+  const eventId = formData.get("eventId")?.toString() ?? "";
+
+  const name = formData.get("name")?.toString().trim() ?? "";
+  const email = formData.get("email")?.toString().trim() || null;
+  const code = formData.get("code")?.toString().trim() || null;
+  const remarks = formData.get("remarks")?.toString().trim() || null;
+
+  if (!participantId || !name) return;
+
+  await prisma.participant.update({
+    where: { id: participantId },
+    data: { name, email, code, remarks },
+  });
+
+  redirect(`/admin/participants?eventId=${eventId}`);
+}
+
 
 // ★ Server Action: 参加者を追加する処理
 async function addParticipant(formData: FormData) {
@@ -32,20 +57,44 @@ async function addParticipant(formData: FormData) {
 
   if (!name || !eventId) return;
 
-  // ① participant を作成
+  // ① Participant を作成
   const participant = await prisma.participant.create({
     data: { name, email, code, remarks },
   });
 
-  // ② EventAttendee と紐付け
+  // ★ ここで QR 用のトークンを発行
+  const qrToken = randomUUID(); // 一意なID（例: "0fbd2c1c-..."）
+
+  // ② EventAttendee と紐付け（＋ qrToken を保存）
   await prisma.eventAttendee.create({
     data: {
       eventId,
       participantId: participant.id,
+      qrToken, // ← これを追加！
     },
   });
 
   // ③ リダイレクト
+  redirect(`/admin/participants?eventId=${eventId}`);
+}
+
+
+// ★ Server Action: 参加者を削除する処理（EventAttendee + Participant 両方削除）
+async function deleteParticipant(formData: FormData) {
+  "use server";
+
+  const attendeeId = formData.get("attendeeId")?.toString() ?? "";
+  const participantId = formData.get("participantId")?.toString() ?? "";
+  const eventId = formData.get("eventId")?.toString() ?? "";
+
+  if (!attendeeId || !participantId || !eventId) return;
+
+  // EventAttendee → Participant の順に削除
+  await prisma.$transaction([
+    prisma.eventAttendee.delete({ where: { id: attendeeId } }),
+    prisma.participant.delete({ where: { id: participantId } }),
+  ]);
+
   redirect(`/admin/participants?eventId=${eventId}`);
 }
 
@@ -55,7 +104,7 @@ async function addParticipant(formData: FormData) {
 export default async function ParticipantsPage({
   searchParams,
 }: ParticipantsPageProps) {
-  const eventId = searchParams.eventId;
+  const { eventId } = await searchParams;
 
   // eventId がない場合
   if (!eventId) {
@@ -136,9 +185,7 @@ export default async function ParticipantsPage({
           </div>
         </header>
 
-        {/* ------------------------------
-             参加者追加フォーム
-           ------------------------------ */}
+        {/* 参加者追加フォーム */}
         <div className={styles.formWrapper}>
           <h2 className={styles.formTitle}>参加者を追加</h2>
 
@@ -173,9 +220,7 @@ export default async function ParticipantsPage({
           </form>
         </div>
 
-        {/* ------------------------------
-             参加者一覧（テーブル）
-           ------------------------------ */}
+        {/* 参加者一覧 */}
         {attendees.length === 0 ? (
           <div className={styles.emptyBox}>
             このイベントにはまだ参加者が登録されていません。
@@ -192,6 +237,7 @@ export default async function ParticipantsPage({
                   <th className={styles.th}>コード</th>
                   <th className={styles.th}>メール</th>
                   <th className={styles.th}>メモ</th>
+                  <th className={styles.th}>操作</th>
                 </tr>
               </thead>
 
@@ -207,6 +253,29 @@ export default async function ParticipantsPage({
                     <td className={styles.td}>{a.participant.code ?? "—"}</td>
                     <td className={styles.td}>{a.participant.email ?? "—"}</td>
                     <td className={styles.td}>{a.participant.remarks ?? "—"}</td>
+                    <td className={styles.tdActions}>
+                      <form action={deleteParticipant}>
+                        <input type="hidden" name="eventId" value={event.id} />
+                        <input type="hidden" name="attendeeId" value={a.id} />
+                        <input
+                          type="hidden"
+                          name="participantId"
+                          value={a.participantId}
+                        />
+                        <EditModal
+                            participant={a.participant}
+                            eventId={event.id}
+                            onSubmit={updateParticipant}
+                        />
+
+                        <button
+                          type="submit"
+                          className={styles.deleteButton}
+                        >
+                          削除
+                        </button>
+                      </form>
+                    </td>
                   </tr>
                 ))}
               </tbody>

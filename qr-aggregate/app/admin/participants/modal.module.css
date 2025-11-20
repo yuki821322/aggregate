@@ -1,0 +1,130 @@
+/* ===== オーバーレイ ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* 透明すぎず濃すぎず */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+/* ===== モーダル本体 ===== */
+.modal {
+  background: #ffffff;
+  width: 90%;
+  max-width: 480px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.28); /* 既存UIに合わせて柔らかい影 */
+  animation: fadeIn 0.15s ease-out;
+}
+
+/* ===== タイトル ===== */
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1e293b; /* slate-800 系 */
+}
+
+/* ===== ラベル ===== */
+.label {
+  font-size: 0.9rem;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  display: block;
+  font-weight: 500;
+  color: #334155; /* slate-700 系 */
+}
+
+/* ===== 入力系 ===== */
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1; /* slate-300 系 */
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: #f8fafc; /* 既存の薄い背景 */
+  color: #0f172a; /* slate-900 */
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #60a5fa; /* blue-400 */
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+}
+
+.textarea {
+  height: 70px;
+  resize: vertical;
+}
+
+/* ===== ボタンエリア ===== */
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* 保存ボタン（青・統一） */
+.saveButton {
+  background: #2563eb;   /* blue-600 */
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s ease;
+}
+
+.saveButton:hover {
+  background: #1d4ed8; /* blue-700 */
+}
+
+/* キャンセルボタン（灰色） */
+.cancelButton {
+  background: #94a3b8; /* slate-400 */
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s ease;
+}
+
+.cancelButton:hover {
+  background: #64748b; /* slate-500 */
+}
+
+/* ===== 編集ボタン（テーブル内） ===== */
+.editButton {
+  border: 1px solid #60a5fa; /* 青 */
+  color: #2563eb;            /* 青 */
+  background: white;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.editButton:hover {
+  background: #e0f2fe; /* blue-100 */
+  box-shadow: 0 4px 10px rgba(96, 165, 250, 0.35);
+}
+
+/* ===== アニメーション ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
