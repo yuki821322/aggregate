@@ -1,0 +1,142 @@
+/* ===== ページ全体レイアウト ===== */
+.pageRoot {
+  min-height: 100vh;
+  background: #020617; /* slate-950 系 */
+  color: #e2e8f0; /* slate-300 系 */
+  padding: 40px 16px;
+}
+
+.pageContainer {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ===== タイトル ===== */
+.pageTitle {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f9fafb; /* slate-50 */
+  margin-bottom: 24px;
+}
+
+/* ===== フォーム全体 ===== */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ===== 各フィールド共通 ===== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e5e7eb; /* slate-200 */
+}
+
+.requiredMark {
+  color: #fb7185; /* pink-400 */
+  margin-left: 4px;
+}
+
+/* 入力系コンポーネント共通スタイル */
+.input,
+.textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #1f2937; /* slate-800 */
+  background: #020617; /* slate-950 */
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #64748b; /* slate-500 */
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: #0ea5e9; /* sky-500 */
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.5);
+  background: #020617;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ===== 日付＋時間の3カラム ===== */
+.rowGroup {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .rowGroup {
+    grid-template-columns: 1.1fr 1fr 1fr;
+  }
+}
+
+/* ===== 遅刻判定 ===== */
+.lateHint {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #94a3b8; /* slate-400 */
+}
+
+/* ===== ボタン行 ===== */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(148, 163, 184, 0.25); /* slate-500/25 */
+}
+
+/* キャンセルリンク */
+.cancelLink {
+  font-size: 0.85rem;
+  color: #cbd5e1; /* slate-300 */
+  text-decoration: none;
+}
+
+.cancelLink:hover {
+  color: #e5e7eb;
+}
+
+/* 保存ボタン */
+.submitButton {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #f9fafb;
+  background: linear-gradient(135deg, #0ea5e9, #22c1c3);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.submitButton:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 8px 20px rgba(56, 189, 248, 0.35);
+  transform: translateY(-1px);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
