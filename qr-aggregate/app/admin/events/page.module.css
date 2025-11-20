@@ -95,3 +95,57 @@
 .dashLink:hover {
   text-decoration: underline;
 }
+
+/* ===== 操作セル（ボタン並べる用） ===== */
+.tdActions {
+  padding: 12px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* メインアクション（ダッシュボード想定） */
+.actionLinkPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #0f172a;
+  background: #38bdf8; /* sky-400 */
+  text-decoration: none;
+  border: 1px solid rgba(56, 189, 248, 0.9);
+  transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.actionLinkPrimary:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 6px 16px rgba(56, 189, 248, 0.35);
+  transform: translateY(-1px);
+}
+
+/* サブアクション（参加者管理） */
+.actionLinkSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #e0e7ff; /* indigo-100 */
+  background: transparent;
+  border: 1px solid rgba(129, 140, 248, 0.7); /* indigo-400 */
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.actionLinkSecondary:hover {
+  background: rgba(79, 70, 229, 0.2); /* indigo-600/20 */
+  border-color: rgba(129, 140, 248, 1);
+  transform: translateY(-1px);
+}

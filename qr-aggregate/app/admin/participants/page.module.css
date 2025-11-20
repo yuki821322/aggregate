@@ -1,0 +1,243 @@
+/* ===== ページ全体 ===== */
+.pageRoot {
+  min-height: 100vh;
+  background: #020617; /* slate-950 */
+  color: #e2e8f0; /* slate-300 */
+  padding: 40px 16px;
+}
+
+.pageContainer {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ===== ヘッダー ===== */
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.pageTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f9fafb;
+}
+
+.backLink {
+  font-size: 0.8rem;
+  color: #a5b4fc; /* indigo-300 */
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: #e0e7ff;
+  text-decoration: underline;
+}
+
+.eventMeta {
+  font-size: 0.85rem;
+  color: #94a3b8; /* slate-400 */
+}
+
+/* ===== ツールバー ===== */
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.addButton {
+  border: none;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #0f172a;
+  background: #22c55e; /* green-500 */
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.addButton:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 8px 18px rgba(34, 197, 94, 0.35);
+  transform: translateY(-1px);
+}
+
+.addButton:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ===== テーブル ===== */
+.tableWrapper {
+  background: rgba(15, 23, 42, 0.8); /* slate-900 */
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35); /* slate-500 */
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHead {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+}
+
+.tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.tr:hover {
+  background: rgba(30, 64, 175, 0.3); /* indigo-700/30 */
+}
+
+.td {
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.tdSub {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* ===== 空のとき ===== */
+.emptyBox {
+  margin-top: 12px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.7);
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.emptyHint {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* ===== イベント未指定のとき ===== */
+.notice {
+  margin-top: 24px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(248, 250, 252, 0.1);
+  background: rgba(15, 23, 42, 0.8);
+  font-size: 0.9rem;
+}
+
+.noticeTitle {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.noticeText {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+/* ===== 参加者追加フォーム ===== */
+.formWrapper {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.formTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #f1f5f9;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+}
+
+.required {
+  color: #fb7185; /* pink-400 */
+  margin-left: 4px;
+}
+
+.input,
+.textarea {
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: #0f172a;
+  padding: 8px 10px;
+  color: #e2e8f0;
+  font-size: 0.85rem;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+  outline: none;
+}
+
+.textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.submitButton {
+  align-self: flex-end;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: #38bdf8;
+  color: #0f172a;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.15s ease;
+}
+
+.submitButton:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}

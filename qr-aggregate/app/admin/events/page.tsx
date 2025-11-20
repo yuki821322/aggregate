@@ -53,13 +53,20 @@ export default async function EventsPage() {
                         minute: "2-digit",
                       })}
                     </td>
-                    <td className={styles.td}>
-                      <Link
-                        href={`/admin/events/${event.id}/dashboard`}
-                        className={styles.dashLink}
-                      >
-                        ダッシュボード
-                      </Link>
+                    <td className={styles.tdActions}>
+                        <Link
+                            href={`/admin/events/${event.id}/dashboard`}
+                            className={styles.actionLinkPrimary}
+                        >
+                            ダッシュボード
+                        </Link>
+
+                        <Link
+                            href={`/admin/participants?eventId=${event.id}`}
+                            className={styles.actionLinkSecondary}
+                        >
+                            参加者管理
+                        </Link>
                     </td>
                   </tr>
                 ))}
