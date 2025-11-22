@@ -12,19 +12,14 @@ type EditModalProps = {
     remarks: string | null;
   };
   eventId: string;
-  onSubmit: (formData: FormData) => void;
 };
 
-export default function EditModal({
-  participant,
-  eventId,
-  onSubmit,
-}: EditModalProps) {
+export default function EditModal({ participant, eventId }: EditModalProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      {/* 編集ボタン */}
+      {/* 編集ボタン（テーブル内） */}
       <button
         type="button"
         className={styles.editButton}
@@ -40,10 +35,9 @@ export default function EditModal({
             <h2 className={styles.title}>参加者情報を編集</h2>
 
             <form
-              action={(formData) => {
-                onSubmit(formData);
-                setIsOpen(false);
-              }}
+              method="POST"
+              action="/admin/participants/update"
+              onSubmit={() => setIsOpen(false)}
             >
               <input type="hidden" name="participantId" value={participant.id} />
               <input type="hidden" name="eventId" value={eventId} />

@@ -22,27 +22,6 @@ type ParticipantsPageProps = {
     eventId?: string;
   }>;
 };
-// ★ Server Action: 参加者を更新
-async function updateParticipant(formData: FormData) {
-  "use server";
-
-  const participantId = formData.get("participantId")?.toString() ?? "";
-  const eventId = formData.get("eventId")?.toString() ?? "";
-
-  const name = formData.get("name")?.toString().trim() ?? "";
-  const email = formData.get("email")?.toString().trim() || null;
-  const code = formData.get("code")?.toString().trim() || null;
-  const remarks = formData.get("remarks")?.toString().trim() || null;
-
-  if (!participantId || !name) return;
-
-  await prisma.participant.update({
-    where: { id: participantId },
-    data: { name, email, code, remarks },
-  });
-
-  redirect(`/admin/participants?eventId=${eventId}`);
-}
 
 
 // ★ Server Action: 参加者を追加する処理
@@ -253,29 +232,28 @@ export default async function ParticipantsPage({
                     <td className={styles.td}>{a.participant.code ?? "—"}</td>
                     <td className={styles.td}>{a.participant.email ?? "—"}</td>
                     <td className={styles.td}>{a.participant.remarks ?? "—"}</td>
-                    <td className={styles.tdActions}>
-                      <form action={deleteParticipant}>
-                        <input type="hidden" name="eventId" value={event.id} />
-                        <input type="hidden" name="attendeeId" value={a.id} />
-                        <input
-                          type="hidden"
-                          name="participantId"
-                          value={a.participantId}
-                        />
-                        <EditModal
-                            participant={a.participant}
-                            eventId={event.id}
-                            onSubmit={updateParticipant}
-                        />
+                  <td className={styles.tdActions}>
+                    <EditModal
+                      participant={a.participant}
+                      eventId={event.id}
+                    />
 
-                        <button
-                          type="submit"
-                          className={styles.deleteButton}
-                        >
-                          削除
-                        </button>
-                      </form>
-                    </td>
+                    <form action={deleteParticipant} style={{ display: "inline" }}>
+                      <input type="hidden" name="eventId" value={event.id} />
+                      <input type="hidden" name="attendeeId" value={a.id} />
+                      <input
+                        type="hidden"
+                        name="participantId"
+                        value={a.participantId}
+                      />
+                      <button
+                        type="submit"
+                        className={styles.deleteButton}
+                      >
+                        削除
+                      </button>
+                    </form>
+                  </td>
                   </tr>
                 ))}
               </tbody>
