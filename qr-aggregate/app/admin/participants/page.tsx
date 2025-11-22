@@ -6,13 +6,29 @@ import styles from "./page.module.css";
 import EditModal from "./EditModal";
 
 // =======================================
-// Prisma v6：include を含む型の安全な定義
+// 型定義（使っている項目だけを素直に書く）
 // =======================================
-type EventWithAttendees = NonNullable<
-  Awaited<ReturnType<typeof prisma.event.findUnique>>
->;
 
-type EventAttendeeItem = EventWithAttendees["attendees"][number];
+type EventAttendeeItem = {
+    id: string;
+    participantId: string;
+    participant: {
+    id: string;
+    name: string;
+    email: string | null;
+    code: string | null;
+    remarks: string | null;
+  };
+};
+
+type EventWithAttendees = {
+  id: string;
+  title: string;
+  date: Date;
+  startAt: Date;
+  attendees: EventAttendeeItem[];
+};
+
 // =======================================
 
 type ParticipantsPageProps = {
@@ -73,7 +89,7 @@ export default async function ParticipantsPage({
   }
 
   // イベントと参加者を取得
-  const event = await prisma.event.findUnique({
+  const event = (await prisma.event.findUnique({
     where: { id: eventId },
     include: {
       attendees: {
@@ -81,7 +97,7 @@ export default async function ParticipantsPage({
         orderBy: { createdAt: "asc" },
       },
     },
-  });
+  })) as EventWithAttendees | null;
 
   // eventId が不正な場合
   if (!event) {

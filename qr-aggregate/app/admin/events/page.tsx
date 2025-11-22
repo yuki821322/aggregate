@@ -1,9 +1,27 @@
+// app/admin/events/page.tsx
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
 
 // Prisma のメソッドから Event 型を推論する
 type EventItem = Awaited<ReturnType<typeof prisma.event.findFirstOrThrow>>;
+
+// ★ Server Action: イベント削除
+async function deleteEvent(formData: FormData) {
+  "use server";
+
+  const eventId = formData.get("eventId")?.toString() ?? "";
+  if (!eventId) return;
+
+  // ここで関連レコード（attendanceLog など）があるなら
+  // 先に transaction で消す想定
+  await prisma.event.delete({
+    where: { id: eventId },
+  });
+
+  redirect("/admin/events");
+}
 
 export default async function EventsPage() {
   const events = await prisma.event.findMany({
@@ -54,20 +72,35 @@ export default async function EventsPage() {
                       })}
                     </td>
                     <td className={styles.tdActions}>
-                        <Link
-                          href={`/admin/events/${event.id}/dashboard`}
-                          className={styles.actionLinkPrimary}
-                        >
-                          ダッシュボード
-                        </Link>
+                      <Link
+                        href={`/admin/events/${event.id}/dashboard`}
+                        className={styles.actionLinkPrimary}
+                      >
+                        ダッシュボード
+                      </Link>
 
-                        <Link
-                            href={`/admin/participants?eventId=${event.id}`}
-                            className={styles.actionLinkSecondary}
-                        >
-                            参加者管理
-                        </Link>
+                      <Link
+                        href={`/admin/participants?eventId=${event.id}`}
+                        className={styles.actionLinkSecondary}
+                      >
+                        参加者管理
+                      </Link>
+
+                      <Link
+                        href={`/admin/events/${event.id}/edit`}
+                        className={styles.editLink}
+                      >
+                        編集
+                      </Link>
+
+                      <form action={deleteEvent} className={styles.inlineForm}>
+                        <input type="hidden" name="eventId" value={event.id} />
+                        <button type="submit" className={styles.deleteButton}>
+                          削除
+                        </button>
+                      </form>
                     </td>
+
                   </tr>
                 ))}
               </tbody>
