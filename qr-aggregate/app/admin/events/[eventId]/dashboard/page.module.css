@@ -1,0 +1,147 @@
+.pageRoot {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000 100%);
+  color: #e5e7eb;
+}
+
+.pageContainer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+/* ===== ヘッダー ===== */
+
+.pageHeader {
+  margin-bottom: 24px;
+}
+
+.pageTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.pageTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.backLink {
+  font-size: 0.85rem;
+  color: #93c5fd;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid rgba(147, 197, 253, 0.7);
+  padding: 6px 12px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.backLink:hover {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: #bfdbfe;
+}
+
+.eventMeta {
+  font-size: 0.9rem;
+  color: #cbd5f5;
+}
+
+.eventTitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.eventSubMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* ===== サマリーカード ===== */
+
+.statSection {
+  margin-bottom: 28px;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.statCard,
+.statCardMuted {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.9));
+}
+
+.statCardMuted {
+  opacity: 0.85;
+  background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.05), rgba(15, 23, 42, 0.9));
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: #cbd5f5;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.statHint {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* ===== セクション ===== */
+
+.section {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #e5e7eb;
+}
+
+.placeholderBox {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* ===== Notice（エラーなど） ===== */
+
+.notice {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(248, 113, 113, 0.6);
+  background: rgba(127, 29, 29, 0.4);
+}
+
+.noticeTitle {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.noticeText {
+  font-size: 0.85rem;
+}

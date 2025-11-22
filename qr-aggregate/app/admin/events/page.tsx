@@ -55,10 +55,10 @@ export default async function EventsPage() {
                     </td>
                     <td className={styles.tdActions}>
                         <Link
-                            href={`/admin/events/${event.id}/dashboard`}
-                            className={styles.actionLinkPrimary}
+                          href={`/admin/events/${event.id}/dashboard`}
+                          className={styles.actionLinkPrimary}
                         >
-                            ダッシュボード
+                          ダッシュボード
                         </Link>
 
                         <Link
