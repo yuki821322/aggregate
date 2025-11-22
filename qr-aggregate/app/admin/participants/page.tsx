@@ -3,9 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
-import { randomUUID } from "crypto";
 import EditModal from "./EditModal";
-
 
 // =======================================
 // Prisma v6：include を含む型の安全な定義
@@ -23,41 +21,6 @@ type ParticipantsPageProps = {
   }>;
 };
 
-
-// ★ Server Action: 参加者を追加する処理
-async function addParticipant(formData: FormData) {
-  "use server";
-
-  const name = formData.get("name")?.toString().trim() ?? "";
-  const email = formData.get("email")?.toString().trim() || null;
-  const code = formData.get("code")?.toString().trim() || null;
-  const remarks = formData.get("remarks")?.toString().trim() || null;
-  const eventId = formData.get("eventId")?.toString() ?? "";
-
-  if (!name || !eventId) return;
-
-  // ① Participant を作成
-  const participant = await prisma.participant.create({
-    data: { name, email, code, remarks },
-  });
-
-  // ★ ここで QR 用のトークンを発行
-  const qrToken = randomUUID(); // 一意なID（例: "0fbd2c1c-..."）
-
-  // ② EventAttendee と紐付け（＋ qrToken を保存）
-  await prisma.eventAttendee.create({
-    data: {
-      eventId,
-      participantId: participant.id,
-      qrToken, // ← これを追加！
-    },
-  });
-
-  // ③ リダイレクト
-  redirect(`/admin/participants?eventId=${eventId}`);
-}
-
-
 // ★ Server Action: 参加者を削除する処理（EventAttendee + Participant 両方削除）
 async function deleteParticipant(formData: FormData) {
   "use server";
@@ -68,7 +31,6 @@ async function deleteParticipant(formData: FormData) {
 
   if (!attendeeId || !participantId || !eventId) return;
 
-  // EventAttendee → Participant の順に削除
   await prisma.$transaction([
     prisma.eventAttendee.delete({ where: { id: attendeeId } }),
     prisma.participant.delete({ where: { id: participantId } }),
@@ -164,48 +126,10 @@ export default async function ParticipantsPage({
           </div>
         </header>
 
-        {/* 参加者追加フォーム */}
-        <div className={styles.formWrapper}>
-          <h2 className={styles.formTitle}>参加者を追加</h2>
-
-          <form action={addParticipant} className={styles.form}>
-            <input type="hidden" name="eventId" value={event.id} />
-
-            <div className={styles.field}>
-              <label className={styles.label}>
-                氏名<span className={styles.required}>*</span>
-              </label>
-              <input name="name" required className={styles.input} />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>メール（任意）</label>
-              <input name="email" type="email" className={styles.input} />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>コード（任意）</label>
-              <input name="code" className={styles.input} />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>備考（任意）</label>
-              <textarea name="remarks" className={styles.textarea} />
-            </div>
-
-            <button type="submit" className={styles.submitButton}>
-              追加する
-            </button>
-          </form>
-        </div>
-
         {/* 参加者一覧 */}
         {attendees.length === 0 ? (
           <div className={styles.emptyBox}>
             このイベントにはまだ参加者が登録されていません。
-            <div className={styles.emptyHint}>
-              上のフォームから参加者を登録できます。
-            </div>
           </div>
         ) : (
           <section className={styles.tableWrapper}>
@@ -232,28 +156,28 @@ export default async function ParticipantsPage({
                     <td className={styles.td}>{a.participant.code ?? "—"}</td>
                     <td className={styles.td}>{a.participant.email ?? "—"}</td>
                     <td className={styles.td}>{a.participant.remarks ?? "—"}</td>
-                  <td className={styles.tdActions}>
-                    <EditModal
-                      participant={a.participant}
-                      eventId={event.id}
-                    />
-
-                    <form action={deleteParticipant} style={{ display: "inline" }}>
-                      <input type="hidden" name="eventId" value={event.id} />
-                      <input type="hidden" name="attendeeId" value={a.id} />
-                      <input
-                        type="hidden"
-                        name="participantId"
-                        value={a.participantId}
+                    <td className={styles.tdActions}>
+                      <EditModal
+                        participant={a.participant}
+                        eventId={event.id}
                       />
-                      <button
-                        type="submit"
-                        className={styles.deleteButton}
-                      >
-                        削除
-                      </button>
-                    </form>
-                  </td>
+
+                      <form action={deleteParticipant} style={{ display: "inline" }}>
+                        <input type="hidden" name="eventId" value={event.id} />
+                        <input type="hidden" name="attendeeId" value={a.id} />
+                        <input
+                          type="hidden"
+                          name="participantId"
+                          value={a.participantId}
+                        />
+                        <button
+                          type="submit"
+                          className={styles.deleteButton}
+                        >
+                          削除
+                        </button>
+                      </form>
+                    </td>
                   </tr>
                 ))}
               </tbody>
