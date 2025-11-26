@@ -1,0 +1,101 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.78);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.modal {
+  background: #0b1220;
+  width: 90%;
+  max-width: 480px;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  animation: fadeIn 0.15s ease-out;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #e5e7eb;
+}
+
+.label {
+  font-size: 0.85rem;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  display: block;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #4b5563;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.saveButton {
+  background: #22c55e;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  font-size: 0.85rem;
+}
+
+.cancelButton {
+  background: #6b7280;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  font-size: 0.85rem;
+}
+
+.editButton {
+  border: 1px solid rgba(56, 189, 248, 0.8);
+  color: #38bdf8;
+  background: transparent;
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.editButton:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 1);
+  transform: translateY(-1px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

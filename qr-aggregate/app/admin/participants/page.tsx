@@ -17,6 +17,7 @@ type EventAttendeeItem = {
     name: string;
     email: string | null;
     code: string | null;
+    
     remarks: string | null;
   };
 };

@@ -3,22 +3,22 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
+import EditEventModal from "./EditEventModal";
 
 // Prisma のメソッドから Event 型を推論する
 type EventItem = Awaited<ReturnType<typeof prisma.event.findFirstOrThrow>>;
 
-// ★ Server Action: イベント削除
+// ★ Server Action: イベント削除（OKだった版）
 async function deleteEvent(formData: FormData) {
   "use server";
 
   const eventId = formData.get("eventId")?.toString() ?? "";
   if (!eventId) return;
 
-  // ここで関連レコード（attendanceLog など）があるなら
-  // 先に transaction で消す想定
-  await prisma.event.delete({
-    where: { id: eventId },
-  });
+  await prisma.$transaction([
+    prisma.eventAttendee.deleteMany({ where: { eventId } }),
+    prisma.event.delete({ where: { id: eventId } }),
+  ]);
 
   redirect("/admin/events");
 }
@@ -59,50 +59,59 @@ export default async function EventsPage() {
               </thead>
 
               <tbody className={styles.tableBody}>
-                {events.map((event: EventItem) => (
-                  <tr key={event.id} className={styles.tr}>
-                    <td className={styles.td}>{event.title}</td>
-                    <td className={styles.td}>
-                      {event.date.toLocaleDateString("ja-JP")}
-                    </td>
-                    <td className={styles.td}>
-                      {event.startAt.toLocaleTimeString("ja-JP", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </td>
-                    <td className={styles.tdActions}>
-                      <Link
-                        href={`/admin/events/${event.id}/dashboard`}
-                        className={styles.actionLinkPrimary}
-                      >
-                        ダッシュボード
-                      </Link>
+                {events.map((event: EventItem) => {
+                  const dateValue = event.date.toISOString().slice(0, 10); // "YYYY-MM-DD"
+                  const timeValue = event.startAt.toTimeString().slice(0, 5); // "HH:MM"
 
-                      <Link
-                        href={`/admin/participants?eventId=${event.id}`}
-                        className={styles.actionLinkSecondary}
-                      >
-                        参加者管理
-                      </Link>
+                  return (
+                    <tr key={event.id} className={styles.tr}>
+                      <td className={styles.td}>{event.title}</td>
+                      <td className={styles.td}>
+                        {event.date.toLocaleDateString("ja-JP")}
+                      </td>
+                      <td className={styles.td}>
+                        {event.startAt.toLocaleTimeString("ja-JP", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </td>
+                      <td className={styles.tdActions}>
+                        <Link
+                          href={`/admin/events/${event.id}/dashboard`}
+                          className={styles.actionLinkPrimary}
+                        >
+                          ダッシュボード
+                        </Link>
 
-                      <Link
-                        href={`/admin/events/${event.id}/edit`}
-                        className={styles.editLink}
-                      >
-                        編集
-                      </Link>
+                        <Link
+                          href={`/admin/participants?eventId=${event.id}`}
+                          className={styles.actionLinkSecondary}
+                        >
+                          参加者管理
+                        </Link>
 
-                      <form action={deleteEvent} className={styles.inlineForm}>
-                        <input type="hidden" name="eventId" value={event.id} />
-                        <button type="submit" className={styles.deleteButton}>
-                          削除
-                        </button>
-                      </form>
-                    </td>
+                        {/* ★ 編集モーダル */}
+                        <EditEventModal
+                          eventId={event.id}
+                          defaultTitle={event.title}
+                          defaultDate={dateValue}
+                          defaultStartTime={timeValue}
+                        />
 
-                  </tr>
-                ))}
+                        {/* ★ 削除ボタン */}
+                        <form action={deleteEvent} style={{ display: "inline-block" }}>
+                          <input type="hidden" name="eventId" value={event.id} />
+                          <button
+                            type="submit"
+                            className={styles.deleteButton}
+                          >
+                            削除
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </section>
