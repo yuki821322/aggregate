@@ -1,14 +1,18 @@
 // app/admin/events/EditEventModal.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import modalStyles from "./modal.module.css";
+
+// ★ Server Action をインポート
+import { updateEvent } from "./actions";
 
 type EditEventModalProps = {
   eventId: string;
   defaultTitle: string;
-  defaultDate: string;      // "YYYY-MM-DD"
-  defaultStartTime: string; // "HH:MM"
+  defaultDate: string;
+  defaultStartTime: string;
 };
 
 export default function EditEventModal({
@@ -18,10 +22,12 @@ export default function EditEventModal({
   defaultStartTime,
 }: EditEventModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   return (
     <>
-      {/* 一覧の「編集」ボタン */}
+      {/* 編集ボタン */}
       <button
         type="button"
         className={modalStyles.editButton}
@@ -36,9 +42,13 @@ export default function EditEventModal({
             <h2 className={modalStyles.title}>イベント情報を編集</h2>
 
             <form
-              method="POST"
-              action="/admin/events/update"
-              // onSubmit では何も特別なことをしない
+              action={(formData) => {
+                startTransition(async () => {
+                  await updateEvent(formData);
+                  router.refresh(); // ← ページをリロードではなく再描画
+                  setIsOpen(false); // ← モーダルを閉じる
+                });
+              }}
             >
               <input type="hidden" name="eventId" value={eventId} />
 
@@ -69,8 +79,12 @@ export default function EditEventModal({
               />
 
               <div className={modalStyles.buttons}>
-                <button type="submit" className={modalStyles.saveButton}>
-                  保存
+                <button
+                  type="submit"
+                  className={modalStyles.saveButton}
+                  disabled={isPending}
+                >
+                  {isPending ? "保存中..." : "保存"}
                 </button>
 
                 <button

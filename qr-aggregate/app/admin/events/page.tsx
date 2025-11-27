@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
 import EditEventModal from "./EditEventModal";
 
+
+
 // Prisma のメソッドから Event 型を推論する
 type EventItem = Awaited<ReturnType<typeof prisma.event.findFirstOrThrow>>;
 
