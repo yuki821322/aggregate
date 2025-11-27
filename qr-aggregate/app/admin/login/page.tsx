@@ -3,6 +3,7 @@
 
 import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import styles from './page.module.css'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -28,7 +29,7 @@ export default function AdminLoginPage() {
         setError(data.message ?? 'ログインに失敗しました')
       } else {
         // ログイン成功 → 管理画面トップへ
-        router.push('/admin/events') // 好きな管理画面のトップに変更OK
+        router.push('/admin/events')
       }
     } catch (err) {
       console.error(err)
@@ -39,18 +40,18 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-100">
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow">
-        <h1 className="mb-4 text-xl font-bold text-center">管理者ログイン</h1>
+    <main className={styles.pageRoot}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>管理者ログイン</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className={styles.form}>
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className={styles.label}>
               メールアドレス
             </label>
             <input
               type="email"
-              className="w-full rounded border px-3 py-2 text-sm"
+              className={styles.input}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="username"
@@ -59,12 +60,12 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className={styles.label}>
               パスワード
             </label>
             <input
               type="password"
-              className="w-full rounded border px-3 py-2 text-sm"
+              className={styles.input}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
@@ -73,7 +74,7 @@ export default function AdminLoginPage() {
           </div>
 
           {error && (
-            <p className="text-sm text-red-600">
+            <p className={styles.error}>
               {error}
             </p>
           )}
@@ -81,7 +82,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-slate-900 px-3 py-2 text-sm font-semibold text-white disabled:opacity-60"
+            className={styles.submitButton}
           >
             {loading ? 'ログイン中…' : 'ログイン'}
           </button>

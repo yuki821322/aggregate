@@ -16,6 +16,10 @@ export async function updateEvent(formData: FormData) {
 
   await prisma.event.update({
     where: { id: eventId },
-    data: { title, date, startAt },
+    data: {
+      title,
+      date,
+      startAt,
+    },
   });
 }
