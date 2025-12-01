@@ -196,3 +196,27 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+
+.pageHeaderLinks {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.checkinLink {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.8);
+  color: #e0f2fe;
+  text-decoration: none;
+  background: rgba(15, 23, 42, 0.9);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.checkinLink:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: rgba(56, 189, 248, 1);
+  transform: translateY(-1px);
+}

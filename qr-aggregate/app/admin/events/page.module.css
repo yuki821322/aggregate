@@ -190,3 +190,24 @@
   border-color: rgba(239, 68, 68, 1);
   transform: translateY(-1px);
 }
+
+.checkinButton {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: linear-gradient(to right, #0ea5e9, #3b82f6);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.checkinButton:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.checkinButton:active {
+  transform: translateY(0);
+}

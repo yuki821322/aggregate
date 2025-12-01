@@ -92,6 +92,12 @@ export default async function EventsPage() {
                           参加者管理
                         </Link>
 
+                        <Link href={`/admin/events/${event.id}/checkin`}>
+                          <button className={styles.checkinButton}>
+                            チェックイン
+                          </button>
+                        </Link>
+
                         {/* ★ 編集モーダル */}
                         <EditEventModal
                           eventId={event.id}

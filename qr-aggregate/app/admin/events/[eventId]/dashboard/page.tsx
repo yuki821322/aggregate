@@ -97,27 +97,37 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
       <div className={styles.pageContainer}>
         {/* ヘッダー */}
         <header className={styles.pageHeader}>
-          <div className={styles.pageTitleRow}>
-            <h1 className={styles.pageTitle}>イベントダッシュボード</h1>
+        <div className={styles.pageTitleRow}>
+          <h1 className={styles.pageTitle}>イベントダッシュボード</h1>
+          
+          <div className={styles.pageHeaderLinks}>
+            <Link
+              href={`/admin/events/${event.id}/checkin`}
+              className={styles.checkinLink}
+            >
+              出席チェックイン画面へ
+            </Link>
+
             <Link href="/admin/events" className={styles.backLink}>
               ← イベント一覧へ戻る
             </Link>
           </div>
+        </div>
 
-          <div className={styles.eventMeta}>
-            <div className={styles.eventTitle}>{event.title}</div>
-            <div className={styles.eventSubMeta}>
-              <span>日付：{event.date.toLocaleDateString("ja-JP")}</span>
-              <span>
-                開始：
-                {event.startAt.toLocaleTimeString("ja-JP", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </span>
-            </div>
+        <div className={styles.eventMeta}>
+          <div className={styles.eventTitle}>{event.title}</div>
+          <div className={styles.eventSubMeta}>
+            <span>日付：{event.date.toLocaleDateString("ja-JP")}</span>
+            <span>
+              開始：
+              {event.startAt.toLocaleTimeString("ja-JP", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
           </div>
-        </header>
+        </div>
+      </header>
 
         {/* サマリーカード */}
         <section className={styles.statSection}>
