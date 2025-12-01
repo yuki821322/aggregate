@@ -1,0 +1,97 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+// 管理画面ユーザー（Admin / Staff）
+model AccountUser {
+  id      String  @id @default(uuid())
+  authSub String? @unique
+  email   String? @unique
+  name    String?
+  role    String  @default("admin") // admin / staff 想定
+
+  // ★ 自作ログイン用フィールド
+  loginId      String? @unique
+  passwordHash String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events         Event[]         @relation("EventOwner")
+  attendanceLogs AttendanceLog[]
+}
+
+// 出席される側（学生・社員）
+model Participant {
+  id      String  @id @default(uuid())
+  code    String? @unique // 学籍番号など
+  name    String
+  email   String?
+  remarks String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  eventAttendees EventAttendee[]
+}
+
+// 出席を取るイベント
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  date        DateTime
+
+  startAt              DateTime
+  endAt                DateTime
+  lateThresholdMinutes Int      @default(15)
+
+  ownerId String
+  owner   AccountUser @relation("EventOwner", fields: [ownerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attendees EventAttendee[]
+}
+
+// イベント × 参加者 ＋ QR トークン
+model EventAttendee {
+  id            String @id @default(uuid())
+  eventId       String
+  participantId String
+
+  event       Event       @relation(fields: [eventId], references: [id])
+  participant Participant @relation(fields: [participantId], references: [id])
+
+  qrToken          String    @unique
+  status           String    @default("registered")
+  firstCheckedInAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attendanceLogs AttendanceLog[]
+}
+
+// チェックイン記録
+model AttendanceLog {
+  id              String        @id @default(uuid())
+  eventAttendeeId String
+  eventAttendee   EventAttendee @relation(fields: [eventAttendeeId], references: [id])
+
+  checkedAt DateTime @default(now())
+  status    String // on_time / late / too_early / invalid など
+
+  deviceLabel String?
+  handledById String?
+  handledBy   AccountUser? @relation(fields: [handledById], references: [id])
+
+  createdAt DateTime @default(now())
+}

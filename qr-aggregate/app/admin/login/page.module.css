@@ -1,100 +1,87 @@
-/* ===== 全体背景 ===== */
 .pageRoot {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0f172a; /* slate-950 */
-  padding: 40px 20px;
-  color: #e2e8f0; /* slate-300 */
+  background: #020617;
+  color: #e5e7eb;
+  padding: 24px 12px;
 }
 
-/* ===== カード ===== */
 .card {
   width: 100%;
-  max-width: 420px;
-  background: rgba(30, 41, 59, 0.85); /* slate-800/85 */
-  padding: 32px 28px;
-  border-radius: 14px;
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  box-shadow:
-    0 18px 40px rgba(15, 23, 42, 0.9),
-    0 0 0 1px rgba(15, 23, 42, 1);
+  max-width: 360px;
+  border-radius: 18px;
+  padding: 20px 18px 18px;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
 }
 
-/* ===== 見出し ===== */
 .title {
-  text-align: center;
-  font-size: 1.45rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  color: #f1f5f9; /* slate-50 */
-  margin-bottom: 22px;
+  margin-bottom: 4px;
 }
 
-/* ===== フォーム ===== */
+.subtitle {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
+
+.error {
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+  color: #fecaca;
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 10px;
 }
 
-/* ラベル */
 .label {
   font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #cbd5e1; /* slate-300 */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* input */
 .input {
-  width: 100%;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  padding: 10px;
+  padding: 8px 10px;
   border-radius: 8px;
-  font-size: 0.92rem;
-  background: #0f172a;
-  color: #f1f5f9;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  background: #020617;
+  color: #e5e7eb;
 }
 
-.input:focus {
-  border-color: rgba(56, 189, 248, 0.9); /* sky-400 */
-  box-shadow:
-    0 0 0 1px rgba(56, 189, 248, 0.8),
-    0 0 0 6px rgba(56, 189, 248, 0.12);
-  outline: none;
-}
-
-/* ===== エラー ===== */
-.error {
-  font-size: 0.85rem;
-  color: #fca5a5; /* red-300 */
-  margin-top: -6px;
-}
-
-/* ===== ボタン（actionLinkPrimary の世界観） ===== */
 .submitButton {
+  margin-top: 6px;
   width: 100%;
-  padding: 10px 0;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 8px 0;
   border-radius: 999px;
-  color: #0f172a;
-  background: #38bdf8; /* sky-400 */
-  border: 1px solid rgba(56, 189, 248, 0.9);
+  border: none;
+  background: linear-gradient(to right, #0ea5e9, #6366f1);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
 
-.submitButton:hover:not(:disabled) {
-  filter: brightness(1.05);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 22px rgba(56, 189, 248, 0.35);
+.registerText {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #94a3b8; /* slate-400 */
+  text-align: center;
 }
 
-.submitButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.registerLink {
+  color: #38bdf8; /* sky-400 */
+  text-decoration: underline;
+}
+
+.registerLink:hover {
+  color: #7dd3fc; /* sky-300 */
 }

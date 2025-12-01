@@ -5,7 +5,9 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/client"
 }
+
 
 // 管理画面ユーザー（Admin / Staff）
 model AccountUser {
@@ -14,12 +16,18 @@ model AccountUser {
   email       String?  @unique
   name        String?
   role        String   @default("admin") // admin / staff 想定
+
+  // ★ 自作ログイン用フィールド
+  loginId      String?  @unique
+  passwordHash String?
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   events         Event[]          @relation("EventOwner")
   attendanceLogs AttendanceLog[]
 }
+
 
 // 出席される側（学生・社員）
 model Participant {

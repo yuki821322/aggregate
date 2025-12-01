@@ -1,93 +1,65 @@
 // app/admin/login/page.tsx
-'use client'
+"use client";
 
-import { FormEvent, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import styles from './page.module.css'
+import { useSearchParams } from "next/navigation";
+import styles from "./page.module.css";
 
 export default function AdminLoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        setError(data.message ?? 'ログインに失敗しました')
-      } else {
-        // ログイン成功 → 管理画面トップへ
-        router.push('/admin/events')
-      }
-    } catch (err) {
-      console.error(err)
-      setError('通信エラーが発生しました')
-    } finally {
-      setLoading(false)
-    }
-  }
+  const errorMessage =
+    error === "missing"
+      ? "「名前 または ログインID」と「パスワード」を入力してください。"
+      : error === "invalid"
+      ? "入力内容が正しくありません。"
+      : null;
 
   return (
     <main className={styles.pageRoot}>
       <div className={styles.card}>
         <h1 className={styles.title}>管理者ログイン</h1>
+        <p className={styles.subtitle}>
+          管理画面にアクセスするには、管理者アカウントでログインしてください。
+        </p>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div>
-            <label className={styles.label}>
-              メールアドレス
-            </label>
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+
+        <form method="POST" action="/api/admin/login" className={styles.form}>
+          <label className={styles.label}>
+            名前 または ログインID
             <input
-              type="email"
+              type="text"
+              name="username"        // ★ ここを username に変更
               className={styles.input}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               autoComplete="username"
               required
             />
-          </div>
+          </label>
 
-          <div>
-            <label className={styles.label}>
-              パスワード
-            </label>
+          <label className={styles.label}>
+            パスワード
             <input
               type="password"
+              name="password"
               className={styles.input}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
               required
             />
-          </div>
+          </label>
 
-          {error && (
-            <p className={styles.error}>
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={styles.submitButton}
-          >
-            {loading ? 'ログイン中…' : 'ログイン'}
+          <button type="submit" className={styles.submitButton}>
+            ログイン
           </button>
         </form>
+
+        <p className={styles.registerText}>
+          初めてご利用の方は{" "}
+          <a href="/admin/register" className={styles.registerLink}>
+            管理者アカウントを新規登録
+          </a>
+        </p>
       </div>
     </main>
-  )
+  );
 }
