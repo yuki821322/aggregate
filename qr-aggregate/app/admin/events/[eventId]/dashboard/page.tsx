@@ -44,7 +44,53 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
     );
   }
 
+  // 登録済み参加者数
   const attendeeCount = event.attendees.length;
+
+  // ✅ 最近の出席ログ（20件まで）
+  const recentLogs = await prisma.attendanceLog.findMany({
+    where: {
+      eventAttendee: {
+        eventId: event.id,
+      },
+    },
+    orderBy: { checkedAt: "desc" },
+    take: 20,
+    include: {
+      eventAttendee: {
+        include: {
+          participant: true,
+        },
+      },
+      handledBy: true,
+    },
+  });
+
+  // ✅ 出席人数（ユニーク参加者数）
+  const logsForCount = await prisma.attendanceLog.findMany({
+    where: {
+      eventAttendee: {
+        eventId: event.id,
+      },
+    },
+    select: {
+      eventAttendee: {
+        select: {
+          participantId: true,
+        },
+      },
+    },
+  });
+
+  const uniqueParticipantIds = new Set(
+    logsForCount.map((log) => log.eventAttendee.participantId)
+  );
+  const attendedCount = uniqueParticipantIds.size;
+
+  const attendanceRate =
+    attendeeCount > 0
+      ? Math.round((attendedCount / attendeeCount) * 1000) / 10 // 小数第1位
+      : 0;
 
   return (
     <main className={styles.pageRoot}>
@@ -61,11 +107,10 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
           <div className={styles.eventMeta}>
             <div className={styles.eventTitle}>{event.title}</div>
             <div className={styles.eventSubMeta}>
+              <span>日付：{event.date.toLocaleDateString("ja-JP")}</span>
               <span>
-                日付：{event.date.toLocaleDateString("ja-JP")}
-              </span>
-              <span>
-                開始：{event.startAt.toLocaleTimeString("ja-JP", {
+                開始：
+                {event.startAt.toLocaleTimeString("ja-JP", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
@@ -82,28 +127,81 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
               <div className={styles.statValue}>{attendeeCount} 名</div>
             </div>
 
-            <div className={styles.statCardMuted}>
+            <div className={styles.statCard}>
               <div className={styles.statLabel}>出席人数</div>
-              <div className={styles.statValue}>— 名</div>
-              <div className={styles.statHint}>※ 出席ログ機能を追加後に表示</div>
+              <div className={styles.statValue}>{attendedCount} 名</div>
+              <div className={styles.statHint}>
+                QR コードを読み取ったユニークな参加者数
+              </div>
             </div>
 
-            <div className={styles.statCardMuted}>
+            <div className={styles.statCard}>
               <div className={styles.statLabel}>出席率</div>
-              <div className={styles.statValue}>— %</div>
-              <div className={styles.statHint}>※ 集計ロジック実装後に計算</div>
+              <div className={styles.statValue}>{attendanceRate}%</div>
+              <div className={styles.statHint}>
+                出席人数 ÷ 登録済み参加者 × 100（小数第1位まで）
+              </div>
             </div>
           </div>
         </section>
 
-        {/* セクション：今後機能を追加していくエリア */}
+        {/* 最近の出席ログ */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>最近の出席ログ</h2>
-          <div className={styles.placeholderBox}>
-            ここに「直近のチェックイン履歴」や「遅刻／早退フラグ」などを表示していきます。
-          </div>
+          {recentLogs.length === 0 ? (
+            <div className={styles.placeholderBox}>
+              まだ出席ログがありません。QR コードを読み取るとここに履歴が表示されます。
+            </div>
+          ) : (
+            <div className={styles.logList}>
+              {recentLogs.map((log) => (
+                <div key={log.id} className={styles.logItem}>
+                  <div className={styles.logMainRow}>
+                    <span className={styles.logName}>
+                      {log.eventAttendee.participant?.name ?? "（名前未登録）"}
+                    </span>
+                    <span className={styles.logStatus}>
+                      {log.status === "late"
+                        ? "遅刻"
+                        : log.status === "too_early"
+                        ? "早すぎ"
+                        : log.status === "invalid"
+                        ? "無効"
+                        : "出席"}
+                    </span>
+                  </div>
+                  <div className={styles.logSubRow}>
+                    <span className={styles.logTime}>
+                      {log.checkedAt.toLocaleString("ja-JP", {
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                    {log.eventAttendee.participant?.code && (
+                      <span className={styles.logCode}>
+                        ID: {log.eventAttendee.participant.code}
+                      </span>
+                    )}
+                    {log.handledBy && (
+                      <span className={styles.logHandledBy}>
+                        処理者: {log.handledBy.name ?? "(名前未設定)"}
+                      </span>
+                    )}
+                    {log.deviceLabel && (
+                      <span className={styles.logDevice}>
+                        端末: {log.deviceLabel}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
+        {/* 集計・グラフ（あとで実装） */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>集計・グラフ</h2>
           <div className={styles.placeholderBox}>
