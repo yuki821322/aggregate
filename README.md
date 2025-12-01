@@ -149,18 +149,6 @@
 
   <hr />
 
-  <h2>🏗 技術スタック</h2>
-  <ul>
-    <li><strong>Next.js 14 (App Router)</strong></li>
-    <li><strong>Prisma ORM</strong></li>
-    <li><strong>SQLite / PostgreSQL（切り替え対応）</strong></li>
-    <li><strong>Tailwind CSS または CSS Modules</strong><br />（ページごとに <code>page.module.css</code> を管理）</li>
-    <li><strong>Auth0</strong>（管理者ログイン用）</li>
-    <li><strong>@yudiel/react-qr-scanner</strong>（カメラ読取）</li>
-  </ul>
-
-  <hr />
-
   <h2>✨ このプロジェクトのゴール</h2>
   <ul>
     <li>学校・研修・イベントなどで <strong>誰でも直感的に使える出席管理</strong> を作る</li>
