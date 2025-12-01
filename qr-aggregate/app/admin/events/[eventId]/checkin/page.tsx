@@ -1,7 +1,7 @@
 // app/admin/events/[eventId]/checkin/page.tsx
 "use client";
 
-import { useState, useRef } from "react";
+import { use, useState, useRef } from "react"; // ← use を追加
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import styles from "./page.module.css";
@@ -25,13 +25,14 @@ type CheckInResult = {
 };
 
 type PageProps = {
-  params: {
+  params: Promise<{  // ← Promise になっている想定
     eventId: string;
-  };
+  }>;
 };
 
 export default function EventCheckInPage({ params }: PageProps) {
-  const { eventId } = params;
+  // ❌ const { eventId } = params;
+  const { eventId } = use(params); // ← ここがポイント！
 
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,7 @@ export default function EventCheckInPage({ params }: PageProps) {
   const [cameraEnabled, setCameraEnabled] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  // （ここから下は今のままでOK）
   const performCheckIn = async (rawToken: string) => {
     const trimmed = rawToken.trim();
     if (!trimmed || loading) return;
@@ -52,8 +54,10 @@ export default function EventCheckInPage({ params }: PageProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           token: trimmed,
-          eventId, // ★ このイベント用かチェックさせる
-          deviceLabel: cameraEnabled ? "イベントチェックイン（カメラ）" : "イベントチェックイン（手入力）",
+          eventId, // ← ここで safely に使える
+          deviceLabel: cameraEnabled
+            ? "イベントチェックイン（カメラ）"
+            : "イベントチェックイン（手入力）",
         }),
       });
 
@@ -92,6 +96,7 @@ export default function EventCheckInPage({ params }: PageProps) {
       }, 10);
     }
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
