@@ -2,26 +2,47 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
+import DateWheelPicker from "./DateWheelPicker";
+import TimeComboSelect from "./TimeComboSelect";
 
-// サーバーアクション：フォーム送信時に呼ばれる関数
+// ==============================
+//   サーバーアクション
+// ==============================
 async function createEvent(formData: FormData) {
   "use server";
 
   // 1. フォーム値を取り出す
   const title = (formData.get("title") ?? "").toString().trim();
   const description = (formData.get("description") ?? "").toString().trim();
-  const dateStr = (formData.get("date") ?? "").toString();
+
+  // 年・月・日（ホイールコンポーネントから取得）
+  const yearStr = (formData.get("dateYear") ?? "").toString();
+  const monthStr = (formData.get("dateMonth") ?? "").toString();
+  const dayStr = (formData.get("dateDay") ?? "").toString();
+
   const startTimeStr = (formData.get("startTime") ?? "").toString();
   const endTimeStr = (formData.get("endTime") ?? "").toString();
   const lateMinutesStr = (formData.get("lateMinutes") ?? "15").toString();
 
-  // 2. 必須チェック（最低限）
-  if (!title || !dateStr || !startTimeStr || !endTimeStr) {
-    // TODO: 本当はエラーメッセージを返して画面に出したい
+  // 2. 必須チェック
+  if (
+    !title ||
+    !yearStr ||
+    !monthStr ||
+    !dayStr ||
+    !startTimeStr ||
+    !endTimeStr
+  ) {
     return;
   }
 
-  // 3. 日付と時刻を JS の Date に変換
+  // 3. YYYY-MM-DD 文字列を組み立て
+  const dateStr = `${yearStr}-${monthStr.padStart(2, "0")}-${dayStr.padStart(
+    2,
+    "0"
+  )}`;
+
+  // JS の Date に変換
   const startAt = new Date(`${dateStr}T${startTimeStr}:00`);
   const endAt = new Date(`${dateStr}T${endTimeStr}:00`);
   const date = new Date(`${dateStr}T00:00:00`);
@@ -30,7 +51,7 @@ async function createEvent(formData: FormData) {
     ? 15
     : Number(lateMinutesStr);
 
-  // 4. DB に保存（ownerId は今は固定 "admin-1"）
+  // 4. DB に保存
   await prisma.event.create({
     data: {
       title,
@@ -39,7 +60,7 @@ async function createEvent(formData: FormData) {
       startAt,
       endAt,
       lateThresholdMinutes,
-      ownerId: "admin-1",
+      ownerId: "2bf0ef3f-97c2-4d6b-84d2-221eab82fd29", // 対応する AccountUser を作っておいてね
     },
   });
 
@@ -47,7 +68,9 @@ async function createEvent(formData: FormData) {
   redirect("/admin/events");
 }
 
-// ページ本体
+// ==============================
+//   ページ本体
+// ==============================
 export default function NewEventPage() {
   return (
     <main className={styles.pageRoot}>
@@ -58,8 +81,7 @@ export default function NewEventPage() {
           {/* イベント名 */}
           <div className={styles.field}>
             <label className={styles.label}>
-              イベント名
-              <span className={styles.requiredMark}>*</span>
+              イベント名 <span className={styles.requiredMark}>*</span>
             </label>
             <input
               name="title"
@@ -81,49 +103,31 @@ export default function NewEventPage() {
             />
           </div>
 
-          {/* 日付・時間 */}
-          <div className={styles.rowGroup}>
-            <div className={styles.field}>
-              <label className={styles.label}>
-                日付
-                <span className={styles.requiredMark}>*</span>
-              </label>
-              <input
-                name="date"
-                type="date"
-                required
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>
-                開始時刻
-                <span className={styles.requiredMark}>*</span>
-              </label>
-              <input
-                name="startTime"
-                type="time"
-                required
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>
-                終了時刻
-                <span className={styles.requiredMark}>*</span>
-              </label>
-              <input
-                name="endTime"
-                type="time"
-                required
-                className={styles.input}
-              />
-            </div>
+          {/* 日付（ホイールコンポーネント） */}
+          <div className={styles.field}>
+            <label className={styles.label}>
+              日付 <span className={styles.requiredMark}>*</span>
+            </label>
+            <DateWheelPicker />
           </div>
 
-          {/* 遅刻判定分数 */}
+          {/* 開始時刻 */}
+          <div className={styles.field}>
+            <label className={styles.label}>
+              開始時刻 <span className={styles.requiredMark}>*</span>
+            </label>
+            <TimeComboSelect name="startTime"/>
+          </div>
+
+          {/* 終了時刻 */}
+          <div className={styles.field}>
+            <label className={styles.label}>
+              終了時刻 <span className={styles.requiredMark}>*</span>
+            </label>
+            <TimeComboSelect name="endTime" />
+          </div>
+
+          {/* 遅刻判定 */}
           <div className={styles.field}>
             <label className={styles.label}>遅刻判定（分）</label>
             <input
