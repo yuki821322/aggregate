@@ -1375,6 +1375,7 @@ export namespace Prisma {
     role: string | null
     loginId: string | null
     passwordHash: string | null
+    avatarUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1387,6 +1388,7 @@ export namespace Prisma {
     role: string | null
     loginId: string | null
     passwordHash: string | null
+    avatarUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1399,6 +1401,7 @@ export namespace Prisma {
     role: number
     loginId: number
     passwordHash: number
+    avatarUrl: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1413,6 +1416,7 @@ export namespace Prisma {
     role?: true
     loginId?: true
     passwordHash?: true
+    avatarUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1425,6 +1429,7 @@ export namespace Prisma {
     role?: true
     loginId?: true
     passwordHash?: true
+    avatarUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1437,6 +1442,7 @@ export namespace Prisma {
     role?: true
     loginId?: true
     passwordHash?: true
+    avatarUrl?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1522,6 +1528,7 @@ export namespace Prisma {
     role: string
     loginId: string | null
     passwordHash: string | null
+    avatarUrl: string | null
     createdAt: Date
     updatedAt: Date
     _count: AccountUserCountAggregateOutputType | null
@@ -1551,6 +1558,7 @@ export namespace Prisma {
     role?: boolean
     loginId?: boolean
     passwordHash?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     events?: boolean | AccountUser$eventsArgs<ExtArgs>
@@ -1566,6 +1574,7 @@ export namespace Prisma {
     role?: boolean
     loginId?: boolean
     passwordHash?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["accountUser"]>
@@ -1578,6 +1587,7 @@ export namespace Prisma {
     role?: boolean
     loginId?: boolean
     passwordHash?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["accountUser"]>
@@ -1590,11 +1600,12 @@ export namespace Prisma {
     role?: boolean
     loginId?: boolean
     passwordHash?: boolean
+    avatarUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AccountUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authSub" | "email" | "name" | "role" | "loginId" | "passwordHash" | "createdAt" | "updatedAt", ExtArgs["result"]["accountUser"]>
+  export type AccountUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authSub" | "email" | "name" | "role" | "loginId" | "passwordHash" | "avatarUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["accountUser"]>
   export type AccountUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     events?: boolean | AccountUser$eventsArgs<ExtArgs>
     attendanceLogs?: boolean | AccountUser$attendanceLogsArgs<ExtArgs>
@@ -1617,6 +1628,7 @@ export namespace Prisma {
       role: string
       loginId: string | null
       passwordHash: string | null
+      avatarUrl: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["accountUser"]>
@@ -2051,6 +2063,7 @@ export namespace Prisma {
     readonly role: FieldRef<"AccountUser", 'String'>
     readonly loginId: FieldRef<"AccountUser", 'String'>
     readonly passwordHash: FieldRef<"AccountUser", 'String'>
+    readonly avatarUrl: FieldRef<"AccountUser", 'String'>
     readonly createdAt: FieldRef<"AccountUser", 'DateTime'>
     readonly updatedAt: FieldRef<"AccountUser", 'DateTime'>
   }
@@ -7045,6 +7058,7 @@ export namespace Prisma {
     role: 'role',
     loginId: 'loginId',
     passwordHash: 'passwordHash',
+    avatarUrl: 'avatarUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7171,6 +7185,7 @@ export namespace Prisma {
     role?: StringFilter<"AccountUser"> | string
     loginId?: StringNullableFilter<"AccountUser"> | string | null
     passwordHash?: StringNullableFilter<"AccountUser"> | string | null
+    avatarUrl?: StringNullableFilter<"AccountUser"> | string | null
     createdAt?: DateTimeFilter<"AccountUser"> | Date | string
     updatedAt?: DateTimeFilter<"AccountUser"> | Date | string
     events?: EventListRelationFilter
@@ -7185,6 +7200,7 @@ export namespace Prisma {
     role?: SortOrder
     loginId?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     events?: EventOrderByRelationAggregateInput
@@ -7202,6 +7218,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"AccountUser"> | string | null
     role?: StringFilter<"AccountUser"> | string
     passwordHash?: StringNullableFilter<"AccountUser"> | string | null
+    avatarUrl?: StringNullableFilter<"AccountUser"> | string | null
     createdAt?: DateTimeFilter<"AccountUser"> | Date | string
     updatedAt?: DateTimeFilter<"AccountUser"> | Date | string
     events?: EventListRelationFilter
@@ -7216,6 +7233,7 @@ export namespace Prisma {
     role?: SortOrder
     loginId?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AccountUserCountOrderByAggregateInput
@@ -7234,6 +7252,7 @@ export namespace Prisma {
     role?: StringWithAggregatesFilter<"AccountUser"> | string
     loginId?: StringNullableWithAggregatesFilter<"AccountUser"> | string | null
     passwordHash?: StringNullableWithAggregatesFilter<"AccountUser"> | string | null
+    avatarUrl?: StringNullableWithAggregatesFilter<"AccountUser"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AccountUser"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AccountUser"> | Date | string
   }
@@ -7540,6 +7559,7 @@ export namespace Prisma {
     role?: string
     loginId?: string | null
     passwordHash?: string | null
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: EventCreateNestedManyWithoutOwnerInput
@@ -7554,6 +7574,7 @@ export namespace Prisma {
     role?: string
     loginId?: string | null
     passwordHash?: string | null
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: EventUncheckedCreateNestedManyWithoutOwnerInput
@@ -7568,6 +7589,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     loginId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: EventUpdateManyWithoutOwnerNestedInput
@@ -7582,6 +7604,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     loginId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: EventUncheckedUpdateManyWithoutOwnerNestedInput
@@ -7596,6 +7619,7 @@ export namespace Prisma {
     role?: string
     loginId?: string | null
     passwordHash?: string | null
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7608,6 +7632,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     loginId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7620,6 +7645,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     loginId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8011,6 +8037,7 @@ export namespace Prisma {
     role?: SortOrder
     loginId?: SortOrder
     passwordHash?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8023,6 +8050,7 @@ export namespace Prisma {
     role?: SortOrder
     loginId?: SortOrder
     passwordHash?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8035,6 +8063,7 @@ export namespace Prisma {
     role?: SortOrder
     loginId?: SortOrder
     passwordHash?: SortOrder
+    avatarUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8973,6 +9002,7 @@ export namespace Prisma {
     role?: string
     loginId?: string | null
     passwordHash?: string | null
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     attendanceLogs?: AttendanceLogCreateNestedManyWithoutHandledByInput
@@ -8986,6 +9016,7 @@ export namespace Prisma {
     role?: string
     loginId?: string | null
     passwordHash?: string | null
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     attendanceLogs?: AttendanceLogUncheckedCreateNestedManyWithoutHandledByInput
@@ -9046,6 +9077,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     loginId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendanceLogs?: AttendanceLogUpdateManyWithoutHandledByNestedInput
@@ -9059,6 +9091,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     loginId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attendanceLogs?: AttendanceLogUncheckedUpdateManyWithoutHandledByNestedInput
@@ -9282,6 +9315,7 @@ export namespace Prisma {
     role?: string
     loginId?: string | null
     passwordHash?: string | null
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: EventCreateNestedManyWithoutOwnerInput
@@ -9295,6 +9329,7 @@ export namespace Prisma {
     role?: string
     loginId?: string | null
     passwordHash?: string | null
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     events?: EventUncheckedCreateNestedManyWithoutOwnerInput
@@ -9357,6 +9392,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     loginId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: EventUpdateManyWithoutOwnerNestedInput
@@ -9370,6 +9406,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     loginId?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     events?: EventUncheckedUpdateManyWithoutOwnerNestedInput

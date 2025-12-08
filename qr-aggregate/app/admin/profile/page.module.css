@@ -1,47 +1,499 @@
+/* ===== ページ全体 ===== */
 .pageRoot {
   min-height: 100vh;
-  background: #0f172a;
+  background: radial-gradient(circle at top, #1d283a 0, #020617 55%, #000 100%);
   color: #e2e8f0;
   padding: 40px 20px;
 }
 
 .pageContainer {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
+/* ===== ヘッダー ===== */
 .pageHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 24px;
+  gap: 16px;
 }
 
 .pageTitle {
   font-size: 1.8rem;
   font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.pageSubtitle {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: #94a3b8;
 }
 
 .backLink {
+  font-size: 0.85rem;
   color: #38bdf8;
   text-decoration: none;
+  border: 1px solid #38bdf8;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
 
-.profileSection {
-  background: #1e293b;
-  padding: 24px;
-  border-radius: 8px;
+.backLink:hover {
+  background: rgba(56, 189, 248, 0.1);
+  color: #e0f2fe;
+  transform: translateY(-1px);
 }
 
-.profileList {
+/* ===== メッセージカード（未ログインなど） ===== */
+.messageCard {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 14px;
+  padding: 24px 20px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.profileRow {
+.messageText {
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+.backLinkPrimary {
+  align-self: flex-start;
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  color: #f9fafb;
+  font-weight: 500;
+  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+}
+
+.backLinkPrimary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(56, 189, 248, 0.45);
+  filter: brightness(1.03);
+}
+
+/* ===== プロフィールカード ===== */
+.profileSection {
+  background: rgba(15, 23, 42, 0.96);
+  padding: 24px 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(18px);
+}
+
+/* 上部ヘッダー */
+.profileHeader {
   display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #334155;
-  padding-bottom: 8px;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #1f2937;
+  margin-bottom: 18px;
+}
+
+/* ===== アバター部分 ===== */
+
+/* タップ領域（ボタン化） */
+.avatarButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  position: relative;
+  z-index: 3;
+}
+
+.avatarButton:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 4px;
+}
+
+/* 本体アイコン */
+/* ===== アバター本体 ===== */
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 0, #38bdf8, #6366f1 50%, #0f172a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 35px rgba(56, 189, 248, 0.45);
+  position: relative;  /* ★ バッジを絶対配置できる基準点に */
+  flex-shrink: 0;
+  z-index: 1;          /* ★ アイコン側も stacking context を作る */
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* ===== 右下カメラバッジ ===== */
+.avatarBadge {
+  position: absolute;
+  right: -6px;         /* ★ アイコンより外に少しはみ出す */
+  bottom: -6px;        /* ★ 右下に浮かせる */
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  box-shadow:
+    0 0 0 2px #020617,
+    0 6px 12px rgba(0, 0, 0, 0.4);
+
+  z-index: 5;          /* ★ 最前面に固定して埋まらないようにする */
+}
+
+.avatarBadgeIcon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  pointer-events: none;
+}
+
+
+/* ===== プロフィールメタ情報 ===== */
+.profileMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.profileName {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.roleBadge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #e0f2fe;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.metaText {
+  font-size: 0.8rem;
+  color: #cbd5f5;
+}
+
+.metaHint {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* ===== 詳細リスト ===== */
+.profileList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profileRow {
+  display: grid;
+  grid-template-columns: minmax(80px, 130px) minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #1e293b;
+}
+
+.profileRow:last-child {
+  border-bottom: none;
+}
+
+.term {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.detail {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  word-break: break-all;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 640px) {
+  .pageRoot {
+    padding: 24px 14px;
+  }
+
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profileHeader {
+    align-items: flex-start;
+  }
+
+  .profileRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .term {
+    font-size: 0.78rem;
+  }
+
+  .detail {
+    font-size: 0.88rem;
+  }
+}
+
+/* ===== プロフィール画像アップデートセクション ===== */
+/* （モーダル内のフォームでも再利用） */
+.avatarUpdateSection {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.avatarForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fileLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
+}
+
+.avatarFormActions {
+  margin-top: 4px;
+}
+
+.submitButton {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  color: #f9fafb;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.45);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+}
+
+.submitButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 42px rgba(56, 189, 248, 0.55);
+  filter: brightness(1.05);
+}
+
+.helpText {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* スマホ調整 */
+@media (max-width: 640px) {
+  .avatarUpdateSection {
+    padding: 14px 14px;
+  }
+}
+
+/* ===== モーダル ===== */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.modal {
+  width: min(420px, 100% - 32px);
+  background: #020617;
+  border-radius: 16px;
+  padding: 20px 20px 18px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
+}
+
+.modalTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.modalText {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 14px;
+}
+
+.modalActions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.secondaryButton {
+  padding: 8px 16px;
+  border-radius: 9999px;
+  border: 1px solid #4b5563;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.secondaryButton:hover {
+  background: rgba(55, 65, 81, 0.7);
+}
+
+/* ===== パスワード変更セクション ===== */
+.passwordSection {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
+}
+
+.passwordForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.passwordFieldRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.passwordLabel {
+  font-size: 0.8rem;
+  color: #cbd5f5;
+}
+
+.passwordInput {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 0.9rem;
+}
+
+.passwordInput:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+}
+
+.passwordHint {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* メッセージ表示 */
+.formMessageSuccess {
+  font-size: 0.8rem;
+  color: #4ade80;
+}
+
+.formMessageError {
+  font-size: 0.8rem;
+  color: #fca5a5;
+}
+
+.passwordActions {
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* スマホ調整 */
+@media (max-width: 640px) {
+  .passwordSection {
+    padding: 14px 14px;
+  }
+}
+/* プロフィール下部右下リンク */
+.passwordLinkArea {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end; /* 右寄せ */
+}
+
+.passwordLink {
+  font-size: 0.85rem;
+  color: #38bdf8;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.passwordLink:hover {
+  background: rgba(56, 189, 248, 0.12);
+  color: #e0f2fe;
 }

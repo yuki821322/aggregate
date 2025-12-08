@@ -126,6 +126,7 @@ exports.Prisma.AccountUserScalarFieldEnum = {
   role: 'role',
   loginId: 'loginId',
   passwordHash: 'passwordHash',
+  avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
