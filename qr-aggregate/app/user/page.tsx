@@ -71,8 +71,8 @@ export default function UserLandingPage() {
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
-    // イントロ全体の再生時間（ロゴ → ライン → 少し見せてフェードアウト）
-    const INTRO_TOTAL_MS = 2600;
+    // イントロ全体の再生時間（絵の具爆発 → ロゴ見せて → フェードアウト）
+    const INTRO_TOTAL_MS = 3200;
     const timer = setTimeout(() => {
       setShowIntro(false);
     }, INTRO_TOTAL_MS);
@@ -83,7 +83,7 @@ export default function UserLandingPage() {
     <main
       className={cn(styles.pageRoot, showIntro && styles.pageRootIntroLock)}
     >
-      {/* イントロ演出（VANTAN ロゴアニメ） */}
+      {/* イントロ演出（白背景＋カラフルインク爆発＋VANTANロゴ） */}
       <div
         className={cn(
           styles.introOverlay,
@@ -91,6 +91,23 @@ export default function UserLandingPage() {
         )}
       >
         <div className={styles.introLogoWrap}>
+          {/* 背景の絵の具爆発レイヤー（画面全体） */}
+          <div className={styles.paintLayer}>
+            <span className={cn(styles.paintBurst, styles.paintBurst1)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst2)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst3)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst4)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst5)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst6)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst7)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst8)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst9)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst10)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst11)} />
+            <span className={cn(styles.paintBurst, styles.paintBurst12)} />
+          </div>
+
+          {/* 中央の VANTAN ロゴ（超大＆発光） */}
           <div className={styles.introLogoWord}>
             <span className={styles.introLetter}>V</span>
             <span className={styles.introLetter}>A</span>
@@ -327,7 +344,8 @@ export default function UserLandingPage() {
         <RevealOnScroll variant="up">
           <div className={styles.contentInnerNarrow}>
             <h2 className={styles.ctaTitle}>
-              さっそく、次の授業・イベントで<br />
+              さっそく、次の授業・イベントで
+              <br />
               QR出席を体験してみませんか？
             </h2>
             <p className={styles.ctaText}>
