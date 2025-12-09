@@ -1,0 +1,329 @@
+/* =========================================
+   全体レイアウト（単一カラム）
+========================================= */
+.pageRoot {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b0b0f;
+  overflow: hidden;
+}
+
+/* 背景の赤×白グラデーション */
+.bgGradient {
+  position: absolute;
+  inset: -25%;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 140, 140, 0.9) 0, transparent 55%),
+    radial-gradient(circle at 80% 25%, rgba(255, 92, 92, 0.95) 0, transparent 55%),
+    radial-gradient(circle at 30% 85%, rgba(255, 230, 230, 0.95) 0, transparent 55%),
+    radial-gradient(circle at 80% 80%, rgba(230, 0, 18, 0.9) 0, transparent 55%);
+  filter: blur(25px);
+  transform: scale(1.2);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 中央揃え用ラッパ */
+.centerWrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================================
+   登録カード
+========================================= */
+.loginCard {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.96);
+  color: #111827;
+  border-radius: 24px;
+  padding: 28px 28px 24px;
+  box-shadow:
+    0 32px 80px rgba(15, 23, 42, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.cardLogo {
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.cardTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.cardSubtitle {
+  font-size: 0.8rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* =========================================
+   エラーメッセージ
+========================================= */
+.errorBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+}
+
+.errorIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.errorText {
+  font-size: 0.78rem;
+  color: #991b1b;
+  line-height: 1.6;
+}
+
+/* =========================================
+   フォーム
+========================================= */
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formInput {
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 0 10px;
+  font-size: 0.85rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background 0.15s ease;
+  box-sizing: border-box;
+}
+
+.formInput::placeholder {
+  color: #9ca3af;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #e60012;
+  box-shadow: 0 0 0 1px rgba(230, 0, 18, 0.5);
+  background: #fff7f7;
+}
+
+/* =========================================
+   パスワード表示切替（2つのパスワード欄共通）
+========================================= */
+.passwordField {
+  position: relative;
+  width: 100%;
+}
+
+/* ゆうき環境で綺麗に収まった値に合わせる */
+.passwordInput {
+  padding-right: 209px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 目アイコン（ログインと同じテイスト） */
+.passwordIconOff,
+.passwordIconOn {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid #9ca3af;
+  position: relative;
+}
+
+/* “非表示”状態：斜線入り */
+.passwordIconOff::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 4px;
+  bottom: 4px;
+  border-radius: 999px;
+  border: 2px solid #9ca3af;
+}
+
+.passwordIconOff::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 50%;
+  height: 2px;
+  background: #9ca3af;
+  transform: translateY(-50%) rotate(-35deg);
+}
+
+/* “表示”状態：赤い目っぽいアイコン */
+.passwordIconOn {
+  border-color: #e60012;
+}
+
+.passwordIconOn::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 4px;
+  bottom: 4px;
+  border-radius: 999px;
+  border: 2px solid #e60012;
+}
+
+/* =========================================
+   登録ボタン＋ローディング
+========================================= */
+.loginButton {
+  margin-top: 4px;
+  height: 44px;
+  border-radius: 9999px;
+  width: 100%;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background: linear-gradient(90deg, #e60012, #ff5c5c);
+  box-shadow: 0 10px 24px rgba(230, 0, 18, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    filter 0.12s ease, opacity 0.12s ease;
+}
+
+.loginButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(230, 0, 18, 0.6);
+  filter: brightness(1.04);
+}
+
+.loginButton:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 20px rgba(230, 0, 18, 0.5);
+}
+
+.loginButton:disabled {
+  opacity: 0.9;
+  cursor: default;
+}
+
+/* ローディング中のボタン */
+.loginButtonLoading {
+  box-shadow: 0 8px 18px rgba(230, 0, 18, 0.5);
+}
+
+/* スピナー */
+.buttonSpinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #ffffff;
+  animation: spinner 0.8s linear infinite;
+}
+
+/* =========================================
+   カードフッター
+========================================= */
+.cardFooter {
+  text-align: center;
+}
+
+.cardFooterText {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.cardFooterLink {
+  margin-left: 4px;
+  color: #e60012;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cardFooterLink:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   アニメーション
+========================================= */
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   レスポンシブ
+========================================= */
+@media (max-width: 640px) {
+  .centerWrap {
+    padding: 18px;
+  }
+
+  .loginCard {
+    padding: 22px 20px 20px;
+    border-radius: 20px;
+  }
+}
