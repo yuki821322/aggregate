@@ -72,7 +72,7 @@ export default function UserLandingPage() {
 
   useEffect(() => {
     // イントロ全体の再生時間（絵の具爆発 → ロゴ見せて → フェードアウト）
-    const INTRO_TOTAL_MS = 3200;
+    const INTRO_TOTAL_MS = 3800;
     const timer = setTimeout(() => {
       setShowIntro(false);
     }, INTRO_TOTAL_MS);
@@ -143,19 +143,27 @@ export default function UserLandingPage() {
       </header>
 
       {/* ① ヒーローセクション（背景アニメ＋ロゴのみ） */}
-      <section className={styles.heroSection}>
+        <section className={styles.heroSection}>
+        {/* 背景の丸い絵の具オーブ（ふわふわ漂う） */}
+        <div className={styles.heroOrbLayer}>
+            <span className={cn(styles.heroOrb, styles.heroOrb1)} />
+            <span className={cn(styles.heroOrb, styles.heroOrb2)} />
+            <span className={cn(styles.heroOrb, styles.heroOrb3)} />
+            <span className={cn(styles.heroOrb, styles.heroOrb4)} />
+        </div>
+
         <div className={styles.heroInnerCenter}>
-          <div className={styles.heroLogoMain}>
+            <div className={styles.heroLogoMain}>
             <span className={styles.heroLogoLetter}>V</span>
             <span className={styles.heroLogoLetter}>A</span>
             <span className={styles.heroLogoLetter}>N</span>
             <span className={styles.heroLogoLetter}>T</span>
             <span className={styles.heroLogoLetter}>A</span>
             <span className={styles.heroLogoLetter}>N</span>
-          </div>
-          <div className={styles.heroLogoLine} />
+            </div>
+            <div className={styles.heroLogoLine} />
         </div>
-      </section>
+        </section>
 
       {/* ② サービス紹介セクション */}
       <section className={styles.serviceSection}>
