@@ -3,11 +3,127 @@
 ========================================= */
 .pageRoot {
   min-height: 100vh;
-  background: #f5f5f5; /* シンプルな薄いグレー */
+  background: #f5f5f5;
   color: #111827;
 }
 
-/* 上部の細いグローバルヘッダー */
+/* イントロ中はスクロールロック */
+.pageRootIntroLock {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =========================================
+   イントロロゴ演出
+========================================= */
+.introOverlay {
+  position: fixed;
+  inset: 0;
+  background: #ffffff; /* 真っ白背景 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.introOverlayHidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.introLogoWrap {
+  text-align: center;
+}
+
+.introLogoWord {
+  display: inline-flex;
+  gap: 0.24em;
+  align-items: flex-end;
+  font-size: 2.9rem;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+}
+
+/* 1文字ずつ横から転がりながら出現＋虹色グラデーション */
+.introLetter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-48px) rotate(-24deg);
+
+  /* なめらかグラデーション（ピンク〜オレンジ〜バイオレット） */
+  background: linear-gradient(
+    90deg,
+    #ff5c8d,
+    #ffb547,
+    #a855ff,
+    #ff5c8d
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* 1つ目: 転がりイン, 2つ目: グラデーションがゆっくり往復 */
+  animation:
+    introRollIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards,
+    fluidGradient 18s linear infinite;
+}
+
+
+/* 偶数文字は逆側から転がる */
+.introLetter:nth-child(2n) {
+  transform: translateX(48px) rotate(24deg);
+}
+
+.introLetter:nth-child(1) {
+  animation-delay: 0.1s, 0s;
+}
+.introLetter:nth-child(2) {
+  animation-delay: 0.2s, 0s;
+}
+.introLetter:nth-child(3) {
+  animation-delay: 0.3s, 0s;
+}
+.introLetter:nth-child(4) {
+  animation-delay: 0.4s, 0s;
+}
+.introLetter:nth-child(5) {
+  animation-delay: 0.5s, 0s;
+}
+.introLetter:nth-child(6) {
+  animation-delay: 0.6s, 0s;
+}
+
+/* ロゴ下のライン：文字幅とバランス＋虹色グラデ＋左→右に伸びる */
+.introLine {
+  margin: 12px auto 0;
+  width: 13em;
+  max-width: 260px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #ff5c8d,
+    #ffb547,
+    #a855ff,
+    #ff5c8d
+  );
+  background-size: 250% 100%;
+  transform-origin: left;
+  transform: scaleX(0);
+  animation:
+    introLineGrow 0.6s ease-out forwards,
+    fluidGradient 18s linear infinite;
+  /* 1つ目の delay だけ効かせたいので、2つ目は 0s とみなされる */
+  animation-delay: 0.95s, 0s;
+}
+
+/* =========================================
+   グローバルヘッダー（高さを少し大きく）
+========================================= */
 .globalHeader {
   background: #f3f4f6;
   border-bottom: 1px solid #e5e7eb;
@@ -15,18 +131,32 @@
 }
 
 .globalInner {
-  max-width: 1040px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 6px 16px;
+  padding: 18px 28px; /* ← 12px 24px から少し増やした */
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.globalText {
-  color: #6b7280;
+/* ヘッダ左側ブランド（ロゴ＋テキスト） */
+.headerBrand {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* ロゴまわりも少し余裕 */
 }
 
+.headerBrandLogo {
+  display: block;
+  width: 140px;   
+  height: auto;
+}
+
+.headerBrandText {
+  color: #6b7280;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
 .globalAdminLink {
   color: #111827;
   text-decoration: none;
@@ -37,257 +167,310 @@
 }
 
 /* =========================================
-   グラデーションヘッダー（ここだけアニメ背景）
+   ヒーロー：背景アニメ＋ロゴのみ
 ========================================= */
-.heroHeader {
+.heroSection {
   position: relative;
   overflow: hidden;
+  background: #ffffff;
 }
 
-/* グラデーションアニメはこの中に閉じ込める */
-.heroHeaderInner {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 32px 16px 40px;
-  text-align: center;
-  position: relative;
-  z-index: 1; /* 背景より前 */
-}
-
-/* ぐにゃぐにゃ背景はヘッダーエリアだけ */
-.heroHeader::before {
+/* 七色寄りの柔らかい流体グラデーション */
+.heroSection::before {
   content: "";
   position: absolute;
-  inset: -20%;
+  inset: -30%;
   z-index: 0;
   background:
-    radial-gradient(circle at 10% 20%, #ffb3b3 0, transparent 50%),
-    radial-gradient(circle at 80% 30%, #ff3b3b 0, transparent 55%),
-    radial-gradient(circle at 30% 85%, #ffecec 0, transparent 55%),
-    radial-gradient(circle at 70% 80%, #ff7a7a 0, transparent 50%);
-  filter: blur(40px);
-  opacity: 0.85;
-  transform: translate3d(0, 0, 0) scale(1.1);
-  animation: redBlobWave 22s ease-in-out infinite alternate;
+    radial-gradient(circle at 10% 15%, rgba(255, 0, 92, 0.45) 0, transparent 55%),
+    radial-gradient(circle at 85% 20%, rgba(255, 221, 0, 0.5) 0, transparent 55%),
+    radial-gradient(circle at 20% 85%, rgba(0, 160, 255, 0.5) 0, transparent 55%),
+    radial-gradient(circle at 80% 80%, rgba(123, 97, 255, 0.5) 0, transparent 55%);
+  filter: blur(38px);
+  opacity: 0.8;
+  transform: translate3d(0, 0, 0) scale(1.05);
+  animation: redBlobWave 26s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
-/* ぐにゃぐにゃ動くアニメーション本体 */
-@keyframes redBlobWave {
-  0% {
-    transform: translate3d(-4%, -3%, 0) scale(1.05) rotate(0deg);
-  }
-  33% {
-    transform: translate3d(4%, 2%, 0) scale(1.15) rotate(3deg);
-  }
-  66% {
-    transform: translate3d(-2%, 4%, 0) scale(1.1) rotate(-2deg);
-  }
-  100% {
-    transform: translate3d(3%, -4%, 0) scale(1.18) rotate(2deg);
-  }
-}
-
-/* 中央テキストの「カッコいい演出」 */
-.heroHeaderKicker {
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #fee2e2;
-  margin-bottom: 8px;
-  position: relative;
-  animation: headerFadeUp 0.8s ease-out both;
-}
-
-.heroHeaderTitle {
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1.4;
-  color: #ffffff;
-  position: relative;
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 999px;
-  backdrop-filter: blur(10px);
-  background: rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
-
-/* 一文字ずつスライドインっぽく見せる */
-.heroHeaderTitleLine {
-  display: block;
-  opacity: 0;
-  transform: translateY(18px);
-  animation: headerLineIn 0.7s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-}
-
-/* 1行目 */
-.heroHeaderTitleLine:nth-child(1) {
-  animation-delay: 0.2s;
-}
-
-/* 2行目（赤ハイライト＋少し遅れて） */
-.heroHeaderTitleLine:nth-child(2) {
-  animation-delay: 0.4s;
-  color: #fee2e2;
-}
-
-/* 下線がスッと出てくる */
-.heroHeaderTitle::after {
-  content: "";
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 4px;
-  height: 2px;
-  background: linear-gradient(to right, #fecaca, #ffffff);
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: headerUnderline 0.6s ease-out forwards;
-  animation-delay: 0.6s;
-}
-
-/* アニメーション定義 */
-@keyframes headerFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes headerLineIn {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes headerUnderline {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* =========================================
-   メインコンテナ
-========================================= */
-.pageContainer {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 24px 16px 40px;
-  background: #ffffff;
+/* ヒーローの高さを大きめに */
+ /* ヒーローの高さをさらに大きめに */
+.heroInnerCenter {
   position: relative;
   z-index: 1;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.04);
-  animation: pageFadeUp 0.6s ease-out;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 160px 32px 180px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes pageFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+
+/* ヒーローの VANTAN ロゴ：イントロと同じ虹色グラデ＋一回り大きく */
+.heroLogoMain {
+  display: inline-flex;
+  gap: 0.28em;
+  align-items: flex-end;
+  font-size: 4.2rem;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-shadow: 0 20px 44px rgba(0, 0, 0, 0.28);
+}
+
+.heroLogoLetter {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    #ff5c8d,
+    #ffb547,
+    #a855ff,
+    #ff5c8d
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: fluidGradient 18s linear infinite;
+}
+/* ヒーロー下線も虹色グラデ＋存在感アップ */
+.heroLogoLine {
+  margin-top: 16px;
+  width: 17em;      /* ← 15em */
+  max-width: 320px; /* ← 280px */
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #ff5c8d,
+    #ffb547,
+    #a855ff,
+    #ff5c8d
+  );
+  background-size: 250% 100%;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  animation: fluidGradient 18s linear infinite;
+}
+/* =========================================
+   共通セクションレイアウト
+========================================= */
+.contentInner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 64px 24px 72px;
+}
+
+.contentInnerNarrow {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 64px 24px 72px;
+}
+
+.sectionLabel {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  color: #9ca3af;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.sectionHighlight {
+  color: #e60012;
+}
+
+.sectionLead {
+  font-size: 0.98rem;
+  color: #4b5563;
+  line-height: 1.8;
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+/* 特徴セクションのロゴ＋ラベル行 */
+.sectionLabelRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sectionLabelIcon {
+  display: block;
 }
 
 /* =========================================
-   ブランドバー
+   サービス紹介セクション
 ========================================= */
-.brandBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 0 18px;
-  border-bottom: 2px solid #e5e7eb;
-  margin-bottom: 24px;
+.serviceSection {
+  background: #ffffff;
 }
 
-.brandLogoWrap {
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.serviceCard {
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 18px 18px 20px;
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+}
+
+.serviceHeading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.serviceText {
+  font-size: 0.86rem;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+/* =========================================
+   特徴セクション
+========================================= */
+.featureSection {
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 12px;
+}
+
+.featureBox {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 18px 18px 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.03);
+}
+
+.featureHeading {
+  font-size: 0.96rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.featureText {
+  font-size: 0.86rem;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+/* =========================================
+   利用ステップ・FAQ セクション
+========================================= */
+.flowSection {
+  background: #ffffff;
+}
+
+.flowGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+  margin-bottom: 28px;
+}
+
+.flowBlock {
+  background: #fef2f2;
+  border-radius: 10px;
+  border: 1px solid #fecaca;
+  padding: 16px 16px 18px;
+}
+
+.flowHeading {
+  font-size: 0.94rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #7f1d1d;
+}
+
+.flowText {
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+/* FAQ 風ボックス（下段） */
+.faqBox {
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px dashed #d1d5db;
+  padding: 18px 18px 20px;
+}
+
+.faqHeading {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.faqList {
+  margin: 0 0 8px 18px;
+  padding: 0;
+  font-size: 0.84rem;
+  color: #4b5563;
+  line-height: 1.8;
+}
+
+.faqNote {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* =========================================
+   CTA セクション
+========================================= */
+.ctaSection {
+  background: linear-gradient(to right, #fee2e2, #f5f5f5);
+  border-top: 1px solid #fecaca;
+  border-bottom: 1px solid #fecaca;
+}
+
+.ctaTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.ctaText {
+  font-size: 0.92rem;
+  color: #4b5563;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.ctaButtons {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
-.brandLogoBox {
-  padding: 4px 10px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-}
-
-.brandLogoImage {
-  display: block;
-}
-
-.brandTagline {
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  color: #9ca3af;
-}
-
-.brandCopy {
-  font-size: 0.85rem;
-  color: #e60012;
-  font-weight: 600;
-}
-
 /* =========================================
-   ヒーロー（概要＋ボタン＋右カード）
+   ボタン共通
 ========================================= */
-.heroSection {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(260px, 1.2fr);
-  gap: 32px;
-  margin-bottom: 32px;
-}
-
-.heroMain {
-  padding-right: 8px;
-}
-
-.heroTitle {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.heroHighlight {
-  color: #e60012;
-}
-
-.heroLead {
-  font-size: 0.95rem;
-  color: #4b5563;
-  line-height: 1.7;
-  margin-bottom: 18px;
-}
-
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
 .primaryButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 22px;
+  padding: 10px 24px;
   border-radius: 9999px;
   border: none;
   background: #e60012;
@@ -306,26 +489,16 @@
   filter: brightness(1.04);
 }
 
-@keyframes buttonPulse {
-  0%,
-  100% {
-    box-shadow: 0 4px 12px rgba(230, 0, 18, 0.45);
-  }
-  50% {
-    box-shadow: 0 8px 22px rgba(230, 0, 18, 0.7);
-  }
-}
-
 .secondaryButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 9px 18px;
+  padding: 9px 20px;
   border-radius: 9999px;
   border: 1px solid #d1d5db;
   background: #ffffff;
   color: #111827;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   text-decoration: none;
   transition: background 0.15s ease, border-color 0.15s ease,
     transform 0.12s ease, box-shadow 0.12s ease;
@@ -338,316 +511,100 @@
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
 }
 
-.heroNote {
-  margin-top: 6px;
-  font-size: 0.75rem;
-  color: #6b7280;
-}
-
-/* 右側ビジュアルカード */
-.heroSide {
-  padding-left: 20px;
-  border-left: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.visualCard {
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  padding: 14px 14px 12px;
-  background: linear-gradient(to bottom right, #ffffff, #fff5f5);
-  transition: transform 0.16s ease, box-shadow 0.16s ease,
-    border-color 0.16s ease;
-}
-
-.visualLogoRow {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 8px;
-}
-
-.visualLogo {
-  display: block;
-}
-
-.visualCatch {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 4px;
-}
-
-.visualSub {
-  font-size: 0.8rem;
-  color: #6b7280;
-}
-
-.visualCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
-  border-color: #fca5a5;
-}
-
-/* すでにあるサイド文言 */
-.sideTitle {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-top: 4px;
-  margin-bottom: 6px;
-}
-
-.sideList {
-  margin: 0;
-  padding-left: 18px;
-  font-size: 0.85rem;
-  color: #4b5563;
-}
-
-/* =========================================
-   3ステップ
-========================================= */
-.stepsSection {
-  border-top: 1px solid #e5e7eb;
-  padding-top: 20px;
-  margin-top: 8px;
-}
-
-.sectionTitle {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.stepsGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.stepCard {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 12px 12px 14px;
-  background: #ffffff;
-  transition: transform 0.16s ease, box-shadow 0.16s ease,
-    border-color 0.16s ease;
-}
-
-.stepCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
-  border-color: #fca5a5;
-}
-
-.stepIndex {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #e60012;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.stepHeading {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.stepText {
-  font-size: 0.8rem;
-  color: #4b5563;
-  line-height: 1.6;
-}
-
 /* =========================================
    フッター
 ========================================= */
 .footer {
-  margin-top: 24px;
+  background: #f3f4f6;
   border-top: 1px solid #e5e7eb;
-  padding-top: 10px;
+}
+
+.footerInner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 24px 20px;
 }
 
 .footerText {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   color: #6b7280;
 }
 
 /* =========================================
-   レスポンシブ
+   スクロール表示アニメ用クラス
 ========================================= */
-@media (max-width: 768px) {
-  .heroHeaderInner {
-    padding: 24px 16px 28px;
-  }
-
-  .heroHeaderTitle {
-    font-size: 1.5rem;
-    border-radius: 16px;
-  }
-
-  .pageContainer {
-    margin-top: -8px;
-    border-radius: 16px 16px 0 0;
-  }
-
-  .heroSection {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .heroSide {
-    border-left: none;
-    padding-left: 0;
-    border-top: 1px solid #e5e7eb;
-    padding-top: 12px;
-  }
-
-  .brandBar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  .stepsGrid {
-    grid-template-columns: 1fr;
-  }
-}
-/* =========================================
-   全体レイアウト
-========================================= */
-.pageRoot {
-  min-height: 100vh;
-  background: #f5f5f5; /* 薄いグレーでシンプルな下地 */
-  color: #111827;
-}
-
-/* 上部の細いグローバルヘッダー */
-.globalHeader {
-  background: #f3f4f6;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 0.75rem;
-}
-
-.globalInner {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 6px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.globalText {
-  color: #6b7280;
-}
-
-.globalAdminLink {
-  color: #111827;
-  text-decoration: none;
-}
-
-.globalAdminLink:hover {
-  text-decoration: underline;
-}
-
-/* =========================================
-   グラデーションヘッダー（ここだけアニメ）
-========================================= */
-.heroHeader {
-  position: relative;
-  overflow: hidden;
-}
-
-/* ぐにゃぐにゃ背景はヘッダーエリアだけに限定 */
-.heroHeader::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  z-index: 0;
-  background:
-    radial-gradient(circle at 10% 20%, #ffb3b3 0, transparent 50%),
-    radial-gradient(circle at 80% 30%, #ff3b3b 0, transparent 55%),
-    radial-gradient(circle at 30% 85%, #ffecec 0, transparent 55%),
-    radial-gradient(circle at 70% 80%, #ff7a7a 0, transparent 50%);
-  filter: blur(40px);
-  opacity: 0.9;
-  transform: translate3d(0, 0, 0) scale(1.1);
-  animation: redBlobWave 22s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-
-/* ヘッダー内コンテンツ */
-.heroHeaderInner {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 40px 16px 56px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-/* サブコピー */
-.heroHeaderKicker {
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #fee2e2;
-  margin-bottom: 10px;
-  animation: headerFadeUp 0.8s ease-out both;
-}
-
-/* メインコピー全体 */
-.heroHeaderTitle {
-  display: inline-block;
-  padding: 8px 18px 10px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.16);
-  backdrop-filter: blur(12px);
-  color: #ffffff;
-  position: relative;
-  overflow: hidden;
-}
-
-/* 行単位のスライドイン */
-.heroHeaderTitleLine {
-  display: block;
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1.5;
+.revealBase {
   opacity: 0;
   transform: translateY(18px);
-  white-space: nowrap;
-  animation: headerLineIn 0.7s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
 }
 
-/* 1行目・2行目にディレイをずらす */
-.heroHeaderTitleLine:nth-child(1) {
-  animation-delay: 0.2s;
-}
-.heroHeaderTitleLine:nth-child(2) {
-  animation-delay: 0.4s;
-  color: #fee2e2;
+.revealUp {
+  /* デフォルトは下からスライドアップ */
 }
 
-/* 下線アニメ */
-.heroHeaderTitle::after {
-  content: "";
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 4px;
-  height: 2px;
-  background: linear-gradient(to right, #fecaca, #ffffff);
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: headerUnderline 0.6s ease-out forwards;
-  animation-delay: 0.6s;
+.revealFade {
+  transform: none;
 }
 
-/* 背景アニメーション本体 */
+.revealVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================
+   アニメーション定義
+========================================= */
+/* グラデーションが途切れず “ぬるぬる” 往復するアニメーション */
+@keyframes fluidGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+/* 1文字ずつ横から転がりながら出てくるアニメーション */
+@keyframes introRollIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-48px) rotate(-24deg);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+
+
+@keyframes introLineGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* 虹色グラデーションを横方向に流す */
+@keyframes rainbowShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* 流体グラデーション（そのまま利用） */
 @keyframes redBlobWave {
   0% {
     transform: translate3d(-4%, -3%, 0) scale(1.05) rotate(0deg);
@@ -663,165 +620,6 @@
   }
 }
 
-/* 見出しアニメ */
-@keyframes headerFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes headerLineIn {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes headerUnderline {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* =========================================
-   メインコンテナ（白カード）
-========================================= */
-.pageContainer {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 24px 16px 40px;
-  background: #ffffff;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.04);
-  animation: pageFadeUp 0.6s ease-out;
-}
-
-@keyframes pageFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* =========================================
-   ブランドバー
-========================================= */
-.brandBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 0 18px;
-  border-bottom: 2px solid #e5e7eb;
-  margin-bottom: 24px;
-}
-
-.brandLogoWrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brandLogoBox {
-  padding: 4px 10px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-}
-
-.brandLogoImage {
-  display: block;
-}
-
-.brandTagline {
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  color: #9ca3af;
-}
-
-.brandCopy {
-  font-size: 0.85rem;
-  color: #e60012;
-  font-weight: 600;
-}
-
-/* =========================================
-   ヒーロー（説明＋ボタン＋右カード）
-========================================= */
-.heroSection {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(260px, 1.2fr);
-  gap: 32px;
-  margin-bottom: 32px;
-}
-
-.heroMain {
-  padding-right: 8px;
-}
-
-.heroTitle {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.heroHighlight {
-  color: #e60012;
-}
-
-.heroLead {
-  font-size: 0.95rem;
-  color: #4b5563;
-  line-height: 1.7;
-  margin-bottom: 18px;
-}
-
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.primaryButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 22px;
-  border-radius: 9999px;
-  border: none;
-  background: #e60012;
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(230, 0, 18, 0.45);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-  animation: buttonPulse 2.4s ease-in-out infinite;
-}
-
-.primaryButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(230, 0, 18, 0.6);
-  filter: brightness(1.04);
-}
-
 @keyframes buttonPulse {
   0%,
   100% {
@@ -832,201 +630,51 @@
   }
 }
 
-.secondaryButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 9px 18px;
-  border-radius: 9999px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-  color: #111827;
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: background 0.15s ease, border-color 0.15s ease,
-    transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.secondaryButton:hover {
-  background: #f9fafb;
-  border-color: #9ca3af;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
-}
-
-.heroNote {
-  margin-top: 6px;
-  font-size: 0.75rem;
-  color: #6b7280;
-}
-
-/* 右側ビジュアルカード */
-.heroSide {
-  padding-left: 20px;
-  border-left: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.visualCard {
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  padding: 14px 14px 12px;
-  background: linear-gradient(to bottom right, #ffffff, #fff5f5);
-  transition: transform 0.16s ease, box-shadow 0.16s ease,
-    border-color 0.16s ease;
-}
-
-.visualLogoRow {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 8px;
-}
-
-.visualLogo {
-  display: block;
-}
-
-.visualCatch {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 4px;
-}
-
-.visualSub {
-  font-size: 0.8rem;
-  color: #6b7280;
-}
-
-.visualCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
-  border-color: #fca5a5;
-}
-
-.sideTitle {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-top: 4px;
-  margin-bottom: 6px;
-}
-
-.sideList {
-  margin: 0;
-  padding-left: 18px;
-  font-size: 0.85rem;
-  color: #4b5563;
-}
-
-/* =========================================
-   3ステップ
-========================================= */
-.stepsSection {
-  border-top: 1px solid #e5e7eb;
-  padding-top: 20px;
-  margin-top: 8px;
-}
-
-.sectionTitle {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.stepsGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.stepCard {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 12px 12px 14px;
-  background: #ffffff;
-  transition: transform 0.16s ease, box-shadow 0.16s ease,
-    border-color 0.16s ease;
-}
-
-.stepCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
-  border-color: #fca5a5;
-}
-
-.stepIndex {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #e60012;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.stepHeading {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.stepText {
-  font-size: 0.8rem;
-  color: #4b5563;
-  line-height: 1.6;
-}
-
-/* =========================================
-   フッター
-========================================= */
-.footer {
-  margin-top: 24px;
-  border-top: 1px solid #e5e7eb;
-  padding-top: 10px;
-}
-
-.footerText {
-  font-size: 0.75rem;
-  color: #6b7280;
-}
-
 /* =========================================
    レスポンシブ
 ========================================= */
-@media (max-width: 768px) {
-  .heroHeaderInner {
-    padding: 28px 16px 34px;
+@media (max-width: 960px) {
+  .heroInnerCenter {
+    padding: 110px 20px 118px;
   }
 
-  .heroHeaderTitleLine {
-    font-size: 1.5rem;
-    white-space: normal;
+  .serviceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .pageContainer {
-    margin-top: -8px;
-    border-radius: 16px 16px 0 0;
-  }
-
-  .heroSection {
+  .featureGrid {
     grid-template-columns: 1fr;
-    gap: 20px;
   }
 
-  .heroSide {
-    border-left: none;
-    padding-left: 0;
-    border-top: 1px solid #e5e7eb;
-    padding-top: 12px;
+  .flowGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .heroInnerCenter {
+    padding: 110px 18px 120px; /* ← 90px 16px 96px よりちょい大きく */
   }
 
-  .brandBar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+  .heroLogoMain {
+    font-size: 3.2rem; /* ← 2.7rem からアップ */
+    letter-spacing: 0.22em;
   }
 
-  .stepsGrid {
+  .heroLogoLine {
+    width: 13em;
+  }
+
+  .sectionTitle {
+    font-size: 1.4rem;
+  }
+
+  .contentInner,
+  .contentInnerNarrow {
+    padding: 44px 16px 56px;
+  }
+
+  .serviceGrid {
     grid-template-columns: 1fr;
   }
 }

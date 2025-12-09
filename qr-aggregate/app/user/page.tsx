@@ -1,148 +1,359 @@
-// app/user/page.tsx
+"use client";
+
+import React, { useEffect, useRef, useState, ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
 
-export default function UserLandingPage() {
+// ===== 小さなユーティリティ =====
+function cn(...classes: (string | undefined | false)[]) {
+  return classes.filter(Boolean).join(" ");
+}
+
+// ===== スクロール連動アニメ =====
+type RevealVariant = "up" | "fade";
+
+type RevealOnScrollProps = {
+  children: ReactNode;
+  variant?: RevealVariant;
+  className?: string;
+};
+
+function RevealOnScroll({
+  children,
+  variant = "up",
+  className,
+}: RevealOnScrollProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px -15% 0px",
+        threshold: 0.15,
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <main className={styles.pageRoot}>
+    <div
+      ref={ref}
+      className={cn(
+        styles.revealBase,
+        variant === "up" ? styles.revealUp : styles.revealFade,
+        isVisible && styles.revealVisible,
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ===== ページ本体 =====
+export default function UserLandingPage() {
+  const [showIntro, setShowIntro] = useState(true);
+
+  useEffect(() => {
+    // イントロ全体の再生時間（ロゴ → ライン → 少し見せてフェードアウト）
+    const INTRO_TOTAL_MS = 2600;
+    const timer = setTimeout(() => {
+      setShowIntro(false);
+    }, INTRO_TOTAL_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <main
+      className={cn(styles.pageRoot, showIntro && styles.pageRootIntroLock)}
+    >
+      {/* イントロ演出（VANTAN ロゴアニメ） */}
+      <div
+        className={cn(
+          styles.introOverlay,
+          !showIntro && styles.introOverlayHidden
+        )}
+      >
+        <div className={styles.introLogoWrap}>
+          <div className={styles.introLogoWord}>
+            <span className={styles.introLetter}>V</span>
+            <span className={styles.introLetter}>A</span>
+            <span className={styles.introLetter}>N</span>
+            <span className={styles.introLetter}>T</span>
+            <span className={styles.introLetter}>A</span>
+            <span className={styles.introLetter}>N</span>
+          </div>
+          <div className={styles.introLine} />
+        </div>
+      </div>
+
       {/* 細いグローバルバー */}
       <header className={styles.globalHeader}>
         <div className={styles.globalInner}>
-          <p className={styles.globalText}>出席管理アプリ｜学生・参加者向けページ</p>
+          <div className={styles.headerBrand}>
+            <Image
+              src="/user-icon/vantan.svg"
+              alt="Attend Logo"
+              width={110}
+              height={26}
+              className={styles.headerBrandLogo}
+              priority
+            />
+            <span className={styles.headerBrandText}>
+              出席管理アプリ｜学生・参加者向けページ
+            </span>
+          </div>
           <Link href="/admin" className={styles.globalAdminLink}>
             管理者の方はこちら
           </Link>
         </div>
       </header>
 
-      {/* Auth0 風：グラデーションヒーロー（ヘッダーのみ） */}
-      <section className={styles.heroHeader}>
-        <div className={styles.heroHeaderInner}>
-          <p className={styles.heroHeaderKicker}>ATTENDANCE PLATFORM</p>
-          <h1 className={styles.heroHeaderTitle}>
-            <span className={styles.heroHeaderTitleLine}>
-              授業やイベントの出席を、
-            </span>
-            <span className={styles.heroHeaderTitleLine}>
-              スマホひとつでシンプルに管理。
-            </span>
-          </h1>
+      {/* ① ヒーローセクション（背景アニメ＋ロゴのみ） */}
+      <section className={styles.heroSection}>
+        <div className={styles.heroInnerCenter}>
+          <div className={styles.heroLogoMain}>
+            <span className={styles.heroLogoLetter}>V</span>
+            <span className={styles.heroLogoLetter}>A</span>
+            <span className={styles.heroLogoLetter}>N</span>
+            <span className={styles.heroLogoLetter}>T</span>
+            <span className={styles.heroLogoLetter}>A</span>
+            <span className={styles.heroLogoLetter}>N</span>
+          </div>
+          <div className={styles.heroLogoLine} />
         </div>
       </section>
 
-      {/* メインコンテンツ（白カード） */}
-      <div className={styles.pageContainer}>
-        {/* ブランドバー */}
-        <div className={styles.brandBar}>
-          <div className={styles.brandLogoWrap}>
-            <div className={styles.brandLogoBox}>
-              <Image
-                src="/user-iron/vantan.svg"
-                alt="Attend Logo"
-                width={180}
-                height={40}
-                className={styles.brandLogoImage}
-                priority
-              />
-            </div>
-            <span className={styles.brandTagline}>ATTENDANCE FOR STUDENTS</span>
-          </div>
-          <div className={styles.brandCopy}>出席を、もっとシンプルに。</div>
-        </div>
-
-        {/* ヒーローセクション */}
-        <section className={styles.heroSection}>
-          <div className={styles.heroMain}>
-            <h2 className={styles.heroTitle}>
-              授業やイベントの出席を、
-              <span className={styles.heroHighlight}>スマホひとつで</span>
-              完了。
+      {/* ② サービス紹介セクション */}
+      <section className={styles.serviceSection}>
+        <RevealOnScroll variant="up">
+          <div className={styles.contentInner}>
+            <div className={styles.sectionLabel}>SERVICE</div>
+            <h2 className={styles.sectionTitle}>
+              出席管理を、<span className={styles.sectionHighlight}>もっとラクに</span>。
             </h2>
-            <p className={styles.heroLead}>
-              QRコードを読み取るだけで出席登録が完了する、学生・参加者向けの出席管理アプリです。
-              自分の出席状況も、あとからマイページで確認できます。
+            <p className={styles.sectionLead}>
+              紙の出席表や、口頭での点呼に代わって、
+              QRコードを使ったスマートな出席管理を実現します。
+              学生・参加者はスマホで読み取るだけ、主催者側は出席データを自動で集計できます。
             </p>
 
-            <div className={styles.heroActions}>
+            <div className={styles.serviceGrid}>
+              <RevealOnScroll variant="up">
+                <div className={styles.serviceCard}>
+                  <h3 className={styles.serviceHeading}>
+                    QRコードで即時チェックイン
+                  </h3>
+                  <p className={styles.serviceText}>
+                    授業・イベント開始時に提示される QRコードを読み取るだけ。
+                    数秒で出席登録が完了し、入場の待ち時間を大幅に減らせます。
+                  </p>
+                </div>
+              </RevealOnScroll>
+
+              <RevealOnScroll variant="up">
+                <div className={styles.serviceCard}>
+                  <h3 className={styles.serviceHeading}>
+                    マイページで出席履歴を確認
+                  </h3>
+                  <p className={styles.serviceText}>
+                    いつどの授業・イベントに出席したかを、あとから自分でチェック可能。
+                    出席率の把握や、欠席の確認もカンタンです。
+                  </p>
+                </div>
+              </RevealOnScroll>
+
+              <RevealOnScroll variant="up">
+                <div className={styles.serviceCard}>
+                  <h3 className={styles.serviceHeading}>
+                    オンライン開催にもそのまま対応
+                  </h3>
+                  <p className={styles.serviceText}>
+                    オンライン授業・ウェビナーでも同じ仕組みで利用できます。
+                    画面に表示された QRコードを読み取るだけで出席が反映されます。
+                  </p>
+                </div>
+              </RevealOnScroll>
+            </div>
+          </div>
+        </RevealOnScroll>
+      </section>
+
+      {/* ③ 特徴セクション */}
+      <section className={styles.featureSection}>
+        <RevealOnScroll variant="up">
+          <div className={styles.contentInner}>
+            <div className={styles.sectionLabelRow}>
+              <Image
+                src="/user-icon/vantan.svg"
+                alt="Attend Logo"
+                width={80}
+                height={20}
+                className={styles.sectionLabelIcon}
+              />
+              <div className={styles.sectionLabel}>FEATURES</div>
+            </div>
+
+            <h2 className={styles.sectionTitle}>
+              学生・参加者にとって
+              <span className={styles.sectionHighlight}>使いやすい</span>
+              ことを第一に設計。
+            </h2>
+
+            <div className={styles.featureGrid}>
+              <RevealOnScroll variant="up">
+                <div className={styles.featureBox}>
+                  <h3 className={styles.featureHeading}>
+                    シンプルな操作で迷わない
+                  </h3>
+                  <p className={styles.featureText}>
+                    「QRコードを読み取る」→「完了画面を見る」の2ステップだけ。
+                    はじめての方でも直感的に使える画面構成です。
+                  </p>
+                </div>
+              </RevealOnScroll>
+
+              <RevealOnScroll variant="up">
+                <div className={styles.featureBox}>
+                  <h3 className={styles.featureHeading}>スマホ一台で完結</h3>
+                  <p className={styles.featureText}>
+                    アプリのインストールは不要。
+                    ブラウザからログインするだけで、どの端末からでも利用できます。
+                  </p>
+                </div>
+              </RevealOnScroll>
+
+              <RevealOnScroll variant="up">
+                <div className={styles.featureBox}>
+                  <h3 className={styles.featureHeading}>安心のログ管理</h3>
+                  <p className={styles.featureText}>
+                    出席ログは安全に保存され、主催者のみが確認できます。
+                    不正な多重打刻を防ぐ機能も順次追加予定です。
+                  </p>
+                </div>
+              </RevealOnScroll>
+
+              <RevealOnScroll variant="up">
+                <div className={styles.featureBox}>
+                  <h3 className={styles.featureHeading}>
+                    テスト運用から本番導入まで
+                  </h3>
+                  <p className={styles.featureText}>
+                    小規模な授業・イベントから試験的に導入可能。
+                    利用状況を見ながら、学内／社内全体への展開も検討できます。
+                  </p>
+                </div>
+              </RevealOnScroll>
+            </div>
+          </div>
+        </RevealOnScroll>
+      </section>
+
+      {/* ④ 利用ステップ＋FAQ */}
+      <section className={styles.flowSection}>
+        <RevealOnScroll variant="up">
+          <div className={styles.contentInner}>
+            <div className={styles.sectionLabel}>HOW TO USE</div>
+            <h2 className={styles.sectionTitle}>ご利用の流れ</h2>
+
+            <div className={styles.flowGrid}>
+              <RevealOnScroll variant="up">
+                <div className={styles.flowBlock}>
+                  <h3 className={styles.flowHeading}>STEP 1｜アカウント登録</h3>
+                  <p className={styles.flowText}>
+                    「はじめての方はこちら」から、案内されたメールアドレス・ログインIDを使って登録します。
+                  </p>
+                </div>
+              </RevealOnScroll>
+
+              <RevealOnScroll variant="up">
+                <div className={styles.flowBlock}>
+                  <h3 className={styles.flowHeading}>
+                    STEP 2｜ログインしてマイページへ
+                  </h3>
+                  <p className={styles.flowText}>
+                    ログインすると、出席用QRの読み取りや、出席履歴の確認ができるマイページにアクセスできます。
+                  </p>
+                </div>
+              </RevealOnScroll>
+
+              <RevealOnScroll variant="up">
+                <div className={styles.flowBlock}>
+                  <h3 className={styles.flowHeading}>
+                    STEP 3｜授業・イベントでQRを読み取る
+                  </h3>
+                  <p className={styles.flowText}>
+                    授業やイベント開始時に提示される QRコードをスマホで読み取るだけで出席が記録されます。
+                  </p>
+                </div>
+              </RevealOnScroll>
+            </div>
+
+            <RevealOnScroll variant="fade">
+              <div className={styles.faqBox}>
+                <h3 className={styles.faqHeading}>よくある質問（例）</h3>
+                <ul className={styles.faqList}>
+                  <li>スマホを持っていない場合の対応は？</li>
+                  <li>ログインに使うメールアドレスを忘れたときは？</li>
+                  <li>間違えて読み取ったときの修正はできますか？</li>
+                </ul>
+                <p className={styles.faqNote}>
+                  実際の運用では、学校・主催者ごとに FAQ や問い合わせ先が案内されます。
+                </p>
+              </div>
+            </RevealOnScroll>
+          </div>
+        </RevealOnScroll>
+      </section>
+
+      {/* ⑤ CTA セクション */}
+      <section className={styles.ctaSection}>
+        <RevealOnScroll variant="up">
+          <div className={styles.contentInnerNarrow}>
+            <h2 className={styles.ctaTitle}>
+              さっそく、次の授業・イベントで<br />
+              QR出席を体験してみませんか？
+            </h2>
+            <p className={styles.ctaText}>
+              学校や主催者から案内が届いている方は、ログインしてマイページにアクセスしてください。
+              はじめての方は、事前に登録を済ませておくと当日スムーズです。
+            </p>
+            <div className={styles.ctaButtons}>
               <Link href="/user/login" className={styles.primaryButton}>
-                ログイン
+                ログインする
               </Link>
               <Link href="/user/register" className={styles.secondaryButton}>
-                新規登録（はじめての方）
+                新規登録（無料）
               </Link>
             </div>
-
-            <p className={styles.heroNote}>
-              ※ 学校や主催者から案内されたメールアドレス・ログインIDで登録してください。
-            </p>
           </div>
+        </RevealOnScroll>
+      </section>
 
-          {/* 右側ビジュアルカード */}
-          <div className={styles.heroSide}>
-            <div className={styles.visualCard}>
-              <div className={styles.visualLogoRow}>
-                <Image
-                  src="/user-iron/vantan.svg"
-                  alt="Attend Logo"
-                  width={140}
-                  height={32}
-                  className={styles.visualLogo}
-                />
-              </div>
-              <p className={styles.visualCatch}>
-                QR を読み取るだけで、<br />
-                あなたの出席が記録されます。
-              </p>
-              <p className={styles.visualSub}>
-                教室でもオンラインでも、<br />
-                同じ操作で出席が完了します。
-              </p>
-            </div>
-
-            <h2 className={styles.sideTitle}>このアプリでできること</h2>
-            <ul className={styles.sideList}>
-              <li>授業・イベントで提示される QRコードを読み取って出席登録</li>
-              <li>自分の出席履歴を、マイページでいつでも確認</li>
-              <li>オンライン開催のイベントでも、同じ仕組みで一元管理</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* 3ステップの説明 */}
-        <section className={styles.stepsSection}>
-          <h2 className={styles.sectionTitle}>ご利用の流れ</h2>
-          <div className={styles.stepsGrid}>
-            <div className={styles.stepCard}>
-              <span className={styles.stepIndex}>STEP 1</span>
-              <h3 className={styles.stepHeading}>アカウント登録</h3>
-              <p className={styles.stepText}>
-                「新規登録」からアカウントを作成します。案内されたメールアドレスやログインIDを入力してください。
-              </p>
-            </div>
-            <div className={styles.stepCard}>
-              <span className={styles.stepIndex}>STEP 2</span>
-              <h3 className={styles.stepHeading}>ログインしてマイページへ</h3>
-              <p className={styles.stepText}>
-                ログインすると、出席用QRの読み取りや、出席履歴の確認ができるマイページにアクセスできます。
-              </p>
-            </div>
-            <div className={styles.stepCard}>
-              <span className={styles.stepIndex}>STEP 3</span>
-              <h3 className={styles.stepHeading}>授業・イベントでQRを読み取る</h3>
-              <p className={styles.stepText}>
-                授業やイベント開始時に提示される QRコードをスマホで読み取るだけで、出席が自動で記録されます。
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <footer className={styles.footer}>
+      {/* フッター */}
+      <footer className={styles.footer}>
+        <div className={styles.footerInner}>
           <p className={styles.footerText}>
             本サービスはテスト運用中です。ご不明な点があれば、授業担当の先生・主催者までお問い合わせください。
           </p>
-        </footer>
-      </div>
+        </div>
+      </footer>
     </main>
   );
 }
