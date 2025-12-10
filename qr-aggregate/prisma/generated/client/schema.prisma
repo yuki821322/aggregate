@@ -31,11 +31,13 @@ model AccountUser {
 
 // 出席される側（学生・社員）
 model Participant {
-  id      String  @id @default(uuid())
-  code    String? @unique // 学籍番号など
-  name    String
-  email   String?
-  remarks String?
+  id        String  @id @default(uuid())
+  name      String
+  studentId String? @unique
+
+  // code        String?  @unique
+
+  passwordHash String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -80,6 +82,8 @@ model EventAttendee {
   updatedAt DateTime @updatedAt
 
   attendanceLogs AttendanceLog[]
+
+  @@unique([eventId, participantId], name: "event_participant_unique")
 }
 
 // チェックイン記録

@@ -309,3 +309,350 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* =========================================
+   ラジアルメニュー（円形ホイール＋ドラッグ移動）
+========================================= */
+
+/* 外側クリック用オーバーレイ（開いているときのみ表示） */
+.radialOverlay {
+  position: fixed;
+  inset: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 40;
+}
+
+/* フローティングのルート（ドラッグで動かす箱） */
+.radialRoot {
+  position: fixed;
+  /* 位置は JS 側から left/top で制御 */
+  width: 64px;
+  height: 64px;
+  z-index: 50;
+  /* ★ ボタンが常に押せるように */
+  pointer-events: auto;
+}
+
+
+/* 外周のドーナツリング本体 */
+.radialWheel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 260px;
+  height: 260px;
+  border-radius: 9999px;
+
+  /* 閉じているときは小さく・透明 */
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  pointer-events: none;
+
+  --ring-inner: 38%;
+  --ring-outer: 100%;
+
+  background: radial-gradient(
+    circle,
+    transparent 0 var(--ring-inner),
+    rgba(255, 255, 255, 0.95) var(--ring-inner) 100%
+  );
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.25);
+
+  transition:
+    transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+    opacity 0.25s ease-out;
+}
+
+.radialWheelOpen {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* 扇形セグメント（ドーナツを分割した 1 片） */
+/* セグメント本体（初期状態） */
+.radialSegment {
+  --index: var(--segment-index);
+  --count: var(--segment-count);
+  --angle: calc(360deg / var(--count));
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 260px;
+  height: 260px;
+
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(var(--index) * var(--angle)))
+    scale(0.4); /* ★ 中心側に縮めておく */
+
+  transform-origin: center;
+  clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+  overflow: visible;
+  opacity: 0; /* 最初は非表示 */
+
+  z-index: 1;
+}
+
+/* 枠線＋ベース色 */
+.radialSegment::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100%;
+  border: 1px solid #020617;
+  background: rgba(255, 255, 255, 0.9);
+  opacity: 0.9;
+  z-index: 1;
+  transition:
+    background 0.15s ease,
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.radialSegment:hover::before {
+  background: rgba(255, 80, 80, 0.85);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* === 開いたときに「中心から生えてくる」アニメ === */
+.radialWheelOpen .radialSegment {
+  animation: radialSegmentIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* インデックスに応じて少しずつ遅らせる */
+  animation-delay: calc(var(--segment-index) * 0.05s + 0.05s);
+}
+
+@keyframes radialSegmentIn {
+  0% {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(var(--index) * var(--angle)))
+      scale(0.2);
+  }
+  60% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(var(--index) * var(--angle)))
+      scale(1.05); /* ちょっとオーバーシュート */
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(var(--index) * var(--angle)))
+      scale(1);
+  }
+}
+
+
+/* === アイコン＆ラベル === */
+.radialSegmentInner {
+  --index: var(--segment-index);
+  --count: var(--segment-count);
+  --angle: calc(360deg / var(--count));
+
+  position: absolute;
+  top: 50%;
+  left: 78%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(-1 * var(--index) * var(--angle)));
+
+  z-index: 2;
+  pointer-events: none;
+
+  opacity: 0;
+  transform-origin: center;
+}
+
+/* セグメントが出る少しあとにポップさせる */
+.radialWheelOpen .radialSegmentInner {
+  animation: radialIconPop 0.35s ease-out forwards;
+  animation-delay: calc(var(--segment-index) * 0.05s + 0.15s);
+}
+
+@keyframes radialIconPop {
+  0% {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(-1 * var(--index) * var(--angle)))
+      scale(0.5);
+  }
+  70% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(-1 * var(--index) * var(--angle)))
+      scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(-1 * var(--index) * var(--angle)))
+      scale(1);
+  }
+}
+
+.radialSegmentIcon {
+  font-size: 2rem;
+  color: #e60012;
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.95),
+    0 0 8px rgba(0, 0, 0, 0.35);
+}
+
+.radialSegmentLabel {
+  font-size: 0.8rem;
+  color: #b91c1c;
+  white-space: nowrap;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.95);
+}
+
+.radialSegmentIcon {
+  font-size: 2rem;
+  color: #e60012;
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.95),
+    0 0 8px rgba(0, 0, 0, 0.35);
+}
+
+.radialSegmentLabel {
+  font-size: 0.8rem;
+  color: #b91c1c;
+  white-space: nowrap;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.95);
+}
+
+.radialSegmentLabel {
+  font-size: 0.8rem;
+  color: #b91c1c;
+  white-space: nowrap;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.95);
+}
+
+/* 中央の丸いハンバーガーボタン */
+/* ★ 最初は赤×白、開いたときはダークに反転 */
+.radialToggle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 64px;
+  height: 64px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(145deg, #ff4b4b, #e60012); /* ★ 赤 */
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  pointer-events: auto;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.radialToggle:hover {
+  transform: translate(-50%, -52%);
+  box-shadow:
+   0 18px 40px rgba(248, 113, 113, 0.9),
+    0 0 0 1px rgba(255, 241, 241, 0.95);
+}
+
+.radialToggle span {
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
+  background: #fdf2f2;
+  transition:
+    transform 0.18s ease,
+    opacity 0.16s ease;
+}
+
+.radialToggle span:nth-child(1) {
+  transform: translateY(-6px);
+}
+.radialToggle span:nth-child(2) {
+  transform: translateY(0);
+}
+.radialToggle span:nth-child(3) {
+  transform: translateY(6px);
+}
+
+/* メニュー展開中はボタンをダークに反転 */
+.radialToggleOpen {
+  background: linear-gradient(145deg, #ff4b4b, #e60012);
+  box-shadow:
+    0 8px 20px rgba(248, 113, 113, 0.9),
+    0 0 0 1px rgba(255, 241, 241, 0.95);
+}
+
+.radialToggleOpen span:nth-child(1) {
+  transform: translateY(0) rotate(45deg);
+}
+.radialToggleOpen span:nth-child(2) {
+  opacity: 0;
+}
+.radialToggleOpen span:nth-child(3) {
+  transform: translateY(0) rotate(-45deg);
+}
+
+.radialWheelOpen .radialSegment {
+  animation: radialSegmentIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* インデックスに応じて少しずつ遅らせる */
+  animation-delay: calc(var(--segment-index) * 0.05s + 0.05s);
+}
+
+@keyframes radialSegmentIn {
+  0% {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(var(--index) * var(--angle)))
+      scale(0.2);
+  }
+  60% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(var(--index) * var(--angle)))
+      scale(1.05); /* ちょっとオーバーシュート */
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(var(--index) * var(--angle)))
+      scale(1);
+  }
+}
+  

@@ -133,10 +133,9 @@ exports.Prisma.AccountUserScalarFieldEnum = {
 
 exports.Prisma.ParticipantScalarFieldEnum = {
   id: 'id',
-  code: 'code',
   name: 'name',
-  email: 'email',
-  remarks: 'remarks',
+  studentId: 'studentId',
+  passwordHash: 'passwordHash',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

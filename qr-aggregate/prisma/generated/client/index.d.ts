@@ -2530,30 +2530,27 @@ export namespace Prisma {
 
   export type ParticipantMinAggregateOutputType = {
     id: string | null
-    code: string | null
     name: string | null
-    email: string | null
-    remarks: string | null
+    studentId: string | null
+    passwordHash: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type ParticipantMaxAggregateOutputType = {
     id: string | null
-    code: string | null
     name: string | null
-    email: string | null
-    remarks: string | null
+    studentId: string | null
+    passwordHash: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type ParticipantCountAggregateOutputType = {
     id: number
-    code: number
     name: number
-    email: number
-    remarks: number
+    studentId: number
+    passwordHash: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2562,30 +2559,27 @@ export namespace Prisma {
 
   export type ParticipantMinAggregateInputType = {
     id?: true
-    code?: true
     name?: true
-    email?: true
-    remarks?: true
+    studentId?: true
+    passwordHash?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type ParticipantMaxAggregateInputType = {
     id?: true
-    code?: true
     name?: true
-    email?: true
-    remarks?: true
+    studentId?: true
+    passwordHash?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type ParticipantCountAggregateInputType = {
     id?: true
-    code?: true
     name?: true
-    email?: true
-    remarks?: true
+    studentId?: true
+    passwordHash?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2665,10 +2659,9 @@ export namespace Prisma {
 
   export type ParticipantGroupByOutputType = {
     id: string
-    code: string | null
     name: string
-    email: string | null
-    remarks: string | null
+    studentId: string | null
+    passwordHash: string
     createdAt: Date
     updatedAt: Date
     _count: ParticipantCountAggregateOutputType | null
@@ -2692,10 +2685,9 @@ export namespace Prisma {
 
   export type ParticipantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    code?: boolean
     name?: boolean
-    email?: boolean
-    remarks?: boolean
+    studentId?: boolean
+    passwordHash?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     eventAttendees?: boolean | Participant$eventAttendeesArgs<ExtArgs>
@@ -2704,35 +2696,32 @@ export namespace Prisma {
 
   export type ParticipantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    code?: boolean
     name?: boolean
-    email?: boolean
-    remarks?: boolean
+    studentId?: boolean
+    passwordHash?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["participant"]>
 
   export type ParticipantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    code?: boolean
     name?: boolean
-    email?: boolean
-    remarks?: boolean
+    studentId?: boolean
+    passwordHash?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["participant"]>
 
   export type ParticipantSelectScalar = {
     id?: boolean
-    code?: boolean
     name?: boolean
-    email?: boolean
-    remarks?: boolean
+    studentId?: boolean
+    passwordHash?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "email" | "remarks" | "createdAt" | "updatedAt", ExtArgs["result"]["participant"]>
+  export type ParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "studentId" | "passwordHash" | "createdAt" | "updatedAt", ExtArgs["result"]["participant"]>
   export type ParticipantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     eventAttendees?: boolean | Participant$eventAttendeesArgs<ExtArgs>
     _count?: boolean | ParticipantCountOutputTypeDefaultArgs<ExtArgs>
@@ -2747,10 +2736,9 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      code: string | null
       name: string
-      email: string | null
-      remarks: string | null
+      studentId: string | null
+      passwordHash: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["participant"]>
@@ -3178,10 +3166,9 @@ export namespace Prisma {
    */
   interface ParticipantFieldRefs {
     readonly id: FieldRef<"Participant", 'String'>
-    readonly code: FieldRef<"Participant", 'String'>
     readonly name: FieldRef<"Participant", 'String'>
-    readonly email: FieldRef<"Participant", 'String'>
-    readonly remarks: FieldRef<"Participant", 'String'>
+    readonly studentId: FieldRef<"Participant", 'String'>
+    readonly passwordHash: FieldRef<"Participant", 'String'>
     readonly createdAt: FieldRef<"Participant", 'DateTime'>
     readonly updatedAt: FieldRef<"Participant", 'DateTime'>
   }
@@ -7068,10 +7055,9 @@ export namespace Prisma {
 
   export const ParticipantScalarFieldEnum: {
     id: 'id',
-    code: 'code',
     name: 'name',
-    email: 'email',
-    remarks: 'remarks',
+    studentId: 'studentId',
+    passwordHash: 'passwordHash',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7262,10 +7248,9 @@ export namespace Prisma {
     OR?: ParticipantWhereInput[]
     NOT?: ParticipantWhereInput | ParticipantWhereInput[]
     id?: StringFilter<"Participant"> | string
-    code?: StringNullableFilter<"Participant"> | string | null
     name?: StringFilter<"Participant"> | string
-    email?: StringNullableFilter<"Participant"> | string | null
-    remarks?: StringNullableFilter<"Participant"> | string | null
+    studentId?: StringNullableFilter<"Participant"> | string | null
+    passwordHash?: StringFilter<"Participant"> | string
     createdAt?: DateTimeFilter<"Participant"> | Date | string
     updatedAt?: DateTimeFilter<"Participant"> | Date | string
     eventAttendees?: EventAttendeeListRelationFilter
@@ -7273,10 +7258,9 @@ export namespace Prisma {
 
   export type ParticipantOrderByWithRelationInput = {
     id?: SortOrder
-    code?: SortOrderInput | SortOrder
     name?: SortOrder
-    email?: SortOrderInput | SortOrder
-    remarks?: SortOrderInput | SortOrder
+    studentId?: SortOrderInput | SortOrder
+    passwordHash?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     eventAttendees?: EventAttendeeOrderByRelationAggregateInput
@@ -7284,24 +7268,22 @@ export namespace Prisma {
 
   export type ParticipantWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    code?: string
+    studentId?: string
     AND?: ParticipantWhereInput | ParticipantWhereInput[]
     OR?: ParticipantWhereInput[]
     NOT?: ParticipantWhereInput | ParticipantWhereInput[]
     name?: StringFilter<"Participant"> | string
-    email?: StringNullableFilter<"Participant"> | string | null
-    remarks?: StringNullableFilter<"Participant"> | string | null
+    passwordHash?: StringFilter<"Participant"> | string
     createdAt?: DateTimeFilter<"Participant"> | Date | string
     updatedAt?: DateTimeFilter<"Participant"> | Date | string
     eventAttendees?: EventAttendeeListRelationFilter
-  }, "id" | "code">
+  }, "id" | "studentId">
 
   export type ParticipantOrderByWithAggregationInput = {
     id?: SortOrder
-    code?: SortOrderInput | SortOrder
     name?: SortOrder
-    email?: SortOrderInput | SortOrder
-    remarks?: SortOrderInput | SortOrder
+    studentId?: SortOrderInput | SortOrder
+    passwordHash?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ParticipantCountOrderByAggregateInput
@@ -7314,10 +7296,9 @@ export namespace Prisma {
     OR?: ParticipantScalarWhereWithAggregatesInput[]
     NOT?: ParticipantScalarWhereWithAggregatesInput | ParticipantScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Participant"> | string
-    code?: StringNullableWithAggregatesFilter<"Participant"> | string | null
     name?: StringWithAggregatesFilter<"Participant"> | string
-    email?: StringNullableWithAggregatesFilter<"Participant"> | string | null
-    remarks?: StringNullableWithAggregatesFilter<"Participant"> | string | null
+    studentId?: StringNullableWithAggregatesFilter<"Participant"> | string | null
+    passwordHash?: StringWithAggregatesFilter<"Participant"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Participant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Participant"> | Date | string
   }
@@ -7441,6 +7422,7 @@ export namespace Prisma {
   export type EventAttendeeWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     qrToken?: string
+    event_participant_unique?: EventAttendeeEvent_participant_uniqueCompoundUniqueInput
     AND?: EventAttendeeWhereInput | EventAttendeeWhereInput[]
     OR?: EventAttendeeWhereInput[]
     NOT?: EventAttendeeWhereInput | EventAttendeeWhereInput[]
@@ -7453,7 +7435,7 @@ export namespace Prisma {
     event?: XOR<EventScalarRelationFilter, EventWhereInput>
     participant?: XOR<ParticipantScalarRelationFilter, ParticipantWhereInput>
     attendanceLogs?: AttendanceLogListRelationFilter
-  }, "id" | "qrToken">
+  }, "id" | "qrToken" | "event_participant_unique">
 
   export type EventAttendeeOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7652,10 +7634,9 @@ export namespace Prisma {
 
   export type ParticipantCreateInput = {
     id?: string
-    code?: string | null
     name: string
-    email?: string | null
-    remarks?: string | null
+    studentId?: string | null
+    passwordHash: string
     createdAt?: Date | string
     updatedAt?: Date | string
     eventAttendees?: EventAttendeeCreateNestedManyWithoutParticipantInput
@@ -7663,10 +7644,9 @@ export namespace Prisma {
 
   export type ParticipantUncheckedCreateInput = {
     id?: string
-    code?: string | null
     name: string
-    email?: string | null
-    remarks?: string | null
+    studentId?: string | null
+    passwordHash: string
     createdAt?: Date | string
     updatedAt?: Date | string
     eventAttendees?: EventAttendeeUncheckedCreateNestedManyWithoutParticipantInput
@@ -7674,10 +7654,9 @@ export namespace Prisma {
 
   export type ParticipantUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     eventAttendees?: EventAttendeeUpdateManyWithoutParticipantNestedInput
@@ -7685,10 +7664,9 @@ export namespace Prisma {
 
   export type ParticipantUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     eventAttendees?: EventAttendeeUncheckedUpdateManyWithoutParticipantNestedInput
@@ -7696,30 +7674,27 @@ export namespace Prisma {
 
   export type ParticipantCreateManyInput = {
     id?: string
-    code?: string | null
     name: string
-    email?: string | null
-    remarks?: string | null
+    studentId?: string | null
+    passwordHash: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ParticipantUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ParticipantUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8128,30 +8103,27 @@ export namespace Prisma {
 
   export type ParticipantCountOrderByAggregateInput = {
     id?: SortOrder
-    code?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    remarks?: SortOrder
+    studentId?: SortOrder
+    passwordHash?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ParticipantMaxOrderByAggregateInput = {
     id?: SortOrder
-    code?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    remarks?: SortOrder
+    studentId?: SortOrder
+    passwordHash?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ParticipantMinOrderByAggregateInput = {
     id?: SortOrder
-    code?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    remarks?: SortOrder
+    studentId?: SortOrder
+    passwordHash?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8254,6 +8226,11 @@ export namespace Prisma {
   export type ParticipantScalarRelationFilter = {
     is?: ParticipantWhereInput
     isNot?: ParticipantWhereInput
+  }
+
+  export type EventAttendeeEvent_participant_uniqueCompoundUniqueInput = {
+    eventId: string
+    participantId: string
   }
 
   export type EventAttendeeCountOrderByAggregateInput = {
@@ -9146,20 +9123,18 @@ export namespace Prisma {
 
   export type ParticipantCreateWithoutEventAttendeesInput = {
     id?: string
-    code?: string | null
     name: string
-    email?: string | null
-    remarks?: string | null
+    studentId?: string | null
+    passwordHash: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ParticipantUncheckedCreateWithoutEventAttendeesInput = {
     id?: string
-    code?: string | null
     name: string
-    email?: string | null
-    remarks?: string | null
+    studentId?: string | null
+    passwordHash: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9246,20 +9221,18 @@ export namespace Prisma {
 
   export type ParticipantUpdateWithoutEventAttendeesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ParticipantUncheckedUpdateWithoutEventAttendeesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    studentId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

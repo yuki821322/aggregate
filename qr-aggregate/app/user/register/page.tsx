@@ -1,59 +1,54 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useActionState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
+import { registerParticipant } from "./actions";
+import { useFormStatus } from "react-dom";
+
+type RegisterFormState = {
+  status: "idle" | "error" | "success";
+  message: string;
+};
+
+const initialRegisterState: RegisterFormState = {
+  status: "idle",
+  message: "",
+};
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      className={`${styles.loginButton} ${
+        pending ? styles.loginButtonLoading : ""
+      }`}
+      disabled={pending}
+    >
+      {pending && <span className={styles.buttonSpinner} />}
+      {pending ? "登録中..." : "登録する"}
+    </button>
+  );
+}
 
 export default function UserRegisterPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [state, formAction] = useActionState<
+    RegisterFormState,
+    FormData
+  >(registerParticipant, initialRegisterState);
 
-  // パスワード表示切り替え
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword2, setShowPassword2] = React.useState(false);
 
-  // エラー表示
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isLoading) return;
-
-    setErrorMessage(null);
-    setIsLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const name = String(formData.get("name") || "").trim();
-    const studentId = String(formData.get("studentId") || "").trim();
-    const pass1 = String(formData.get("password") || "");
-    const pass2 = String(formData.get("passwordConfirm") || "");
-
-    // ===== フロント側の簡易バリデーション =====
-    if (!name) {
-      setErrorMessage("名前を入力してください。");
-      setIsLoading(false);
-      return;
+  useEffect(() => {
+    if (state.status === "success") {
+      router.push("/user/mypage");
     }
-
-    if (!pass1) {
-      setErrorMessage("パスワードを入力してください。");
-      setIsLoading(false);
-      return;
-    }
-
-    if (pass1 !== pass2) {
-      setErrorMessage("パスワードが一致していません。");
-      setIsLoading(false);
-      return;
-    }
-
-    // ★ 今は仮登録処理（成功したらログインへ）
-    setTimeout(() => {
-      router.push("/user/login");
-    }, 900);
-  };
+  }, [state.status, router]);
 
   return (
     <main className={styles.pageRoot}>
@@ -72,16 +67,14 @@ export default function UserRegisterPage() {
             <h2 className={styles.cardTitle}>新規登録</h2>
           </div>
 
-          {/* エラー表示 */}
-          {errorMessage && (
+          {state.status === "error" && state.message && (
             <div className={styles.errorBox}>
               <span className={styles.errorIcon}>!</span>
-              <p className={styles.errorText}>{errorMessage}</p>
+              <p className={styles.errorText}>{state.message}</p>
             </div>
           )}
 
-          <form className={styles.loginForm} onSubmit={handleSubmit}>
-            {/* 名前 */}
+          <form className={styles.loginForm} action={formAction}>
             <label className={styles.formLabel}>
               名前
               <input
@@ -93,7 +86,6 @@ export default function UserRegisterPage() {
               />
             </label>
 
-            {/* 学籍番号（任意 or 必須 → 今は必須扱いにしてない） */}
             <label className={styles.formLabel}>
               学籍番号（任意）
               <input
@@ -104,7 +96,6 @@ export default function UserRegisterPage() {
               />
             </label>
 
-            {/* パスワード */}
             <label className={styles.formLabel}>
               パスワード
               <div className={styles.passwordField}>
@@ -119,17 +110,19 @@ export default function UserRegisterPage() {
                   type="button"
                   className={styles.passwordToggle}
                   onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "パスワードを隠す" : "パスワードを表示"}
                 >
                   <span
                     className={
-                      showPassword ? styles.passwordIconOn : styles.passwordIconOff
+                      showPassword
+                        ? styles.passwordIconOn
+                        : styles.passwordIconOff
                     }
                   />
                 </button>
               </div>
             </label>
 
-            {/* パスワード確認 */}
             <label className={styles.formLabel}>
               パスワード（確認）
               <div className={styles.passwordField}>
@@ -144,27 +137,22 @@ export default function UserRegisterPage() {
                   type="button"
                   className={styles.passwordToggle}
                   onClick={() => setShowPassword2((v) => !v)}
+                  aria-label={
+                    showPassword2 ? "パスワードを隠す" : "パスワードを表示"
+                  }
                 >
                   <span
                     className={
-                      showPassword2 ? styles.passwordIconOn : styles.passwordIconOff
+                      showPassword2
+                        ? styles.passwordIconOn
+                        : styles.passwordIconOff
                     }
                   />
                 </button>
               </div>
             </label>
 
-            {/* 送信ボタン */}
-            <button
-              type="submit"
-              className={`${styles.loginButton} ${
-                isLoading ? styles.loginButtonLoading : ""
-              }`}
-              disabled={isLoading}
-            >
-              {isLoading && <span className={styles.buttonSpinner} />}
-              {isLoading ? "登録中..." : "登録する"}
-            </button>
+            <SubmitButton />
           </form>
 
           <div className={styles.cardFooter}>
