@@ -175,7 +175,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/yuki0518/Next-js/Aggregate/aggregate/qr-aggregate/prisma/generated/client",
+      "value": "/Users/yuki0518/Next-js/Aggregate/aggregate/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -189,7 +189,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/yuki0518/Next-js/Aggregate/aggregate/qr-aggregate/prisma/schema.prisma",
+    "sourceFilePath": "/Users/yuki0518/Next-js/Aggregate/aggregate/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -203,6 +203,7 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
