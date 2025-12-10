@@ -6,7 +6,14 @@ import crypto from "node:crypto";
 export async function registerToEvent(formData: FormData) {
   const eventId = formData.get("eventId")?.toString() ?? "";
   const name = formData.get("name")?.toString().trim() ?? "";
-  const code = formData.get("code")?.toString().trim() ?? ""; // 学籍番号やユーザー識別用
+  const rawCode = formData.get("code")?.toString().trim() ?? ""; // 学籍番号など
+
+  if (!eventId || !name) {
+    throw new Error("eventId または name が不正です");
+  }
+
+  // 空文字なら null にしておく（unique 制約との相性も良い）
+  const studentId = rawCode === "" ? null : rawCode;
 
   // --- 1. Event があるか確認 ---
   const event = await prisma.event.findUnique({ where: { id: eventId } });
@@ -14,17 +21,22 @@ export async function registerToEvent(formData: FormData) {
     throw new Error(`eventId=${eventId} の Event が存在しません`);
   }
 
-  // --- 2. Participant を code で検索（参加者リピートの場合） ---
-  let participant = await prisma.participant.findUnique({
-    where: { code },
-  });
+  // --- 2. Participant を studentId で検索（学籍番号リピートの場合） ---
+  let participant = studentId
+    ? await prisma.participant.findUnique({
+        where: { studentId }, // ★ code ではなく studentId
+      })
+    : null;
 
   // --- 3. なければ新規作成 ---
   if (!participant) {
     participant = await prisma.participant.create({
       data: {
         name,
-        code,
+        studentId, // ★ ここも studentId
+        // Participant は passwordHash 必須なのでダミーを入れる
+        // ログインに使わないならランダム文字列でOK
+        passwordHash: crypto.randomBytes(32).toString("hex"),
       },
     });
   }

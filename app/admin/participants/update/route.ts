@@ -7,9 +7,7 @@ export async function POST(req: Request) {
   const participantId = formData.get("participantId")?.toString() ?? "";
   const eventId = formData.get("eventId")?.toString() ?? "";
   const name = formData.get("name")?.toString() ?? "";
-  const email = formData.get("email")?.toString() || null;
-  const code = formData.get("code")?.toString() || null;
-  const remarks = formData.get("remarks")?.toString() || null;
+  const studentId = formData.get("studentId")?.toString() || null;
 
   if (!participantId || !name) {
     return NextResponse.json({ error: "Invalid input" }, { status: 400 });
@@ -17,7 +15,10 @@ export async function POST(req: Request) {
 
   await prisma.participant.update({
     where: { id: participantId },
-    data: { name, email, code, remarks },
+    data: {
+      name,
+      studentId,
+    },
   });
 
   return NextResponse.redirect(

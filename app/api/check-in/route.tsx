@@ -83,7 +83,8 @@ export async function POST(req: NextRequest) {
       ok: true,
       eventTitle: event.title,
       participantName: attendee.participant?.name ?? "（名前未登録）",
-      participantCode: attendee.participant?.code ?? null,
+      // ★ studentId を返すように変更（キー名はそのまま）
+      participantCode: attendee.participant?.studentId ?? null,
       status,
       checkedAt: log.checkedAt,
       isFirst,

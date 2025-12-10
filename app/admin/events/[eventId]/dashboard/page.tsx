@@ -189,9 +189,9 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
                         minute: "2-digit",
                       })}
                     </span>
-                    {log.eventAttendee.participant?.code && (
+                    {log.eventAttendee.participant?.studentId && (
                       <span className={styles.logCode}>
-                        ID: {log.eventAttendee.participant.code}
+                        学籍番号: {log.eventAttendee.participant.studentId}
                       </span>
                     )}
                     {log.handledBy && (
