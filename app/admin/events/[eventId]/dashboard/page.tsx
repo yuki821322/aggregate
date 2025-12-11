@@ -1,6 +1,6 @@
 // app/admin/events/[eventId]/dashboard/page.tsx
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 type DashboardPageProps = {
