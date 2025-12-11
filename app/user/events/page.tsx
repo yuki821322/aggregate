@@ -1,4 +1,5 @@
 // app/user/events/page.tsx
+export const dynamic = "force-dynamic"; 
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import styles from "./page.module.css";
