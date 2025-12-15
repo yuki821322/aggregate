@@ -1,8 +1,8 @@
 /* ===== ページ全体 ===== */
 .pageRoot {
   min-height: 100vh;
-  background: radial-gradient(circle at top, #0f172a 0%, #020617 55%, #000 100%);
-  color: #e2e8f0; /* slate-300 */
+  background: white;
+  color: #111827;
   padding: 40px 20px;
 }
 
@@ -28,23 +28,23 @@
   font-size: 1.6rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: #f9fafb; /* slate-50 */
+  color: #111827;
 }
 
 .backLink {
   font-size: 0.85rem;
-  color: #7dd3fc; /* sky-300 */
+  color: #0284c7;
   text-decoration: none;
   padding: 4px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(125, 211, 252, 0.4);
-  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(2, 132, 199, 0.5);
+  background: #ffffff;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
 }
 
 .backLink:hover {
-  background: rgba(8, 47, 73, 0.9); /* sky-900 */
-  border-color: rgba(125, 211, 252, 0.9);
+  background: rgba(2, 132, 199, 0.1);
+  border-color: rgba(2, 132, 199, 0.85);
   transform: translateY(-1px);
 }
 
@@ -52,16 +52,20 @@
 .eventMeta {
   padding: 16px 18px;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 118, 110, 0.35));
-  border: 1px solid rgba(148, 163, 184, 0.5); /* slate-400 */
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+  background: linear-gradient(
+    135deg,
+    #ffffff,
+    rgba(2, 132, 199, 0.16)
+  );
+  border: 1px solid #dbeafe;
+  box-shadow: 0 12px 28px rgba(17, 24, 39, 0.09);
 }
 
 .eventTitle {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #f9fafb;
+  color: #111827;
 }
 
 .eventSubMeta {
@@ -69,8 +73,7 @@
   flex-wrap: wrap;
   gap: 10px 18px;
   font-size: 0.9rem;
-  color: #cbd5f5;
-  opacity: 0.9;
+  color: #1f2937;
 }
 
 .eventSubMeta span::before {
@@ -78,7 +81,7 @@
   display: inline-block;
   font-size: 0.55rem;
   margin-right: 6px;
-  color: #38bdf8; /* sky-400 */
+  color: #0284c7;
 }
 
 /* ===== サマリカード ===== */
@@ -97,22 +100,26 @@
 .statCardMuted {
   border-radius: 18px;
   padding: 14px 16px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
-  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.15), rgba(15, 23, 42, 0.98));
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+  border: 1px solid #dbeafe;
+  background: linear-gradient(
+    135deg,
+    #ffffff,
+    rgba(2, 132, 199, 0.14)
+  );
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.08);
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
 .statCardMuted {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 64, 175, 0.18));
-  opacity: 0.75;
+  background: #ffffff;
+  opacity: 0.8;
 }
 
 .statLabel {
   font-size: 0.8rem;
-  color: #cbd5e1; /* slate-300 */
+  color: #475569;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -120,12 +127,12 @@
 .statValue {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #f9fafb;
+  color: #0f172a;
 }
 
 .statHint {
   font-size: 0.75rem;
-  color: #94a3b8; /* slate-400 */
+  color: #475569;
 }
 
 /* ===== セクション共通 ===== */
@@ -137,7 +144,7 @@
 .sectionTitle {
   font-size: 1rem;
   font-weight: 500;
-  color: #e5e7eb;
+  color: #111827;
   margin-bottom: 10px;
   display: inline-flex;
   align-items: center;
@@ -149,36 +156,60 @@
   width: 4px;
   height: 18px;
   border-radius: 999px;
-  background: linear-gradient(to bottom, #38bdf8, #a855f7);
+  background: linear-gradient(to bottom, #0ea5e9, #0284c7);
 }
 
 .placeholderBox {
   border-radius: 16px;
   padding: 18px 16px;
-  border: 1px dashed rgba(148, 163, 184, 0.6);
-  background: rgba(15, 23, 42, 0.7);
+  border: 1px dashed rgba(2, 132, 199, 0.55);
+  background: #ffffff;
   font-size: 0.9rem;
-  color: #cbd5e1;
+  color: #1f2937;
 }
 
-/* ===== イベント未検出のとき ===== */
+/* ===== イベント未検出 ===== */
 .notice {
   margin-top: 32px;
   border-radius: 16px;
   padding: 18px 20px;
-  border: 1px solid rgba(248, 113, 113, 0.6); /* red-400 */
-  background: rgba(30, 64, 175, 0.2);
+  border: 1px solid rgba(2, 132, 199, 0.6);
+  background: rgba(2, 132, 199, 0.1);
 }
 
 .noticeTitle {
   font-weight: 600;
   margin-bottom: 6px;
-  color: #fecaca; /* red-200 */
+  color: #075985;
 }
 
 .noticeText {
   font-size: 0.9rem;
-  color: #e5e7eb;
+  color: #111827;
+}
+
+/* ===== ヘッダー右側リンク ===== */
+.pageHeaderLinks {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.checkinLink {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(2, 132, 199, 0.8);
+  color: #075985;
+  text-decoration: none;
+  background: #ffffff;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.checkinLink:hover {
+  background: rgba(2, 132, 199, 0.14);
+  border-color: rgba(2, 132, 199, 1);
+  transform: translateY(-1px);
 }
 
 /* ===== レスポンシブ ===== */
@@ -195,28 +226,4 @@
   .statGrid {
     grid-template-columns: minmax(0, 1fr);
   }
-}
-
-
-.pageHeaderLinks {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.checkinLink {
-  font-size: 0.85rem;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(56, 189, 248, 0.8);
-  color: #e0f2fe;
-  text-decoration: none;
-  background: rgba(15, 23, 42, 0.9);
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
-}
-
-.checkinLink:hover {
-  background: rgba(56, 189, 248, 0.18);
-  border-color: rgba(56, 189, 248, 1);
-  transform: translateY(-1px);
 }

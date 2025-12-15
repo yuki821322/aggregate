@@ -1,11 +1,9 @@
-/* app/admin/layout.module.css */
-
-/* === 全体 & navbar は今まで通りでOK（必要なところだけ書く） === */
+/* === 全体 & navbar === */
 
 .adminRoot {
   min-height: 100vh;
-  background: #020617;
-  color: #e2e8f0;
+  background: #f9fafb;
+  color: #111827;
   display: flex;
   flex-direction: column;
 }
@@ -16,8 +14,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #0f172a;
-  border-bottom: 1px solid #1e293b;
+
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .navLeft {
@@ -29,17 +28,18 @@
 .logo {
   font-size: 1rem;
   font-weight: 600;
-  color: #e2e8f0;
+  color: #0ea5e9; /* ← 赤 → 水色 */
   text-decoration: none;
 }
 
 .navRight {
   font-size: 0.9rem;
-  color: #cbd5f5;
+  color: #374151;
 }
 
 .userName {
   font-weight: 700;
+  color: #111827;
 }
 
 /* ハンバーガー */
@@ -61,19 +61,9 @@
   display: block;
   width: 100%;
   height: 3px;
-  background: #e2e8f0;
+  background: #111827;
   border-radius: 4px;
   transition: 0.3s ease;
-}
-
-.menuButton.active span:nth-of-type(1) {
-  transform: translateY(9px) rotate(45deg);
-}
-.menuButton.active span:nth-of-type(2) {
-  opacity: 0;
-}
-.menuButton.active span:nth-of-type(3) {
-  transform: translateY(-9px) rotate(-45deg);
 }
 
 /* === 本体 === */
@@ -83,17 +73,18 @@
   min-height: calc(100vh - 48px);
 }
 
-/* ===== サイドバー（オーバーレイ） ===== */
+/* ===== サイドバー ===== */
 
 .sidebar {
   position: fixed;
-  top: 48px; /* navbar の下 */
+  top: 48px;
   left: 0;
   width: 240px;
   height: calc(100vh - 48px);
   padding: 16px 12px;
-  background: #020617;
-  border-right: 1px solid #1f2937;
+
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
 
   display: flex;
   flex-direction: column;
@@ -103,16 +94,12 @@
   transition: transform 0.25s ease-out;
   z-index: 40;
 
-  /* ★ ここが超重要：サイドバー内だけ縦スクロールOKにする */
   overflow-y: auto;
 }
 
-/* 開いたときだけ画面内にスライドイン */
 .sidebarOpen {
   transform: translateX(0);
 }
-
-/* スクロール時も常に上に重なっていてほしい場合は body は position: relative のままでOK */
 
 /* サイドバー中身 */
 
@@ -125,12 +112,14 @@
 .sidebarBottom {
   margin-top: 24px;
   padding-top: 12px;
-  border-top: 1px solid #1e293b;
+  border-top: 1px solid #e5e7eb;
 }
 
 .navItem,
 .navItemDanger {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 8px 10px;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -138,24 +127,25 @@
 }
 
 .navItem {
-  color: #cbd5f5;
+  color: #111827;
 }
 
 .navItem:hover {
-  background: #0f172a;
-  color: #38bdf8;
+  background: rgba(14, 165, 233, 0.10); /* ← 赤 → 水色 */
+  color: #0ea5e9;
 }
 
+/* 危険系（色だけ水色寄せ） */
 .navItemDanger {
-  color: #fca5a5;
+  color: #0369a1; /* ← 濃赤 → 濃い水色 */
 }
 
 .navItemDanger:hover {
-  background: #0f172a;
-  color: #fecaca;
+  background: rgba(3, 105, 161, 0.10);
+  color: #0369a1;
 }
 
-/* 背景オーバーレイ（クリックで閉じる） */
+/* 背景オーバーレイ */
 
 .sidebarBackdrop {
   position: fixed;
@@ -163,7 +153,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(15, 23, 42, 0.55);
+
+  background: rgba(17, 24, 39, 0.35);
   backdrop-filter: blur(2px);
   z-index: 30;
 }
@@ -176,22 +167,42 @@
   margin: 0 auto;
 }
 
-/* === アイコン共通 === */
+/* === アイコン === */
+
 .sidebarIcon {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
   margin-right: 10px;
   opacity: 0.9;
-  filter: brightness(0) invert(0.9); /* 白系に変換して馴染ませる */
+  filter: none;
 }
-.navItem,
-.navItemDanger {
+
+.logo {
   display: flex;
   align-items: center;
-  gap: 10px;         /* アイコンとの距離 */
-  padding: 8px 10px;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  gap: 10px;          /* アイコンが大きくなる分、少し余白を足す */
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0ea5e9;
   text-decoration: none;
+  line-height: 1;
+}
+
+.logoIcon {
+  width: 80px;        /* ← 24 → 28 */
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.active span:nth-of-type(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.active span:nth-of-type(2) {
+  opacity: 0;
+}
+
+.active span:nth-of-type(3) {
+  transform: translateY(-9px) rotate(-45deg);
 }

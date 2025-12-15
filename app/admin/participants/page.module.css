@@ -1,8 +1,8 @@
 /* ===== ページ全体 ===== */
 .pageRoot {
   min-height: 100vh;
-  background: #020617; /* slate-950 */
-  color: #e2e8f0; /* slate-300 */
+  background: #f9fafb; /* 白基調 */
+  color: #111827;
   padding: 40px 16px;
 }
 
@@ -30,23 +30,23 @@
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: #f9fafb;
+  color: #111827;
 }
 
 .backLink {
   font-size: 0.8rem;
-  color: #a5b4fc; /* indigo-300 */
+  color: #0ea5e9;
   text-decoration: none;
 }
 
 .backLink:hover {
-  color: #e0e7ff;
+  color: #0369a1;
   text-decoration: underline;
 }
 
 .eventMeta {
   font-size: 0.85rem;
-  color: #94a3b8; /* slate-400 */
+  color: #6b7280;
 }
 
 /* ===== ツールバー ===== */
@@ -64,15 +64,15 @@
   padding: 6px 16px;
   font-size: 0.85rem;
   font-weight: 500;
-  color: #0f172a;
-  background: #22c55e; /* green-500 */
+  color: #ffffff;
+  background: #0ea5e9; /* green → 水色 */
   cursor: pointer;
   transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
 
 .addButton:hover {
   filter: brightness(1.05);
-  box-shadow: 0 8px 18px rgba(34, 197, 94, 0.35);
+  box-shadow: 0 8px 18px rgba(14, 165, 233, 0.35);
   transform: translateY(-1px);
 }
 
@@ -83,9 +83,9 @@
 
 /* ===== テーブル ===== */
 .tableWrapper {
-  background: rgba(15, 23, 42, 0.8); /* slate-900 */
+  background: #ffffff;
   border-radius: 12px;
-  border: 1px solid rgba(148, 163, 184, 0.35); /* slate-500 */
+  border: 1px solid #e5e7eb;
   overflow: hidden;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .tableHead {
-  background: rgba(15, 23, 42, 0.95);
+  background: #f3f4f6;
 }
 
 .th {
@@ -103,27 +103,28 @@
   padding: 10px 14px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #cbd5e1;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .tr:nth-child(even) {
-  background: rgba(15, 23, 42, 0.9);
+  background: #f9fafb;
 }
 
 .tr:hover {
-  background: rgba(30, 64, 175, 0.3); /* indigo-700/30 */
+  background: rgba(14, 165, 233, 0.08);
 }
 
 .td {
   padding: 10px 14px;
   font-size: 0.85rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  border-bottom: 1px solid #e5e7eb;
+  color: #111827;
 }
 
 .tdSub {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: #6b7280;
   margin-top: 2px;
 }
 
@@ -132,16 +133,16 @@
   margin-top: 12px;
   padding: 16px 18px;
   border-radius: 12px;
-  border: 1px dashed rgba(148, 163, 184, 0.7);
-  background: rgba(15, 23, 42, 0.7);
+  border: 1px dashed rgba(14, 165, 233, 0.45);
+  background: #ffffff;
   font-size: 0.85rem;
-  color: #cbd5e1;
+  color: #111827;
 }
 
 .emptyHint {
   margin-top: 4px;
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: #6b7280;
 }
 
 /* ===== イベント未指定のとき ===== */
@@ -149,9 +150,10 @@
   margin-top: 24px;
   padding: 16px 18px;
   border-radius: 12px;
-  border: 1px solid rgba(248, 250, 252, 0.1);
-  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
   font-size: 0.9rem;
+  color: #111827;
 }
 
 .noticeTitle {
@@ -161,7 +163,7 @@
 
 .noticeText {
   font-size: 0.8rem;
-  color: #94a3b8;
+  color: #6b7280;
 }
 
 /* ===== 参加者追加フォーム ===== */
@@ -169,15 +171,15 @@
   margin-top: 20px;
   padding: 20px;
   border-radius: 12px;
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
 }
 
 .formTitle {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 16px;
-  color: #f1f5f9;
+  color: #111827;
 }
 
 .form {
@@ -194,28 +196,28 @@
 
 .label {
   font-size: 0.85rem;
-  color: #e2e8f0;
+  color: #374151;
 }
 
 .required {
-  color: #fb7185; /* pink-400 */
+  color: #0ea5e9; /* pink → 水色 */
   margin-left: 4px;
 }
 
 .input,
 .textarea {
   border-radius: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background: #0f172a;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
   padding: 8px 10px;
-  color: #e2e8f0;
+  color: #111827;
   font-size: 0.85rem;
 }
 
 .input:focus,
 .textarea:focus {
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.4);
   outline: none;
 }
 
@@ -231,8 +233,8 @@
   padding: 8px 18px;
   font-size: 0.85rem;
   font-weight: 500;
-  background: #38bdf8;
-  color: #0f172a;
+  background: #0ea5e9;
+  color: #ffffff;
   cursor: pointer;
   transition: transform 0.1s ease, filter 0.15s ease;
 }
@@ -246,15 +248,15 @@
 .tdActions {
   padding: 10px 14px;
   font-size: 0.8rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  border-bottom: 1px solid #e5e7eb;
   text-align: right;
 }
 
-/* 削除ボタン */
+/* 削除ボタン（赤 → 水色トーン） */
 .deleteButton {
-  border: 1px solid rgba(248, 113, 113, 0.8); /* red-400 */
-  background: rgba(127, 29, 29, 0.8); /* red-900 系 */
-  color: #fee2e2; /* red-100 */
+  border: 1px solid rgba(3, 105, 161, 0.7);
+  background: rgba(14, 165, 233, 0.12);
+  color: #0369a1;
   border-radius: 999px;
   padding: 4px 10px;
   font-size: 0.75rem;
@@ -263,8 +265,8 @@
 }
 
 .deleteButton:hover {
-  background: rgba(220, 38, 38, 0.9); /* red-600 */
-  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.4);
+  background: rgba(14, 165, 233, 0.18);
+  box-shadow: 0 6px 14px rgba(14, 165, 233, 0.25);
   transform: translateY(-1px);
 }
 

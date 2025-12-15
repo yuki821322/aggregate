@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.78);
+  background: rgba(17, 24, 39, 0.45); /* 白UIに合う暗幕 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,13 +9,13 @@
 }
 
 .modal {
-  background: #0b1220;
+  background: #ffffff;                 /* 白 */
   width: 90%;
   max-width: 480px;
   padding: 24px;
   border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(148, 163, 184, 0.7);
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.25);
+  border: 1px solid #e5e7eb;           /* 薄グレー枠 */
   animation: fadeIn 0.15s ease-out;
 }
 
@@ -23,7 +23,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 16px;
-  color: #e5e7eb;
+  color: #0ea5e9;                      /* 赤 → 水色 */
 }
 
 .label {
@@ -32,17 +32,17 @@
   margin-bottom: 4px;
   display: block;
   font-weight: 500;
-  color: #cbd5e1;
+  color: #374151;                      /* 変更なし */
 }
 
 .input {
   width: 100%;
-  border: 1px solid #4b5563;
+  border: 1px solid #d1d5db;
   padding: 8px;
   border-radius: 8px;
   font-size: 0.9rem;
-  background: #020617;
-  color: #e5e7eb;
+  background: #ffffff;
+  color: #111827;
 }
 
 .buttons {
@@ -52,9 +52,10 @@
   justify-content: flex-end;
 }
 
+/* 保存（メイン） */
 .saveButton {
-  background: #22c55e;
-  color: white;
+  background: #0ea5e9;                 /* 赤 → 水色 */
+  color: #ffffff;
   padding: 8px 16px;
   border-radius: 999px;
   cursor: pointer;
@@ -62,9 +63,10 @@
   font-size: 0.85rem;
 }
 
+/* キャンセル（変更なし） */
 .cancelButton {
-  background: #6b7280;
-  color: white;
+  background: #9ca3af;
+  color: #ffffff;
   padding: 8px 14px;
   border-radius: 999px;
   cursor: pointer;
@@ -72,9 +74,10 @@
   font-size: 0.85rem;
 }
 
+/* 編集リンク */
 .editButton {
-  border: 1px solid rgba(56, 189, 248, 0.8);
-  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.8); /* 赤 → 水色 */
+  color: #0ea5e9;
   background: transparent;
   border-radius: 999px;
   padding: 4px 10px;
@@ -84,11 +87,12 @@
 }
 
 .editButton:hover {
-  background: rgba(56, 189, 248, 0.15);
-  border-color: rgba(56, 189, 248, 1);
+  background: rgba(14, 165, 233, 0.1);
+  border-color: rgba(14, 165, 233, 1);
   transform: translateY(-1px);
 }
 
+/* アニメーション（変更なし） */
 @keyframes fadeIn {
   from {
     opacity: 0;

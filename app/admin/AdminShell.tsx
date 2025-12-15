@@ -1,6 +1,6 @@
 // app/admin/AdminShell.tsx
 "use client";
-
+import Image from "next/image";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -56,8 +56,17 @@ export default function AdminShell({
           </button>
 
           <Link href="/admin" className={styles.logo}>
-            出席管理 Admin
+            <Image
+              src="/user-icon/vantan.svg"
+              alt="VANTAN"
+              width={50}
+              height={50}
+              className={styles.logoIcon}
+              priority
+            />
+            <span>出席管理 Admin</span>
           </Link>
+
         </div>
 
         <div className={styles.navRight}>

@@ -1,222 +1,311 @@
-/* ===== ページ全体 ===== */
+/* ===== ページ全体レイアウト ===== */
 .pageRoot {
   min-height: 100vh;
-  background: radial-gradient(circle at top, #0f172a 0%, #020617 55%, #000 100%);
-  color: #e2e8f0;
-  padding: 40px 20px;
+  padding: 40px 16px;
+  background: #f9fafb;
+  color: #111827;
 }
 
+/* 中央寄せ & カード感 */
 .pageContainer {
-  max-width: 680px;
+  max-width: 720px;
   margin: 0 auto;
+  padding: 24px 20px 28px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 20px 45px rgba(17, 24, 39, 0.12);
+  backdrop-filter: blur(16px);
 }
 
-/* ===== ヘッダー ===== */
-.pageHeader {
-  margin-bottom: 24px;
-}
-
+/* ===== タイトル ===== */
 .pageTitle {
   font-size: 1.7rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  color: #f9fafb;
-  margin-bottom: 6px;
+  letter-spacing: -0.03em;
+  color: #0ea5e9; /* 赤 → 水色 */
+  margin-bottom: 20px;
 }
 
-.pageSubtitle {
-  font-size: 0.9rem;
-  color: #9ca3af;
-}
-
-/* ===== 入力エリア ===== */
-.inputSection {
-  margin-bottom: 24px;
-}
-
+/* ===== フォーム全体 ===== */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+  gap: 20px;
+}
+
+/* ===== 各フィールド共通 ===== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .label {
-  font-size: 0.85rem;
-  color: #cbd5e1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.input {
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.9);
-  background: rgba(15, 23, 42, 0.95);
-  color: #f9fafb;
-  font-size: 1rem;
-  outline: none;
-}
-
-.input:focus {
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7);
-}
-
-.submitButton {
-  align-self: flex-end;
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: none;
-  background: linear-gradient(to right, #0ea5e9, #6366f1);
-  color: #f9fafb;
   font-size: 0.9rem;
   font-weight: 500;
-  cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.1s ease;
+  color: #374151;
 }
 
-.submitButton:hover:not(:disabled) {
-  opacity: 0.95;
+.requiredMark {
+  color: #0ea5e9; /* 赤 → 水色 */
+  margin-left: 4px;
+}
+
+/* 入力系コンポーネント共通 */
+.input,
+.textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  padding: 9px 12px;
+  font-size: 0.9rem;
+  color: #111827;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    transform 0.08s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #9ca3af;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: #0ea5e9;
+  box-shadow:
+    0 0 0 1px rgba(14, 165, 233, 0.6),
+    0 10px 24px rgba(17, 24, 39, 0.15);
+  background: #ffffff;
   transform: translateY(-1px);
 }
 
-.submitButton:disabled {
-  opacity: 0.6;
-  cursor: default;
+.textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
-/* ===== 結果エリア ===== */
-.resultSection {
-  margin-top: 12px;
-}
-
-.sectionTitle {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #e5e7eb;
-  margin-bottom: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sectionTitle::before {
-  content: "";
-  width: 4px;
-  height: 18px;
-  border-radius: 999px;
-  background: linear-gradient(to bottom, #38bdf8, #a855f7);
-}
-
-.placeholderBox {
-  border-radius: 16px;
-  padding: 16px 14px;
-  border: 1px dashed rgba(148, 163, 184, 0.7);
-  background: rgba(15, 23, 42, 0.7);
-  font-size: 0.9rem;
-  color: #cbd5e1;
-}
-
-/* ===== 結果カード ===== */
-.resultCardOk,
-.resultCardError {
-  border-radius: 16px;
-  padding: 16px 18px;
-  border: 1px solid rgba(148, 163, 184, 0.9);
-  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.15), rgba(15, 23, 42, 0.96));
-  font-size: 0.9rem;
-}
-
-.resultCardError {
-  border-color: rgba(248, 113, 113, 0.9);
-  background: radial-gradient(circle at top left, rgba(248, 113, 113, 0.18), rgba(15, 23, 42, 0.96));
-}
-
-.resultMain {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.resultStatus {
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  background: rgba(34, 197, 94, 0.2);
-  color: #bbf7d0;
-  border: 1px solid rgba(34, 197, 94, 0.7);
-}
-
-.resultStatusError {
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  background: rgba(248, 113, 113, 0.2);
-  color: #fecaca;
-  border: 1px solid rgba(248, 113, 113, 0.9);
-}
-
-.resultBadge,
-.resultBadgeSecondary {
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.75rem;
-}
-
-.resultBadge {
-  background: rgba(56, 189, 248, 0.2);
-  color: #e0f2fe;
-  border: 1px solid rgba(56, 189, 248, 0.7);
-}
-
-.resultBadgeSecondary {
-  background: rgba(148, 163, 184, 0.2);
-  color: #e5e7eb;
-  border: 1px solid rgba(148, 163, 184, 0.7);
-}
-
-.resultRow {
+/* ===== 日付（年・月・日） ===== */
+.dateRow {
   display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 4px 10px;
-  margin-top: 4px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
-.resultLabel {
-  color: #9ca3af;
-  font-size: 0.8rem;
-}
-
-.resultValue {
-  color: #e5e7eb;
-}
-
-.resultSubValue {
-  margin-left: 6px;
-  font-size: 0.8rem;
-  color: #9ca3af;
-}
-
-.resultErrorMessage {
-  margin-top: 4px;
-  color: #fee2e2;
-  font-size: 0.9rem;
-}
-
-/* ===== レスポンシブ ===== */
-@media (max-width: 640px) {
-  .pageRoot {
-    padding: 28px 14px;
+@media (min-width: 768px) {
+  .dateRow {
+    gap: 12px;
   }
 
-  .resultRow {
-    grid-template-columns: 1fr;
+  .pageContainer {
+    padding: 28px 28px 32px;
+  }
+}
+
+/* ===== 日付＋時間の3カラム ===== */
+.rowGroup {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .rowGroup {
+    grid-template-columns: 1.1fr 1fr 1fr;
+  }
+}
+
+/* ===== 遅刻判定 ===== */
+.lateHint {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* ===== ボタン行 ===== */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  margin-top: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* キャンセルリンク */
+.cancelLink {
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.cancelLink:hover {
+  color: #111827;
+}
+
+/* 保存ボタン */
+.submitButton {
+  border: none;
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.submitButton:hover {
+  filter: brightness(1.05);
+  box-shadow:
+    0 14px 30px rgba(14, 165, 233, 0.45),
+    0 0 0 1px rgba(14, 165, 233, 0.25);
+  transform: translateY(-1px);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.25);
+}
+
+/* ===== 日付ホイール ===== */
+.dateWheelRoot {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.18);
+  backdrop-filter: blur(14px);
+}
+
+/* 各ホイール */
+.dateWheelColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.dateWheelLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.dateWheelSelect {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  color: #111827;
+  outline: none;
+  text-align: center;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.18);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.08s ease,
+    background 0.15s ease;
+}
+
+.dateWheelSelect:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 8px 18px rgba(14, 165, 233, 0.25);
+}
+
+.dateWheelSelect:focus {
+  border-color: #0ea5e9;
+  box-shadow:
+    0 0 0 1px rgba(14, 165, 233, 0.6),
+    0 10px 24px rgba(14, 165, 233, 0.35);
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ===== 時間コンボ ===== */
+.timeComboRoot {
+  position: relative;
+}
+
+.timeComboList {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 14px 30px rgba(17, 24, 39, 0.25);
+  overflow-y: auto;
+  z-index: 40;
+}
+
+.timeComboItem {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  color: #111827;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.timeComboItem:hover {
+  background: rgba(14, 165, 233, 0.08);
+}
+
+.timeComboItemActive {
+  background: rgba(14, 165, 233, 0.18);
+  color: #111827;
+}
+
+/* ===== スマホ調整（変更なし） ===== */
+@media (max-width: 480px) {
+  .pageRoot {
+    padding: 24px 12px;
+  }
+
+  .pageContainer {
+    padding: 20px 16px 24px;
+    border-radius: 16px;
+  }
+
+  .dateWheelRoot {
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 14px;
+  }
+
+  .dateWheelLabel {
+    font-size: 0.65rem;
+  }
+
+  .dateWheelSelect {
+    padding: 8px 10px;
+    font-size: 0.85rem;
   }
 }
