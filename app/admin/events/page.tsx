@@ -5,8 +5,6 @@ import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
 import EditEventModal from "./EditEventModal";
 
-
-
 // Prisma のメソッドから Event 型を推論する
 type EventItem = Awaited<ReturnType<typeof prisma.event.findFirstOrThrow>>;
 
@@ -54,6 +52,7 @@ export default async function EventsPage() {
               <thead className={styles.tableHead}>
                 <tr>
                   <th className={styles.th}>イベント名</th>
+                  <th className={`${styles.th} ${styles.thLocation}`}>場所</th>
                   <th className={styles.th}>日付</th>
                   <th className={styles.th}>開始</th>
                   <th className={styles.th}>操作</th>
@@ -68,15 +67,22 @@ export default async function EventsPage() {
                   return (
                     <tr key={event.id} className={styles.tr}>
                       <td className={styles.td}>{event.title}</td>
+
+                      <td className={`${styles.td} ${styles.tdLocation}`}>
+                        {event.location?.trim() ? event.location : "-"}
+                      </td>
+
                       <td className={styles.td}>
                         {event.date.toLocaleDateString("ja-JP")}
                       </td>
+
                       <td className={styles.td}>
                         {event.startAt.toLocaleTimeString("ja-JP", {
                           hour: "2-digit",
                           minute: "2-digit",
                         })}
                       </td>
+
                       <td className={styles.tdActions}>
                         <Link
                           href={`/admin/events/${event.id}/dashboard`}
@@ -107,12 +113,12 @@ export default async function EventsPage() {
                         />
 
                         {/* ★ 削除ボタン */}
-                        <form action={deleteEvent} style={{ display: "inline-block" }}>
+                        <form
+                          action={deleteEvent}
+                          style={{ display: "inline-block" }}
+                        >
                           <input type="hidden" name="eventId" value={event.id} />
-                          <button
-                            type="submit"
-                            className={styles.deleteButton}
-                          >
+                          <button type="submit" className={styles.deleteButton}>
                             削除
                           </button>
                         </form>

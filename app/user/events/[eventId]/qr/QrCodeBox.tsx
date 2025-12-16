@@ -1,7 +1,7 @@
-// app/user/events/[eventId]/qr/QrCodeBox.tsx
 "use client";
 
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeCanvas } from "qrcode.react";
+import styles from "./page.module.css";
 
 type Props = {
   value: string;
@@ -9,8 +9,13 @@ type Props = {
 
 export default function QrCodeBox({ value }: Props) {
   return (
-    <div>
-      <QRCodeSVG value={value} size={260} includeMargin />
+    <div className={styles.qrBox}>
+      <QRCodeCanvas
+        value={value}
+        size={240}
+        includeMargin={true}
+      />
+      <p className={styles.qrUrl}>{value}</p>
     </div>
   );
 }

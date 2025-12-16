@@ -59,6 +59,11 @@ model Event {
   endAt       DateTime
   lateThresholdMinutes Int @default(15)
 
+  location    String?
+
+  
+  heroImageUrl String?
+
   ownerId     String
   owner       AccountUser @relation("EventOwner", fields: [ownerId], references: [id])
 
@@ -67,6 +72,8 @@ model Event {
 
   attendees   EventAttendee[]
 }
+
+
 
 // イベント × 参加者 ＋ QR トークン
 model EventAttendee {

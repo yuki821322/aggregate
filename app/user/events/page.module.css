@@ -96,3 +96,17 @@
   color: #ffffff;
 }
 
+.eventItemLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.eventItem {
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.eventItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+}

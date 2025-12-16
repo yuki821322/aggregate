@@ -1,37 +1,91 @@
-/* ===== ページ全体レイアウト ===== */
+/* ===== ページ全体レイアウト（Webサイトっぽく） ===== */
 .pageRoot {
   min-height: 100vh;
-  padding: 40px 16px;
-  background: #f9fafb;                 /* 白基調 */
+  background: #f9fafb;
   color: #111827;
 }
 
-/* 中央寄せ & カード感 */
-.pageContainer {
-  max-width: 720px;
+/* ===== 上部ヘッダー（サイト感） ===== */
+.pageHeader {
+  padding: 34px 16px 18px;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.65) 100%);
+}
+
+.headerInner {
+  max-width: 980px;
   margin: 0 auto;
-  padding: 24px 20px 28px;
-  border-radius: 20px;
-  background: #ffffff;                 /* 白 */
-  border: 1px solid #e5e7eb;           /* 薄グレー */
-  box-shadow: 0 20px 45px rgba(17, 24, 39, 0.12);
-  backdrop-filter: blur(16px);
 }
 
-/* ===== タイトル ===== */
 .pageTitle {
-  font-size: 1.7rem;
-  font-weight: 600;
+  font-size: 1.9rem;
+  font-weight: 650;
   letter-spacing: -0.03em;
-  color: #e11d48;                      /* 赤 */
-  margin-bottom: 20px;
+  color: #e11d48;
+  margin: 0 0 6px;
 }
 
-/* ===== フォーム全体 ===== */
+.pageSubtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* 戻る導線 */
+.backLinkRow {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.backLink {
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.9);
+  transition: color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.backLink:hover {
+  color: #111827;
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+}
+
+/* ===== 本文 ===== */
+.pageContainer {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 22px 16px 56px;
+}
+
+/* ===== フォーム：縦積み ===== */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
+}
+
+/* ===== セクション（白い面） ===== */
+.section {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.08);
+}
+
+.sectionTitle {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: 0.02em;
 }
 
 /* ===== 各フィールド共通 ===== */
@@ -39,6 +93,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-bottom: 14px;
 }
 
 .label {
@@ -48,11 +103,11 @@
 }
 
 .requiredMark {
-  color: #e11d48;                      /* 赤 */
+  color: #e11d48;
   margin-left: 4px;
 }
 
-/* 入力系コンポーネント共通スタイル */
+/* 入力系（共通） */
 .input,
 .textarea {
   width: 100%;
@@ -63,10 +118,7 @@
   font-size: 0.9rem;
   color: #111827;
   outline: none;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease,
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease,
     transform 0.08s ease;
 }
 
@@ -77,109 +129,19 @@
 
 .input:focus,
 .textarea:focus {
-  border-color: #ff3b3b;               /* 赤 */
-  box-shadow:
-    0 0 0 1px rgba(255, 59, 59, 0.6),
-    0 10px 24px rgba(17, 24, 39, 0.15);
+  border-color: #ff3b3b;
+  box-shadow: 0 0 0 1px rgba(255, 59, 59, 0.6),
+    0 10px 24px rgba(17, 24, 39, 0.12);
   background: #ffffff;
   transform: translateY(-1px);
 }
 
 .textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 90px;
 }
 
-/* ===== 日付（年・月・日） ===== */
-.dateRow {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-@media (min-width: 768px) {
-  .dateRow {
-    gap: 12px;
-  }
-
-  .pageContainer {
-    padding: 28px 28px 32px;
-  }
-}
-
-/* ===== 日付＋時間の3カラム ===== */
-.rowGroup {
-  display: grid;
-  gap: 16px;
-}
-
-@media (min-width: 768px) {
-  .rowGroup {
-    grid-template-columns: 1.1fr 1fr 1fr;
-  }
-}
-
-/* ===== 遅刻判定 ===== */
-.lateHint {
-  margin-top: 4px;
-  font-size: 0.75rem;
-  color: #6b7280;
-}
-
-/* ===== ボタン行 ===== */
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 12px;
-  padding-top: 16px;
-  margin-top: 10px;
-  border-top: 1px solid #e5e7eb;
-}
-
-/* キャンセルリンク */
-.cancelLink {
-  font-size: 0.85rem;
-  color: #6b7280;
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.cancelLink:hover {
-  color: #111827;
-}
-
-/* 保存ボタン */
-.submitButton {
-  border: none;
-  border-radius: 999px;
-  padding: 9px 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #ffffff;
-  background: linear-gradient(135deg, #ff3b3b, #e11d48);
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(255, 59, 59, 0.35);
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-
-.submitButton:hover {
-  filter: brightness(1.05);
-  box-shadow:
-    0 14px 30px rgba(255, 59, 59, 0.45),
-    0 0 0 1px rgba(255, 59, 59, 0.25);
-  transform: translateY(-1px);
-}
-
-.submitButton:active {
-  transform: translateY(0);
-  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.25);
-}
-
-/* ===== 日付ホイール全体 ===== */
+/* ===== 日付ホイール（そのまま） ===== */
 .dateWheelRoot {
   display: flex;
   gap: 10px;
@@ -187,11 +149,10 @@
   border-radius: 16px;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.18);
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.14);
   backdrop-filter: blur(14px);
 }
 
-/* ===== 各ホイールのカラム ===== */
 .dateWheelColumn {
   flex: 1;
   display: flex;
@@ -207,7 +168,6 @@
   color: #6b7280;
 }
 
-/* セレクト（ホイール） */
 .dateWheelSelect {
   width: 100%;
   border-radius: 999px;
@@ -223,29 +183,25 @@
   -webkit-appearance: none;
   -moz-appearance: none;
 
-  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.18);
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.08s ease,
+  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.16);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.08s ease,
     background 0.15s ease;
 }
 
 .dateWheelSelect:hover {
   border-color: #ff5a5a;
-  box-shadow: 0 8px 18px rgba(255, 59, 59, 0.25);
+  box-shadow: 0 8px 18px rgba(255, 59, 59, 0.22);
 }
 
 .dateWheelSelect:focus {
   border-color: #ff3b3b;
-  box-shadow:
-    0 0 0 1px rgba(255, 59, 59, 0.6),
-    0 10px 24px rgba(255, 59, 59, 0.35);
+  box-shadow: 0 0 0 1px rgba(255, 59, 59, 0.6),
+    0 10px 24px rgba(255, 59, 59, 0.3);
   background: #ffffff;
   transform: translateY(-1px);
 }
 
-/* ===== 時間コンボボックス ===== */
+/* ===== 時間コンボ（そのまま） ===== */
 .timeComboRoot {
   position: relative;
 }
@@ -284,29 +240,376 @@
   color: #111827;
 }
 
-/* ===== スマホ調整（変更なし） ===== */
+/* 開始/終了だけは “見やすく横並び” にする（スマホは縦） */
+.timeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 640px) {
+  .timeRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== ヒント類 ===== */
+.hint {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.75rem;
+  background: rgba(17, 24, 39, 0.06);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+/* ===== 遅刻判定 ===== */
+.lateHint {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* ===== アクション ===== */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  margin-top: 6px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.cancelLink {
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.cancelLink:hover {
+  color: #111827;
+}
+
+.submitButton {
+  border: none;
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff3b3b, #e11d48);
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(255, 59, 59, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.submitButton:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 14px 30px rgba(255, 59, 59, 0.45),
+    0 0 0 1px rgba(255, 59, 59, 0.25);
+  transform: translateY(-1px);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.25);
+}
+
+/* =========================================================
+   ここから下：ヒーロー画像アップロード（正方形・水色・小さめ）
+   ========================================================= */
+
+/* 送信用inputは隠す */
+.heroFileInputHidden {
+  display: none;
+}
+
+/* ヒーローセクション見出し */
+.heroSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heroLabelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heroLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.heroChangeButton {
+  font-size: 0.8rem;
+  color: #0284c7;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.heroChangeButton:hover {
+  text-decoration: underline;
+}
+
+/* ===== クリックできるプレビュー（正方形・★小さめ） ===== */
+.heroBar {
+  width: 100%;
+  max-width: 260px;     /* ★ここで小さく（240〜300で調整可） */
+  margin: 0 auto;       /* ★中央寄せ */
+  aspect-ratio: 1 / 1;  /* ★正方形 */
+  border: 1px dashed #bae6fd;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+  transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.heroBar:hover {
+  transform: translateY(-1px);
+  border-color: #38bdf8;
+  box-shadow: 0 14px 30px rgba(14, 165, 233, 0.25);
+}
+
+.heroBarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ★中央トリミング */
+  display: block;
+}
+
+.heroBarEmpty {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  text-align: center;
+  background: linear-gradient(135deg, #f0f9ff, #ffffff);
+  color: #64748b;
+}
+
+.heroBarEmptyTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0284c7;
+}
+
+.heroBarEmptyText {
+  font-size: 0.8rem;
+  color: rgba(2, 132, 199, 0.75);
+}
+
+/* ===== モーダル ===== */
+.heroModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+  padding: 18px;
+}
+
+.heroModal {
+  width: min(720px, 100%);
+  max-height: min(80vh, 720px);
+  overflow: auto;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e0f2fe;
+  box-shadow: 0 20px 60px rgba(14, 165, 233, 0.25);
+}
+
+.heroModalHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.heroModalTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0284c7;
+}
+
+.heroModalClose {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* ===== モーダル中身 ===== */
+.heroModalBody {
+  padding: 14px 16px 16px;
+}
+
+.heroModalPreview {
+  width: 100%;
+  max-width: 420px;       /* ★モーダルは見やすいサイズ */
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;    /* ★正方形 */
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow: 0 12px 26px rgba(17, 24, 39, 0.12);
+}
+
+.heroModalPreviewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ★中央トリミング */
+  display: block;
+}
+
+.heroModalPreviewEmpty {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+/* ===== モーダル操作（小さめ・主張弱め・水色） ===== */
+.heroModalActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.heroMiniButton {
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  background: rgba(14, 165, 233, 0.08);
+  color: #0284c7;
+  border-radius: 999px;
+  padding: 6px 10px; /* 小さく */
+  cursor: pointer;
+  font-size: 0.8rem; /* 小さく */
+  font-weight: 500; /* 主張弱め */
+}
+
+.heroMiniButtonGhost {
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  background: #fff;
+  color: #0284c7;
+  border-radius: 999px;
+  padding: 6px 10px; /* 小さく */
+  cursor: pointer;
+  font-size: 0.8rem; /* 小さく */
+  font-weight: 500;
+}
+
+.heroModalHelp {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+/* ===== レスポンシブ ===== */
 @media (max-width: 480px) {
-  .pageRoot {
-    padding: 24px 12px;
+  .pageHeader {
+    padding: 24px 12px 14px;
   }
 
   .pageContainer {
-    padding: 20px 16px 24px;
-    border-radius: 16px;
+    padding: 18px 12px 44px;
   }
 
-  .dateWheelRoot {
-    gap: 6px;
-    padding: 8px 10px;
-    border-radius: 14px;
+  .pageTitle {
+    font-size: 1.55rem;
   }
 
-  .dateWheelLabel {
-    font-size: 0.65rem;
+  .heroBar {
+    max-width: 220px; /* ★スマホはさらに小さく */
+  }
+}
+
+/* ===== ファイル選択UI（画像のような行） ===== */
+.fileRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filePickBtn {
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  background: rgba(14, 165, 233, 0.08);
+  color: #0284c7;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.fileNameBox {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== 基本情報：左（入力）＋右（画像） ===== */
+.basicInfoGrid {
+  display: grid;
+  grid-template-columns: 1fr 320px; /* 右側の幅 */
+  gap: 18px;
+  align-items: start;
+}
+
+/* 左は縦積み（既存.fieldがあるので特に何もしなくてOK） */
+.basicInfoLeft {
+  min-width: 0;
+}
+
+/* 右：画像エリア */
+.basicInfoRight {
+  position: sticky;
+  top: 12px;            /* スクロールしても見失いにくい（不要なら消してOK） */
+  min-width: 0;
+}
+
+/* スマホは縦に並べる */
+@media (max-width: 900px) {
+  .basicInfoGrid {
+    grid-template-columns: 1fr;
   }
 
-  .dateWheelSelect {
-    padding: 8px 10px;
-    font-size: 0.85rem;
+  .basicInfoRight {
+    position: static;
   }
 }

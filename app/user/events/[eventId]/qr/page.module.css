@@ -1,0 +1,60 @@
+.pageRoot {
+  min-height: 100vh;
+  background: #f5f5f5;
+  color: #111827;
+  padding: 28px 16px;
+}
+
+.pageContainer {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.eventName {
+  color: #4b5563;
+  margin-bottom: 16px;
+}
+
+.qrWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 12px;
+}
+
+.qrBox {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.qrUrl {
+  font-size: 0.78rem;
+  color: #6b7280;
+  word-break: break-all;
+  max-width: 520px;
+  text-align: center;
+}
+
+.qrNote {
+  color: #4b5563;
+  margin-top: 10px;
+  line-height: 1.7;
+}
+
+.errorMessage {
+  background: #fff;
+  border: 1px solid #fecaca;
+  color: #7f1d1d;
+  border-radius: 14px;
+  padding: 14px 16px;
+}

@@ -277,3 +277,21 @@
     transform: translateY(0);
   }
 }
+
+/* ★追加：場所列の見た目（崩れ防止） */
+.thLocation {
+  width: 22%;
+}
+
+.tdLocation {
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* ★追加：補足テキスト */
+.hint {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
