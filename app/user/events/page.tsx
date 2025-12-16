@@ -1,19 +1,29 @@
 // app/user/events/page.tsx
-export const dynamic = "force-dynamic"; 
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import styles from "./page.module.css";
 
+// ==============================
+// 仮：ログイン実装までの暫定
+// ==============================
 async function getCurrentParticipantId(): Promise<string> {
   // TODO: ログイン実装に合わせて変更
   return "dummy-participant-id";
 }
 
+// ==============================
+// QRトークン生成
+// ==============================
 function generateQrToken(): string {
-  const random = crypto.randomUUID();
-  return random.replace(/-/g, "");
+  // node環境でOK（server action内で使う）
+  return crypto.randomUUID().replace(/-/g, "");
 }
 
+// ==============================
+// 参加（server action）
+// ==============================
 async function joinEvent(formData: FormData) {
   "use server";
 
@@ -22,15 +32,16 @@ async function joinEvent(formData: FormData) {
 
   const participantId = await getCurrentParticipantId();
 
+  // すでに参加済みなら作らない
   const existing = await prisma.eventAttendee.findFirst({
-    where: {
-      eventId,
-      participantId,
-    },
+    where: { eventId, participantId },
+    select: { id: true },
   });
 
   if (!existing) {
     const qrToken = generateQrToken();
+
+    // ※ participantId が実在しないと外部キーで失敗する可能性あり
     await prisma.eventAttendee.create({
       data: {
         eventId,
@@ -44,34 +55,32 @@ async function joinEvent(formData: FormData) {
   redirect(`/user/events/${eventId}/qr`);
 }
 
+// ==============================
+// ページ本体
+// ==============================
 export default async function UserEventsPage() {
   const participantId = await getCurrentParticipantId();
 
-  // ① イベント一覧（例：今日以降のもの）
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
+  // ① イベント一覧（まずは全件表示で切り分け）
+  //    ※「今日以降だけ」にしたい場合は、下の where を復活してOK
   const events = await prisma.event.findMany({
-    where: {
-      date: {
-        gte: today,
-      },
-    },
-    orderBy: {
-      date: "asc",
-    },
+    // where: { startAt: { gte: new Date() } }, // ←必要なら後でON
+    orderBy: { startAt: "asc" },
   });
 
-  // ② 参加状況をまとめて取得
-  const attendees = await prisma.eventAttendee.findMany({
-    where: {
-      participantId,
-      eventId: { in: events.map((e) => e.id) },
-    },
-  });
+  // ② 参加状況をまとめて取得（events が0件でも安全）
+  const attendees =
+    events.length === 0
+      ? []
+      : await prisma.eventAttendee.findMany({
+          where: {
+            participantId,
+            eventId: { in: events.map((e) => e.id) },
+          },
+          select: { eventId: true },
+        });
 
-  const joinedMap = new Map<string, boolean>();
-  attendees.forEach((a) => joinedMap.set(a.eventId, true));
+  const joinedSet = new Set(attendees.map((a) => a.eventId));
 
   return (
     <main className={styles.pageRoot}>
@@ -81,28 +90,31 @@ export default async function UserEventsPage() {
         </header>
 
         {events.length === 0 && (
-          <p className={styles.emptyMessage}>
-            現在、参加可能なイベントはありません。
-          </p>
+          <p className={styles.emptyMessage}>現在、参加可能なイベントはありません。</p>
         )}
 
         {events.length > 0 && (
           <section className={styles.listSection}>
             <ul className={styles.eventList}>
               {events.map((event) => {
-                const isJoined = joinedMap.get(event.id) ?? false;
+                const isJoined = joinedSet.has(event.id);
 
                 return (
                   <li key={event.id} className={styles.eventItem}>
                     <div className={styles.eventInfo}>
                       <h2 className={styles.eventTitle}>{event.title}</h2>
+
                       <p className={styles.eventMeta}>
-                        {event.date.toLocaleDateString("ja-JP")}{" "}
+                        {event.startAt.toLocaleDateString("ja-JP")}{" "}
                         {event.startAt.toLocaleTimeString("ja-JP", {
                           hour: "2-digit",
                           minute: "2-digit",
                         })}
                       </p>
+
+                      {event.description && (
+                        <p className={styles.eventDesc}>{event.description}</p>
+                      )}
                     </div>
 
                     <div className={styles.eventActions}>
@@ -115,15 +127,8 @@ export default async function UserEventsPage() {
                         </a>
                       ) : (
                         <form action={joinEvent}>
-                          <input
-                            type="hidden"
-                            name="eventId"
-                            value={event.id}
-                          />
-                          <button
-                            type="submit"
-                            className={styles.joinButton}
-                          >
+                          <input type="hidden" name="eventId" value={event.id} />
+                          <button type="submit" className={styles.joinButton}>
                             参加する
                           </button>
                         </form>

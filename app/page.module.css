@@ -1049,3 +1049,283 @@
     opacity: 0.28;
   }
 }
+/* =========================
+   グローバルナビ（追加）
+========================= */
+.globalNav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navLink {
+  font-size: 0.82rem;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.navLink:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.10);
+  border-color: #d1d5db;
+}
+
+.navLinkUser {
+  border-color: rgba(230, 0, 18, 0.20);
+}
+
+.navLinkAdmin {
+  border-color: rgba(14, 165, 233, 0.24);
+}
+
+/* =========================
+   ヒーロー文言（追加）
+========================= */
+.heroCopy {
+  margin-top: 22px;
+  max-width: 880px;
+  padding: 0 18px;
+}
+
+.heroLead {
+  margin: 0;
+  text-align: center;
+  font-size: 0.98rem;
+  line-height: 1.9;
+  color: #374151;
+}
+
+.heroLeadStrong {
+  color: #111827;
+  font-weight: 700;
+}
+
+/* =========================
+   Role 선택（追加：User/Admin並列）
+========================= */
+.roleSection {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.roleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.roleCard {
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 18px 18px 20px;
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+}
+
+.roleCardUser {
+  border-color: rgba(230, 0, 18, 0.22);
+}
+
+.roleCardAdmin {
+  border-color: rgba(14, 165, 233, 0.24);
+}
+
+.roleHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.roleTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.roleBadgeUser,
+.roleBadgeAdmin {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-weight: 800;
+}
+
+.roleBadgeUser {
+  color: #e60012;
+  border-color: rgba(230, 0, 18, 0.25);
+}
+
+.roleBadgeAdmin {
+  color: #0284c7;
+  border-color: rgba(14, 165, 233, 0.30);
+}
+
+.roleList {
+  margin: 0 0 14px 18px;
+  padding: 0;
+  color: #4b5563;
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.roleButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* role buttons（色分け） */
+.rolePrimary,
+.roleSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease, border-color 0.12s ease;
+}
+
+.rolePrimary {
+  padding: 10px 18px;
+  color: #ffffff;
+  border: none;
+}
+
+.roleSecondary {
+  padding: 9px 16px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
+
+.rolePrimary:hover,
+.roleSecondary:hover {
+  transform: translateY(-1px);
+}
+
+/* User（赤×白） */
+.rolePrimaryUser {
+  background: #e60012;
+  box-shadow: 0 6px 18px rgba(230, 0, 18, 0.30);
+}
+
+.roleSecondaryUser {
+  border-color: rgba(230, 0, 18, 0.22);
+}
+
+/* Admin（水色×白） */
+.rolePrimaryAdmin {
+  background: #0ea5e9;
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+}
+
+.roleSecondaryAdmin {
+  border-color: rgba(14, 165, 233, 0.28);
+}
+
+/* =========================
+   SERVICE: User/Adminの並列ブロック（追加）
+========================= */
+.dualGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin-top: 18px;
+}
+
+.dualBlock {
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 18px 18px 20px;
+}
+
+.dualTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.dualTagUser {
+  color: #e60012;
+  border-color: rgba(230, 0, 18, 0.25);
+}
+
+.dualTagAdmin {
+  color: #0284c7;
+  border-color: rgba(14, 165, 233, 0.30);
+}
+
+.dualLead {
+  margin: 0 0 14px 0;
+  color: #4b5563;
+  line-height: 1.8;
+  font-size: 0.92rem;
+}
+
+/* =========================
+   CTA（User/Adminを並列に）
+========================= */
+.ctaDualButtons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.ctaCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 既存 primaryButton/secondaryButton を「色だけ」拡張 */
+.primaryButtonUser {
+  background: #e60012;
+  box-shadow: 0 4px 12px rgba(230, 0, 18, 0.45);
+}
+
+.primaryButtonAdmin {
+  background: #0ea5e9;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.38);
+  animation: none; /* Admin側は落ち着かせたい場合。不要なら消してOK */
+}
+
+.secondaryButtonUser {
+  border-color: rgba(230, 0, 18, 0.22);
+}
+
+.secondaryButtonAdmin {
+  border-color: rgba(14, 165, 233, 0.28);
+}
+
+/* =========================
+   レスポンシブ（追加）
+========================= */
+@media (max-width: 960px) {
+  .roleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaDualButtons {
+    grid-template-columns: 1fr;
+  }
+}
