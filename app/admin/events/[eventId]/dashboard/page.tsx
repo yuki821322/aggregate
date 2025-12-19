@@ -192,7 +192,7 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
                   defaultDate={defaultDate}
                   defaultStartTime={defaultStartTime}
                   defaultEndTime={event.endAt.toTimeString().slice(0, 5)}
-                  defaultLateMinutes={event.lateThresholdMinutes}
+                  defaultHeroImageUrl={event.heroImageUrl}
                 />
 
               </div>

@@ -1,7 +1,7 @@
 // app/admin/events/EditEventModal.tsx
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import modalStyles from "./modal.module.css";
 import { updateEvent } from "./actions";
@@ -13,14 +13,11 @@ type EditEventModalProps = {
   defaultLocation?: string | null;
   defaultDescription?: string | null;
 
-  // "YYYY-MM-DD"
-  defaultDate: string;
+  defaultDate: string; // YYYY-MM-DD
+  defaultStartTime: string; // HH:MM
+  defaultEndTime: string; // HH:MM
 
-  // "HH:MM"
-  defaultStartTime: string;
-  defaultEndTime: string;
-
-  defaultLateMinutes?: number | null;
+  defaultHeroImageUrl?: string | null; // ★追加
 };
 
 export default function EditEventModal({
@@ -31,16 +28,24 @@ export default function EditEventModal({
   defaultDate,
   defaultStartTime,
   defaultEndTime,
-  defaultLateMinutes,
+  defaultHeroImageUrl,
 }: EditEventModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const lateDefault = useMemo(() => {
-    const v = defaultLateMinutes ?? 15;
-    return Number.isFinite(v) ? String(v) : "15";
-  }, [defaultLateMinutes]);
+  // ★ 画像プレビュー（選択中のみ）
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  const shownImage = useMemo(() => {
+    return previewUrl ?? defaultHeroImageUrl ?? null;
+  }, [previewUrl, defaultHeroImageUrl]);
 
   return (
     <>
@@ -60,10 +65,7 @@ export default function EditEventModal({
           aria-label="イベント編集モーダル"
           onClick={() => setIsOpen(false)}
         >
-          <div
-            className={modalStyles.modal}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={modalStyles.modalHeader}>
               <h2 className={modalStyles.title}>イベント情報を編集</h2>
               <button
@@ -83,6 +85,7 @@ export default function EditEventModal({
                   await updateEvent(formData);
                   router.refresh();
                   setIsOpen(false);
+                  setPreviewUrl(null);
                 });
               }}
             >
@@ -99,7 +102,6 @@ export default function EditEventModal({
                 defaultValue={defaultTitle}
                 required
                 className={modalStyles.input}
-                placeholder="例）2025年度 オリエンテーション"
               />
 
               <label className={modalStyles.label}>場所（任意）</label>
@@ -107,7 +109,6 @@ export default function EditEventModal({
                 name="location"
                 defaultValue={defaultLocation ?? ""}
                 className={modalStyles.input}
-                placeholder="例）福岡校 3F 301教室 / オンライン（Zoom）"
               />
 
               <label className={modalStyles.label}>説明（任意）</label>
@@ -116,8 +117,65 @@ export default function EditEventModal({
                 defaultValue={defaultDescription ?? ""}
                 rows={4}
                 className={modalStyles.textarea}
-                placeholder="イベントの概要や補足をメモできます。"
               />
+
+              <hr className={modalStyles.divider} />
+
+              {/* ===== 画像 ===== */}
+              <div className={modalStyles.sectionTitle}>トップ画像</div>
+
+              <div className={modalStyles.heroRow}>
+                <div className={modalStyles.heroPreview}>
+                  {shownImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={shownImage}
+                      alt="イベントのトップ画像プレビュー"
+                      className={modalStyles.heroImg}
+                    />
+                  ) : (
+                    <div className={modalStyles.heroEmpty}>画像なし</div>
+                  )}
+                </div>
+
+                <div className={modalStyles.heroControls}>
+                  <label className={modalStyles.fileLabel}>
+                    画像を変更
+                    <input
+                      type="file"
+                      name="heroImageFile"
+                      accept="image/png,image/jpeg,image/webp,image/gif"
+                      className={modalStyles.fileInput}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) {
+                          setPreviewUrl(null);
+                          return;
+                        }
+                        const url = URL.createObjectURL(file);
+                        setPreviewUrl((prev) => {
+                          if (prev) URL.revokeObjectURL(prev);
+                          return url;
+                        });
+                      }}
+                    />
+                  </label>
+
+                  {previewUrl && (
+                    <button
+                      type="button"
+                      className={modalStyles.fileReset}
+                      onClick={() => setPreviewUrl(null)}
+                    >
+                      選択をやめる
+                    </button>
+                  )}
+
+                  <p className={modalStyles.hint}>
+                    ※画像を選択したときだけ更新されます（未選択なら現状維持）
+                  </p>
+                </div>
+              </div>
 
               <hr className={modalStyles.divider} />
 
@@ -162,20 +220,6 @@ export default function EditEventModal({
                   />
                 </div>
               </div>
-
-              <label className={modalStyles.label}>遅刻判定（分）</label>
-              <input
-                type="number"
-                name="lateMinutes"
-                defaultValue={lateDefault}
-                min={0}
-                step={1}
-                className={modalStyles.input}
-                placeholder="例）15"
-              />
-              <p className={modalStyles.hint}>
-                開始時刻から指定分を超えたら「遅刻」扱いにします。
-              </p>
 
               <div className={modalStyles.buttons}>
                 <button
