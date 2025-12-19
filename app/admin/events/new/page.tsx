@@ -120,10 +120,10 @@ export default function NewEventPage() {
         {/* ★ファイル送信が必要なので form はそのままでOK（Server Actionが受ける） */}
         <form action={createEvent} className={styles.form}>
           <section className={styles.section}>
+            {/* ===== 基本情報 ===== */}
             <h2 className={styles.sectionTitle}>基本情報</h2>
 
             <div className={styles.basicInfoGrid}>
-              {/* 左：入力系 */}
               <div className={styles.basicInfoLeft}>
                 <div className={styles.field}>
                   <label className={styles.label}>
@@ -159,7 +159,6 @@ export default function NewEventPage() {
                 </div>
               </div>
 
-              {/* 右：画像 */}
               <aside className={styles.basicInfoRight}>
                 <EventHeroUpload name="heroImageFile" />
 
@@ -169,10 +168,11 @@ export default function NewEventPage() {
                 </p>
               </aside>
             </div>
-          </section>
 
+            {/* ===== 区切り線（カード内でセクション分け） ===== */}
+            <hr className={styles.sectionDivider} />
 
-          <section className={styles.section}>
+            {/* ===== 日時 ===== */}
             <h2 className={styles.sectionTitle}>日時</h2>
 
             <div className={styles.field}>
@@ -197,25 +197,8 @@ export default function NewEventPage() {
                 <TimeComboSelect name="endTime" />
               </div>
             </div>
-          </section>
 
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>ルール</h2>
-
-            <div className={styles.field}>
-              <label className={styles.label}>遅刻判定（分）</label>
-              <input
-                name="lateMinutes"
-                type="number"
-                min={0}
-                defaultValue={15}
-                className={styles.input}
-              />
-              <p className={styles.lateHint}>
-                開始時刻から何分以降を「遅刻」とみなすかを指定します。
-              </p>
-            </div>
-
+            {/* ===== 区切り線（アクション手前） ===== */}
             <div className={styles.actions}>
               <a href="/admin/events" className={styles.cancelLink}>
                 キャンセル
@@ -226,6 +209,7 @@ export default function NewEventPage() {
             </div>
           </section>
         </form>
+
       </div>
     </main>
   );

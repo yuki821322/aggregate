@@ -10,10 +10,12 @@
 
 /* ===== ページ全体レイアウト（Webサイトっぽく） ===== */
 .pageRoot {
-  min-height: 100vh;
+  height: 100vh;      /* ★ min-height → height */
+  overflow: hidden;  /* ★ 中でスクロールさせない */
   background: #f9fafb;
   color: #111827;
 }
+
 
 /* ===== 上部ヘッダー（サイト感） ===== */
 .pageHeader {
@@ -276,12 +278,6 @@
   border-radius: 8px;
 }
 
-/* ===== 遅刻判定 ===== */
-.lateHint {
-  margin-top: 4px;
-  font-size: 0.75rem;
-  color: #6b7280;
-}
 
 /* ===== アクション ===== */
 .actions {
@@ -583,4 +579,10 @@
   .basicInfoRight {
     position: static;
   }
+}
+
+.sectionDivider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 16px 0 14px;
 }
