@@ -103,3 +103,245 @@
     transform: translateY(0);
   }
 }
+/* ===== Overlay ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  padding: 18px;
+}
+
+/* ===== Modal ===== */
+.modal {
+  background: #ffffff;
+  width: 100%;
+  max-width: 560px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 16px 42px rgba(17, 24, 39, 0.22);
+  animation: fadeIn 0.15s ease-out;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, #ffffff, rgba(2, 132, 199, 0.10));
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 650;
+  margin: 0;
+  color: #075985;
+}
+
+.closeButton {
+  border: 1px solid rgba(2, 132, 199, 0.35);
+  background: #ffffff;
+  color: #075985;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.closeButton:hover {
+  background: rgba(2, 132, 199, 0.12);
+  border-color: rgba(2, 132, 199, 0.75);
+  transform: translateY(-1px);
+}
+
+/* ===== Form ===== */
+.form {
+  padding: 16px 18px 18px;
+}
+
+.sectionTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #0f172a;
+  margin: 6px 0 10px;
+  text-transform: uppercase;
+}
+
+.label {
+  font-size: 0.85rem;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  display: block;
+  font-weight: 600;
+  color: #374151;
+}
+
+.requiredMark {
+  color: #0284c7;
+  font-weight: 800;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  background: #ffffff;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input:focus {
+  border-color: rgba(2, 132, 199, 0.9);
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.14);
+}
+
+.textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  background: #ffffff;
+  color: #111827;
+  outline: none;
+  resize: vertical;
+  min-height: 96px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.textarea:focus {
+  border-color: rgba(2, 132, 199, 0.9);
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.14);
+}
+
+.hint {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 14px 0;
+}
+
+.timeRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.timeCol {
+  min-width: 0;
+}
+
+/* ===== Buttons ===== */
+.buttons {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.saveButton {
+  background: #0ea5e9;
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 650;
+  transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.saveButton:hover {
+  filter: brightness(1.03);
+  box-shadow: 0 14px 30px rgba(2, 132, 199, 0.22);
+  transform: translateY(-1px);
+}
+
+.saveButton:active {
+  transform: translateY(0);
+}
+
+.saveButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.cancelButton {
+  background: #9ca3af;
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.cancelButton:hover {
+  filter: brightness(1.02);
+  transform: translateY(-1px);
+}
+
+.cancelButton:active {
+  transform: translateY(0);
+}
+
+/* ===== Edit button（一覧/ダッシュボードから呼ぶボタン） ===== */
+.editButton {
+  border: 1px solid rgba(2, 132, 199, 0.7);
+  color: #075985;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 650;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+.editButton:hover {
+  background: rgba(2, 132, 199, 0.12);
+  border-color: rgba(2, 132, 199, 1);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 520px) {
+  .timeRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

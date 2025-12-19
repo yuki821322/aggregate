@@ -227,3 +227,158 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* =========================================
+   操作パネル（Actions）
+========================================= */
+.actionsSection {
+  margin-top: 18px;
+  margin-bottom: 24px;
+  border-radius: 18px;
+  padding: 16px;
+  border: 1px solid #dbeafe;
+  background: linear-gradient(135deg, #ffffff, rgba(2, 132, 199, 0.08));
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
+}
+
+.actionsHeader {
+  margin-bottom: 12px;
+}
+
+.actionsTitle {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #075985;
+  letter-spacing: 0.04em;
+}
+
+.actionsSubtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .actionsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* カード（リンク） */
+.actionCard,
+.actionCardPrimary {
+  display: block;
+  text-decoration: none;
+  border-radius: 16px;
+  padding: 14px 14px 12px;
+  border: 1px solid rgba(2, 132, 199, 0.35);
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
+  transition: transform 0.12s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.actionCard:hover,
+.actionCardPrimary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(2, 132, 199, 0.75);
+  box-shadow: 0 18px 36px rgba(2, 132, 199, 0.14);
+  background: rgba(2, 132, 199, 0.06);
+}
+
+.actionCard:active,
+.actionCardPrimary:active {
+  transform: translateY(0);
+}
+
+.actionCardTitle {
+  font-weight: 650;
+  color: #0f172a;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.actionCardHint {
+  font-size: 0.83rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+/* メイン（チェックイン）を強調 */
+.actionCardPrimary {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(14, 165, 233, 0.10));
+  border-color: rgba(2, 132, 199, 0.55);
+}
+
+.actionCardPrimary:hover {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.18), rgba(14, 165, 233, 0.14));
+}
+
+/* インライン枠（編集・削除みたいな “その場操作” ） */
+.actionInline,
+.actionInlineDanger {
+  border-radius: 16px;
+  padding: 14px 14px 12px;
+  background: #ffffff;
+  border: 1px dashed rgba(2, 132, 199, 0.55);
+}
+
+.actionInlineDanger {
+  border-color: rgba(3, 105, 161, 0.55);
+  background: rgba(3, 105, 161, 0.06);
+}
+
+/* 横並び：説明＋ボタン */
+.inlineTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.inlineLabel {
+  font-weight: 650;
+  color: #0f172a;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.inlineHint {
+  font-size: 0.83rem;
+  color: #475569;
+}
+
+/* 削除ボタン（ダッシュボード側） */
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #075985;
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid rgba(2, 132, 199, 0.6);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+
+.deleteButton:hover {
+  background: rgba(2, 132, 199, 0.2);
+  border-color: rgba(2, 132, 199, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(2, 132, 199, 0.14);
+}
+
+.deleteButton:active {
+  transform: translateY(0);
+}
