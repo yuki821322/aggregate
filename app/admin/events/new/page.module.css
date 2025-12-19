@@ -1,3 +1,13 @@
+/* ==============================
+   Theme (水色 × 白)
+============================== */
+:root {
+  --accent: #38bdf8;          /* sky-400 */
+  --accent-strong: #0284c7;   /* sky-600 */
+  --accent-soft: rgba(56, 189, 248, 0.18);
+  --ring: rgba(56, 189, 248, 0.45);
+}
+
 /* ===== ページ全体レイアウト（Webサイトっぽく） ===== */
 .pageRoot {
   min-height: 100vh;
@@ -21,7 +31,7 @@
   font-size: 1.9rem;
   font-weight: 650;
   letter-spacing: -0.03em;
-  color: #e11d48;
+  color: var(--accent-strong); /* ★水色へ */
   margin: 0 0 6px;
 }
 
@@ -48,12 +58,14 @@
   border-radius: 999px;
   border: 1px solid #e5e7eb;
   background: rgba(255, 255, 255, 0.9);
-  transition: color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  transition: color 0.15s ease, border-color 0.15s ease, transform 0.1s ease,
+    box-shadow 0.15s ease;
 }
 
 .backLink:hover {
   color: #111827;
-  border-color: #d1d5db;
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 10px 22px rgba(14, 165, 233, 0.12);
   transform: translateY(-1px);
 }
 
@@ -103,7 +115,7 @@
 }
 
 .requiredMark {
-  color: #e11d48;
+  color: var(--accent-strong); /* ★水色へ */
   margin-left: 4px;
 }
 
@@ -129,9 +141,8 @@
 
 .input:focus,
 .textarea:focus {
-  border-color: #ff3b3b;
-  box-shadow: 0 0 0 1px rgba(255, 59, 59, 0.6),
-    0 10px 24px rgba(17, 24, 39, 0.12);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--ring), 0 10px 24px rgba(17, 24, 39, 0.12);
   background: #ffffff;
   transform: translateY(-1px);
 }
@@ -149,8 +160,8 @@
   border-radius: 16px;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.14);
-  backdrop-filter: blur(14px);
+ box-shadow: none;
+  backdrop-filter: none;
 }
 
 .dateWheelColumn {
@@ -182,21 +193,16 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
-  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.16);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.08s ease,
-    background 0.15s ease;
 }
 
 .dateWheelSelect:hover {
-  border-color: #ff5a5a;
-  box-shadow: 0 8px 18px rgba(255, 59, 59, 0.22);
+  border-color: var(--accent);
+  box-shadow: 0 8px 18px rgba(56, 189, 248, 0.22);
 }
 
 .dateWheelSelect:focus {
-  border-color: #ff3b3b;
-  box-shadow: 0 0 0 1px rgba(255, 59, 59, 0.6),
-    0 10px 24px rgba(255, 59, 59, 0.3);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--ring), 0 10px 24px rgba(56, 189, 248, 0.25);
   background: #ffffff;
   transform: translateY(-1px);
 }
@@ -232,11 +238,11 @@
 }
 
 .timeComboItem:hover {
-  background: rgba(255, 59, 59, 0.08);
+  background: rgba(56, 189, 248, 0.10);
 }
 
 .timeComboItemActive {
-  background: rgba(255, 59, 59, 0.18);
+  background: rgba(56, 189, 248, 0.18);
   color: #111827;
 }
 
@@ -306,16 +312,16 @@
   font-size: 0.9rem;
   font-weight: 500;
   color: #ffffff;
-  background: linear-gradient(135deg, #ff3b3b, #e11d48);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(255, 59, 59, 0.35);
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
   transition: transform 0.1s ease, box-shadow 0.15s ease, filter 0.15s ease;
 }
 
 .submitButton:hover {
-  filter: brightness(1.05);
-  box-shadow: 0 14px 30px rgba(255, 59, 59, 0.45),
-    0 0 0 1px rgba(255, 59, 59, 0.25);
+  filter: brightness(1.04);
+  box-shadow: 0 14px 30px rgba(56, 189, 248, 0.45),
+    0 0 0 1px rgba(56, 189, 248, 0.25);
   transform: translateY(-1px);
 }
 
@@ -354,7 +360,7 @@
 
 .heroChangeButton {
   font-size: 0.8rem;
-  color: #0284c7;
+  color: var(--accent-strong);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -367,9 +373,9 @@
 /* ===== クリックできるプレビュー（正方形・★小さめ） ===== */
 .heroBar {
   width: 100%;
-  max-width: 260px;     /* ★ここで小さく（240〜300で調整可） */
-  margin: 0 auto;       /* ★中央寄せ */
-  aspect-ratio: 1 / 1;  /* ★正方形 */
+  max-width: 260px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
   border: 1px dashed #bae6fd;
   background: #ffffff;
   border-radius: 16px;
@@ -382,14 +388,14 @@
 
 .heroBar:hover {
   transform: translateY(-1px);
-  border-color: #38bdf8;
+  border-color: var(--accent);
   box-shadow: 0 14px 30px rgba(14, 165, 233, 0.25);
 }
 
 .heroBarImg {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ★中央トリミング */
+  object-fit: cover;
   display: block;
 }
 
@@ -407,7 +413,7 @@
 .heroBarEmptyTitle {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #0284c7;
+  color: var(--accent-strong);
 }
 
 .heroBarEmptyText {
@@ -448,7 +454,7 @@
 .heroModalTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: #0284c7;
+  color: var(--accent-strong);
 }
 
 .heroModalClose {
@@ -469,9 +475,9 @@
 
 .heroModalPreview {
   width: 100%;
-  max-width: 420px;       /* ★モーダルは見やすいサイズ */
+  max-width: 420px;
   margin: 0 auto;
-  aspect-ratio: 1 / 1;    /* ★正方形 */
+  aspect-ratio: 1 / 1;
   border-radius: 14px;
   overflow: hidden;
   border: 1px solid #e5e7eb;
@@ -482,7 +488,7 @@
 .heroModalPreviewImg {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ★中央トリミング */
+  object-fit: cover;
   display: block;
 }
 
@@ -507,22 +513,22 @@
 .heroMiniButton {
   border: 1px solid rgba(14, 165, 233, 0.35);
   background: rgba(14, 165, 233, 0.08);
-  color: #0284c7;
+  color: var(--accent-strong);
   border-radius: 999px;
-  padding: 6px 10px; /* 小さく */
+  padding: 6px 10px;
   cursor: pointer;
-  font-size: 0.8rem; /* 小さく */
-  font-weight: 500; /* 主張弱め */
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .heroMiniButtonGhost {
   border: 1px solid rgba(14, 165, 233, 0.25);
   background: #fff;
-  color: #0284c7;
+  color: var(--accent-strong);
   border-radius: 999px;
-  padding: 6px 10px; /* 小さく */
+  padding: 6px 10px;
   cursor: pointer;
-  font-size: 0.8rem; /* 小さく */
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
@@ -547,63 +553,28 @@
   }
 
   .heroBar {
-    max-width: 220px; /* ★スマホはさらに小さく */
+    max-width: 220px;
   }
-}
-
-/* ===== ファイル選択UI（画像のような行） ===== */
-.fileRow {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.filePickBtn {
-  border: 1px solid rgba(14, 165, 233, 0.35);
-  background: rgba(14, 165, 233, 0.08);
-  color: #0284c7;
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.fileNameBox {
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  color: #64748b;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* ===== 基本情報：左（入力）＋右（画像） ===== */
 .basicInfoGrid {
   display: grid;
-  grid-template-columns: 1fr 320px; /* 右側の幅 */
+  grid-template-columns: 1fr 320px;
   gap: 18px;
   align-items: start;
 }
 
-/* 左は縦積み（既存.fieldがあるので特に何もしなくてOK） */
 .basicInfoLeft {
   min-width: 0;
 }
 
-/* 右：画像エリア */
 .basicInfoRight {
   position: sticky;
-  top: 12px;            /* スクロールしても見失いにくい（不要なら消してOK） */
+  top: 12px;
   min-width: 0;
 }
 
-/* スマホは縦に並べる */
 @media (max-width: 900px) {
   .basicInfoGrid {
     grid-template-columns: 1fr;
