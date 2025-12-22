@@ -4,16 +4,14 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import styles from "./page.module.css";
 
-// 既存の編集モーダルを流用（/admin/events にあるやつ）
-import EditEventModal from "@/app/admin/events/EditEventModal";
+import EditCard from "./EditCard";
+import DeleteConfirmCard from "./DeleteConfirmCard";
 
 type DashboardPageProps = {
-  params: Promise<{
-    eventId: string;
-  }>;
+  params: Promise<{ eventId: string }>;
 };
 
-// ★ Server Action: イベント削除（ダッシュボード側に移動）
+// ★ Server Action: イベント削除（ダッシュボード側）
 async function deleteEvent(formData: FormData) {
   "use server";
 
@@ -31,12 +29,9 @@ async function deleteEvent(formData: FormData) {
 export default async function EventDashboardPage({ params }: DashboardPageProps) {
   const { eventId } = await params;
 
-  // イベント情報＋紐づく参加者を取得
   const event = await prisma.event.findUnique({
     where: { id: eventId },
-    include: {
-      attendees: true,
-    },
+    include: { attendees: true },
   });
 
   if (!event) {
@@ -63,46 +58,24 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
     );
   }
 
-  // 表示用（編集モーダル default）
-  const defaultDate = event.date.toISOString().slice(0, 10); // YYYY-MM-DD
-  const defaultStartTime = event.startAt.toTimeString().slice(0, 5); // HH:MM
+  const defaultDate = event.date.toISOString().slice(0, 10);
+  const defaultStartTime = event.startAt.toTimeString().slice(0, 5);
 
-  // 登録済み参加者数
   const attendeeCount = event.attendees.length;
 
-  // ✅ 最近の出席ログ（20件まで）
   const recentLogs = await prisma.attendanceLog.findMany({
-    where: {
-      eventAttendee: {
-        eventId: event.id,
-      },
-    },
+    where: { eventAttendee: { eventId: event.id } },
     orderBy: { checkedAt: "desc" },
     take: 20,
     include: {
-      eventAttendee: {
-        include: {
-          participant: true,
-        },
-      },
+      eventAttendee: { include: { participant: true } },
       handledBy: true,
     },
   });
 
-  // ✅ 出席人数（ユニーク参加者数）
   const logsForCount = await prisma.attendanceLog.findMany({
-    where: {
-      eventAttendee: {
-        eventId: event.id,
-      },
-    },
-    select: {
-      eventAttendee: {
-        select: {
-          participantId: true,
-        },
-      },
-    },
+    where: { eventAttendee: { eventId: event.id } },
+    select: { eventAttendee: { select: { participantId: true } } },
   });
 
   const uniqueParticipantIds = new Set(
@@ -118,12 +91,9 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
   return (
     <main className={styles.pageRoot}>
       <div className={styles.pageContainer}>
-        {/* ヘッダー */}
         <header className={styles.pageHeader}>
           <div className={styles.pageTitleRow}>
             <h1 className={styles.pageTitle}>イベントダッシュボード</h1>
-
-            {/* ✅ 一覧へ戻るだけ残す（操作は下のパネルへ） */}
             <div className={styles.pageHeaderLinks}>
               <Link href="/admin/events" className={styles.backLink}>
                 ← イベント一覧へ戻る
@@ -146,7 +116,7 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
           </div>
         </header>
 
-        {/* ✅ 操作パネル（Actions） */}
+        {/* ✅ 操作パネル */}
         <section className={styles.actionsSection}>
           <div className={styles.actionsHeader}>
             <h2 className={styles.actionsTitle}>操作パネル</h2>
@@ -161,9 +131,7 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
               className={styles.actionCard}
             >
               <div className={styles.actionCardTitle}>参加者管理</div>
-              <div className={styles.actionCardHint}>
-                参加者の一覧・追加・確認
-              </div>
+              <div className={styles.actionCardHint}>参加者の一覧・追加・確認</div>
             </Link>
 
             <Link
@@ -174,50 +142,28 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
               <div className={styles.actionCardHint}>QR 読み取り / 入場受付</div>
             </Link>
 
-            {/* 編集（モーダル） */}
-            <div className={styles.actionInline}>
-              <div className={styles.inlineTop}>
-                <div>
-                  <div className={styles.inlineLabel}>イベント情報の編集</div>
-                  <div className={styles.inlineHint}>
-                    タイトル / 日付 / 開始時刻
-                  </div>
-                </div>
+            {/* ✅ 編集：カード全体クリックでモーダルを開く */}
+            <EditCard
+              eventId={event.id}
+              defaultTitle={event.title}
+              defaultLocation={event.location}
+              defaultDescription={event.description}
+              defaultDate={defaultDate}
+              defaultStartTime={defaultStartTime}
+              defaultEndTime={event.endAt.toTimeString().slice(0, 5)}
+              defaultHeroImageUrl={event.heroImageUrl}
+            />
 
-                <EditEventModal
-                  eventId={event.id}
-                  defaultTitle={event.title}
-                  defaultLocation={event.location}
-                  defaultDescription={event.description}
-                  defaultDate={defaultDate}
-                  defaultStartTime={defaultStartTime}
-                  defaultEndTime={event.endAt.toTimeString().slice(0, 5)}
-                  defaultHeroImageUrl={event.heroImageUrl}
-                />
-
-              </div>
-            </div>
-
-            {/* 削除 */}
-            <div className={styles.actionInlineDanger}>
-              <div className={styles.inlineTop}>
-                <div>
-                  <div className={styles.inlineLabel}>イベント削除</div>
-                  <div className={styles.inlineHint}>削除は取り消せません</div>
-                </div>
-
-                <form action={deleteEvent}>
-                  <input type="hidden" name="eventId" value={event.id} />
-                  <button type="submit" className={styles.deleteButton}>
-                    削除
-                  </button>
-                </form>
-              </div>
-            </div>
+            {/* ✅ 削除：カードクリック→確認モーダル→OKで削除 */}
+            <DeleteConfirmCard
+              eventId={event.id}
+              eventTitle={event.title}
+              action={deleteEvent}
+            />
           </div>
         </section>
 
-        {/* サマリーカード */}
+        {/* サマリー */}
         <section className={styles.statSection}>
           <div className={styles.statGrid}>
             <div className={styles.statCard}>
@@ -259,10 +205,9 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
                     <span className={styles.logName}>
                       {log.eventAttendee.participant?.name ?? "（名前未登録）"}
                     </span>
+
                     <span className={styles.logStatus}>
-                      {log.status === "late"
-                        ? "遅刻"
-                        : log.status === "too_early"
+                      {log.status === "too_early"
                         ? "早すぎ"
                         : log.status === "invalid"
                         ? "無効"
@@ -302,7 +247,6 @@ export default async function EventDashboardPage({ params }: DashboardPageProps)
           )}
         </section>
 
-        {/* 集計・グラフ（あとで実装） */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>集計・グラフ</h2>
           <div className={styles.placeholderBox}>

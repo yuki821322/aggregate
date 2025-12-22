@@ -17,7 +17,14 @@ type EditEventModalProps = {
   defaultStartTime: string; // HH:MM
   defaultEndTime: string; // HH:MM
 
-  defaultHeroImageUrl?: string | null; // ★追加
+  defaultHeroImageUrl?: string | null;
+
+  // ✅ 追加：外部制御（EditCard 用）
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+
+  // ✅ 追加：内部の「編集」ボタンを消す（カードクリックで開くため）
+  hideTrigger?: boolean;
 };
 
 export default function EditEventModal({
@@ -29,6 +36,9 @@ export default function EditEventModal({
   defaultStartTime,
   defaultEndTime,
   defaultHeroImageUrl,
+  open,
+  onOpenChange,
+  hideTrigger,
 }: EditEventModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -47,15 +57,34 @@ export default function EditEventModal({
     return previewUrl ?? defaultHeroImageUrl ?? null;
   }, [previewUrl, defaultHeroImageUrl]);
 
+  // ✅ 外部 open が渡されたら同期（EditCard から制御できる）
+  useEffect(() => {
+    if (typeof open === "boolean") setIsOpen(open);
+  }, [open]);
+
+  const close = () => {
+    setIsOpen(false);
+    onOpenChange?.(false);
+    setPreviewUrl(null);
+  };
+
+  const requestOpen = () => {
+    setIsOpen(true);
+    onOpenChange?.(true);
+  };
+
   return (
     <>
-      <button
-        type="button"
-        className={modalStyles.editButton}
-        onClick={() => setIsOpen(true)}
-      >
-        編集
-      </button>
+      {/* ✅ トリガー（必要な画面だけ表示） */}
+      {!hideTrigger && (
+        <button
+          type="button"
+          className={modalStyles.editButton}
+          onClick={requestOpen}
+        >
+          編集
+        </button>
+      )}
 
       {isOpen && (
         <div
@@ -63,7 +92,7 @@ export default function EditEventModal({
           role="dialog"
           aria-modal="true"
           aria-label="イベント編集モーダル"
-          onClick={() => setIsOpen(false)}
+          onClick={close}
         >
           <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={modalStyles.modalHeader}>
@@ -71,7 +100,7 @@ export default function EditEventModal({
               <button
                 type="button"
                 className={modalStyles.closeButton}
-                onClick={() => setIsOpen(false)}
+                onClick={close}
                 aria-label="閉じる"
               >
                 ×
@@ -84,8 +113,7 @@ export default function EditEventModal({
                 startTransition(async () => {
                   await updateEvent(formData);
                   router.refresh();
-                  setIsOpen(false);
-                  setPreviewUrl(null);
+                  close();
                 });
               }}
             >
@@ -233,7 +261,7 @@ export default function EditEventModal({
                 <button
                   type="button"
                   className={modalStyles.cancelButton}
-                  onClick={() => setIsOpen(false)}
+                  onClick={close}
                   disabled={isPending}
                 >
                   キャンセル
