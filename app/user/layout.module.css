@@ -1,0 +1,9 @@
+/* app/user/layout.module.css */
+.shell {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.content {
+  padding-top: 72px; /* ヘッダー固定分 */
+}

@@ -1,20 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
-import RadialMenu from "./RadialMenu";
-
 import styles from "./page.module.css";
-import { logoutParticipant } from "./actions";
 import { getCurrentParticipant } from "@/lib/auth-participant";
 import { redirect } from "next/navigation";
 
 export default async function UserMyPage() {
-  // 🔹ログイン中の参加者を取得
+  // ✅ mypageは未ログインなら弾く（loginページにもヘッダー出す運用でも、ここは守れる）
   const participant = await getCurrentParticipant();
-
-  // 未ログインならログイン画面へ
-  if (!participant) {
-    redirect("/user/login");
-  }
+  if (!participant) redirect("/user/login");
 
   const name = participant.name || "ゲスト";
   const studentId = participant.studentId || "未登録";
@@ -23,40 +14,16 @@ export default async function UserMyPage() {
 
   return (
     <main className={styles.pageRoot}>
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <Image
-            src="/user-icon/vantan.svg"
-            alt="VANTAN Attendance"
-            width={140}
-            height={32}
-            className={styles.headerLogo}
-          />
-          <span className={styles.headerTitle}>出席管理マイページ</span>
-        </div>
-        <nav className={styles.headerRight}>
-          {/* ログアウトボタン（サーバーアクション） */}
-          <form action={logoutParticipant}>
-            <button type="submit" className={styles.logoutButton}>
-              ログアウト
-            </button>
-          </form>
-        </nav>
-      </header>
-
       <div className={styles.pageContainer}>
         {/* 上段：プロフィール＋サマリー */}
         <section className={styles.topGrid}>
           <div className={styles.profileCard}>
             <div className={styles.profileHeader}>
               <div className={styles.avatar}>
-                {/* 🔹ログイン中ユーザーのイニシャル */}
                 <span className={styles.avatarInitial}>{initial}</span>
               </div>
               <div>
-                {/* 🔹ログイン中ユーザーの名前 */}
                 <h1 className={styles.profileName}>{name}</h1>
-                {/* 🔹学籍番号（なければ「未登録」） */}
                 <p className={styles.profileMeta}>
                   学籍番号：{studentId}
                   {studentId === "未登録" ? "（未登録）" : ""}
@@ -75,11 +42,13 @@ export default async function UserMyPage() {
               <p className={styles.summaryValue}>12</p>
               <p className={styles.summaryHint}>今学期に出席した回数</p>
             </div>
+
             <div className={styles.summaryCard}>
               <p className={styles.summaryLabel}>出席率</p>
               <p className={styles.summaryValue}>92%</p>
               <p className={styles.summaryHint}>欠席 1 / 遅刻 0（サンプル）</p>
             </div>
+
             <div className={styles.summaryCard}>
               <p className={styles.summaryLabel}>本日のイベント</p>
               <p className={styles.summaryValue}>2</p>
@@ -88,7 +57,7 @@ export default async function UserMyPage() {
           </div>
         </section>
 
-        {/* 下段：今日の予定 & 最近の出席履歴（今はサンプルのまま） */}
+        {/* 下段：今日の予定 & 最近の出席履歴 */}
         <section className={styles.bottomGrid}>
           <div className={styles.blockCard}>
             <h2 className={styles.blockTitle}>本日の予定</h2>
@@ -102,6 +71,7 @@ export default async function UserMyPage() {
                 </div>
                 <span className={styles.eventStatusUpcoming}>未出席</span>
               </li>
+
               <li className={styles.eventItem}>
                 <div>
                   <p className={styles.eventName}>チーム制作ゼミ</p>
@@ -124,6 +94,7 @@ export default async function UserMyPage() {
                 </div>
                 <span className={styles.logStatusPresent}>出席</span>
               </li>
+
               <li className={styles.logItem}>
                 <div>
                   <p className={styles.logName}>キャリアガイダンス</p>
@@ -131,6 +102,7 @@ export default async function UserMyPage() {
                 </div>
                 <span className={styles.logStatusPresent}>出席</span>
               </li>
+
               <li className={styles.logItem}>
                 <div>
                   <p className={styles.logName}>特別講演：クリエイターの仕事</p>
@@ -142,7 +114,6 @@ export default async function UserMyPage() {
           </div>
         </section>
       </div>
-      <RadialMenu />
     </main>
   );
 }

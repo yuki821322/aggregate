@@ -1,5 +1,5 @@
 /* =========================================
-   全体
+   全体（mypage本文のみ）
 ========================================= */
 .pageRoot {
   min-height: 100vh;
@@ -7,72 +7,6 @@
   color: #111827;
 }
 
-/* =========================================
-   ヘッダー
-========================================= */
-.header {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 10px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.headerLeft {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.headerLogo {
-  display: block;
-}
-
-.headerTitle {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #4b5563;
-}
-
-.headerRight {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* ヘッダーのボタン */
-.linkButton {
-  padding: 6px 12px;
-  border-radius: 9999px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-  font-size: 0.8rem;
-  color: #111827;
-  text-decoration: none;
-}
-
-.linkButton:hover {
-  background: #f3f4f6;
-}
-
-.logoutButton {
-  padding: 6px 14px;
-  border-radius: 9999px;
-  border: none;
-  font-size: 0.8rem;
-  color: #ffffff;
-  background: #e60012;
-  cursor: pointer;
-}
-
-.logoutButton:hover {
-  filter: brightness(1.03);
-}
-
-/* =========================================
-   コンテナ
-========================================= */
 .pageContainer {
   max-width: 1040px;
   margin: 0 auto;
@@ -144,11 +78,10 @@
 }
 
 .summaryCard {
-  background: #ffffff;
   border-radius: 14px;
   padding: 14px 14px 12px;
   border: 1px solid #fee2e2;
-  background-image: linear-gradient(to bottom right, #fff, #fef2f2);
+  background: linear-gradient(to bottom right, #fff, #fef2f2);
 }
 
 .summaryLabel {
@@ -275,9 +208,7 @@
   color: #b91c1c;
 }
 
-/* =========================================
-   レスポンシブ
-========================================= */
+/* レスポンシブ */
 @media (max-width: 960px) {
   .topGrid {
     grid-template-columns: 1fr;
@@ -291,12 +222,6 @@
 }
 
 @media (max-width: 640px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
   .pageContainer {
     padding: 24px 12px 32px;
   }
@@ -308,158 +233,4 @@
   .summaryGrid {
     grid-template-columns: 1fr 1fr;
   }
-}
-
-/* =========================================
-   ラジアルメニュー（円形ホイール＋ドラッグ移動）
-========================================= */
-
-/* 外側クリック用オーバーレイ（開いているときのみ表示） */
-/* ===== Overlay ===== */
-.radialOverlay {
-  position: fixed;
-  inset: 0;
-  background: transparent;
-  z-index: 40;
-}
-
-/* ===== Root ===== */
-.radialRoot {
-  position: fixed;
-  width: 64px;
-  height: 64px;
-  z-index: 50;
-}
-
-
-/* ===== overlay ===== */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: transparent;
-  border: none;
-  z-index: 40;
-}
-
-/* ===== root ===== */
-.root {
-  position: fixed;
-  width: 64px;
-  height: 64px;
-  z-index: 50;
-}
-
-/* ===== wheel ===== */
-.wheel {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-/* ===== item (CodePen方式) ===== */
-.item {
-  --angle: calc(360deg / var(--count));
-
-  position: absolute;
-  left: 50%;
-  top: 50%;
-
-  width: 72px;
-  height: 72px;
-  border-radius: 9999px;
-
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #020617;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  transform:
-    translate(-50%, -50%)
-    rotate(calc(var(--i) * var(--angle)))
-    translateX(0)
-    rotate(calc(-1 * var(--i) * var(--angle)));
-
-  opacity: 0;
-  transition:
-    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-    opacity 0.3s ease;
-
-  pointer-events: auto;
-}
-
-/* ===== open ===== */
-.open .item {
-  opacity: 1;
-  transform:
-    translate(-50%, -50%)
-    rotate(calc(var(--i) * var(--angle)))
-    translateX(-110px)
-    rotate(calc(-1 * var(--i) * var(--angle)));
-}
-
-/* ===== hover ===== */
-.item:hover {
-  background: #111;
-  color: #fff;
-  transform:
-    translate(-50%, -50%)
-    rotate(calc(var(--i) * var(--angle)))
-    translateX(-120px)
-    rotate(calc(-1 * var(--i) * var(--angle)))
-    scale(1.1);
-}
-
-/* ===== icon & label ===== */
-.icon {
-  font-size: 22px;
-  line-height: 1;
-}
-
-.label {
-  margin-top: 4px;
-  font-size: 11px;
-}
-
-/* ===== toggle ===== */
-.toggle {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 64px;
-  height: 64px;
-  border-radius: 9999px;
-  border: none;
-  background: linear-gradient(145deg, #ff4b4b, #e60012);
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-}
-
-.toggle span {
-  position: absolute;
-  left: 50%;
-  width: 24px;
-  height: 2px;
-  background: #fff;
-  border-radius: 999px;
-  transform: translateX(-50%);
-  transition: 0.2s;
-}
-
-.toggle span:nth-child(1) { top: 22px; }
-.toggle span:nth-child(2) { top: 31px; }
-.toggle span:nth-child(3) { top: 40px; }
-
-.toggleOpen span:nth-child(1) {
-  top: 31px;
-  transform: translateX(-50%) rotate(45deg);
-}
-.toggleOpen span:nth-child(2) {
-  opacity: 0;
-}
-.toggleOpen span:nth-child(3) {
-  top: 31px;
-  transform: translateX(-50%) rotate(-45deg);
 }

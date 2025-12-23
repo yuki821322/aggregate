@@ -1,0 +1,59 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 60;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  display: block;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.title {
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #111827;
+  font-size: 0.95rem;
+}
+
+.sub {
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.logoutButton {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #ef4444;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}

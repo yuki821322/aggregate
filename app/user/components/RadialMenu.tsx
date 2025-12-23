@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import styles from "./page.module.css";
+import styles from "./RadialMenu.module.css";
+
 
 type RadialItem = {
   label: string;
