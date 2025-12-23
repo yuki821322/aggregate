@@ -3,11 +3,8 @@ import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
 import crypto from "crypto";
 import QrCodeBox from "./QrCodeBox"; // ここは実際の配置に合わせて調整
-
 type Props = {
-  params: {
-    eventId: string;
-  };
+  params: { eventId: string };
 };
 
 // ✅ 詳細ページと同じ「ローカル用 participant」
@@ -37,7 +34,7 @@ function generateQrToken(): string {
 }
 
 export default async function EventQrPage({ params }: Props) {
-  const { eventId } = params;
+  const { eventId } = await params;
   const participantId = await getCurrentParticipantId();
 
   const attendee = await prisma.eventAttendee.findFirst({

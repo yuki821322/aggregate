@@ -93,16 +93,14 @@ export default function CheckInPage() {
     await performCheckIn(token);
   };
 
-  const handleScan = async (value: string | string[]) => {
-    if (loading) return; // 連続ヒット防止
+  const handleScan = async (detectedCodes: any[]) => {
+  if (loading) return;
 
-    const v = Array.isArray(value) ? value[0] : value;
-    if (!v) return;
+  const v = detectedCodes?.[0]?.rawValue;
+  if (!v) return;
 
-    // カメラが同じコードを連続で送ってくることがあるので、
-    // 連打防止的にちょっと間引いても良いが、まずはそのまま実行
-    await performCheckIn(v);
-  };
+  await performCheckIn(v);
+};
 
   const handleError = (error: unknown) => {
     console.error("QR scan error:", error);
@@ -158,11 +156,10 @@ export default function CheckInPage() {
           <section className={styles.cameraSection}>
             <div className={styles.cameraContainer}>
               <QrScanner
-                onDecode={handleScan}
+                onScan={handleScan}
                 onError={handleError}
-                constraints={{
-                  facingMode: "environment", // 背面カメラ優先（スマホ時）
-                }}
+                constraints={{ facingMode: "environment" }}
+                paused={loading}   
               />
             </div>
             <p className={styles.cameraNote}>
