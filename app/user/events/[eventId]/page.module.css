@@ -1,41 +1,242 @@
+/* =========================================
+   ページ全体
+========================================= */
 .pageRoot {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: linear-gradient(180deg, #f8fafc 0%, #f5f5f5 60%);
 }
 
 .pageContainer {
   max-width: 720px;
   margin: 0 auto;
-  padding: 32px 16px;
+  padding: 18px 16px 44px;
 }
 
+.notFound {
+  padding: 20px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  color: #111827;
+}
+
+/* =========================================
+   Hero
+========================================= */
+.heroWrap {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  border-radius: 22px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: #e5e7eb;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+.heroImage {
+  object-fit: cover;
+  transform: scale(1.04);
+}
+
+.heroShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+.heroBadge {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #111827;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+}
+
+/* 画像がない時の見た目 */
+.heroFallback {
+  width: 100%;
+  height: 260px;
+  border-radius: 22px;
+  margin-bottom: 18px;
+  background: radial-gradient(circle at 20% 10%, #fff 0%, #f1f5f9 55%, #e5e7eb 100%);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  display: grid;
+  place-items: center;
+}
+
+.heroFallbackInner {
+  text-align: center;
+}
+
+.heroFallbackTitle {
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  color: #111827;
+  font-size: 1.2rem;
+}
+
+.heroFallbackSub {
+  margin-top: 6px;
+  color: #6b7280;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   Title + Meta
+========================================= */
 .title {
-  font-size: 1.6rem;
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: #111827;
+  margin: 0;
+}
+
+.metaBlock {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metaRow,
+.metaRowMuted {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.metaRow {
+  color: #4b5563;
+}
+
+.metaRowMuted {
+  color: #9ca3af;
+}
+
+.metaIcon {
+  font-size: 1rem;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.metaText {
+  word-break: break-word;
+}
+
+/* =========================================
+   Info Card
+========================================= */
+.infoCard {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
+.countRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.countLabel {
+  font-size: 0.9rem;
+  color: #6b7280;
   font-weight: 700;
 }
 
-.meta {
-  margin-top: 6px;
+.countValue {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: #111827;
+}
+
+.countValue strong {
+  font-size: 1.35rem;
+  color: #ef4444;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.countUnit {
+  font-size: 0.95rem;
   color: #6b7280;
+  font-weight: 700;
 }
 
 .description {
-  margin-top: 16px;
-  line-height: 1.8;
+  margin-top: 14px;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: #374151;
+  white-space: pre-wrap;
 }
 
+.descriptionMuted {
+  margin-top: 14px;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: #9ca3af;
+}
+
+/* =========================================
+   CTA
+========================================= */
 .joinArea {
-  margin-top: 32px;
+  position: sticky;
+  bottom: 14px;
+  margin-top: 22px;
+  padding-top: 10px;
 }
 
 .joinButton {
   width: 100%;
   border: none;
   border-radius: 999px;
-  padding: 14px;
-  background: #ef4444;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
   cursor: pointer;
+  box-shadow: 0 12px 28px rgba(239, 68, 68, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.joinButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(239, 68, 68, 0.55);
+}
+
+.joinButton:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 24px rgba(239, 68, 68, 0.4);
+}
+
+.joinHint {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #6b7280;
 }
