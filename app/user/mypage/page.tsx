@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { RadialMenu } from "./RadialMenu";
+import RadialMenu from "./RadialMenu";
+
 import styles from "./page.module.css";
 import { logoutParticipant } from "./actions";
 import { getCurrentParticipant } from "@/lib/auth-participant";
