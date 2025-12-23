@@ -1,6 +1,9 @@
 // app/user/events/page.tsx
 export const dynamic = "force-dynamic";
+
 import Link from "next/link";
+import Image from "next/image";
+import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import styles from "./page.module.css";
@@ -9,7 +12,6 @@ import styles from "./page.module.css";
 // 仮：ログイン実装までの暫定
 // ==============================
 async function getCurrentParticipantId(): Promise<string> {
-  // ローカル開発専用：固定のテスト参加者を自動作成
   const LOGIN_KEY = "local-dev-user";
 
   let participant = await prisma.participant.findUnique({
@@ -29,17 +31,15 @@ async function getCurrentParticipantId(): Promise<string> {
   return participant.id;
 }
 
-
 // ==============================
-// QRトークン生成
+// QRトークン生成（※このページでは使ってないなら消してOK）
 // ==============================
 function generateQrToken(): string {
-  // node環境でOK（server action内で使う）
   return crypto.randomUUID().replace(/-/g, "");
 }
 
 // ==============================
-// 参加（server action）
+// 参加（server action）（※このページでボタン出さないなら消してOK）
 // ==============================
 async function joinEvent(formData: FormData) {
   "use server";
@@ -49,21 +49,17 @@ async function joinEvent(formData: FormData) {
 
   const participantId = await getCurrentParticipantId();
 
-  // すでに参加済みなら作らない
   const existing = await prisma.eventAttendee.findFirst({
     where: { eventId, participantId },
     select: { id: true },
   });
 
   if (!existing) {
-    const qrToken = generateQrToken();
-
-    // ※ participantId が実在しないと外部キーで失敗する可能性あり
     await prisma.eventAttendee.create({
       data: {
         eventId,
         participantId,
-        qrToken,
+        qrToken: generateQrToken(),
         status: "registered",
       },
     });
@@ -72,20 +68,23 @@ async function joinEvent(formData: FormData) {
   redirect(`/user/events/${eventId}/qr`);
 }
 
-// ==============================
-// ページ本体
-// ==============================
 export default async function UserEventsPage() {
   const participantId = await getCurrentParticipantId();
 
-  // ① イベント一覧（まずは全件表示で切り分け）
-  //    ※「今日以降だけ」にしたい場合は、下の where を復活してOK
+  // ✅ 作成者（owner）も一緒に取得
   const events = await prisma.event.findMany({
-    // where: { startAt: { gte: new Date() } }, // ←必要なら後でON
     orderBy: { startAt: "asc" },
+    include: {
+      owner: {
+        select: {
+          id: true,
+          name: true,
+          avatarUrl: true,
+        },
+      },
+    },
   });
 
-  // ② 参加状況をまとめて取得（events が0件でも安全）
   const attendees =
     events.length === 0
       ? []
@@ -113,34 +112,81 @@ export default async function UserEventsPage() {
         {events.length > 0 && (
           <section className={styles.listSection}>
             <ul className={styles.eventList}>
-          {events.map((event) => (
-            <li key={event.id}>
-              <Link
-                href={`/user/events/${event.id}`}
-                className={styles.eventItemLink}
-              >
-                <article className={styles.eventItem}>
-                  <div className={styles.eventInfo}>
-                    <h2 className={styles.eventTitle}>{event.title}</h2>
+              {events.map((event) => {
+                const owner = event.owner;
 
-                    <p className={styles.eventMeta}>
-                      {event.startAt.toLocaleDateString("ja-JP")}{" "}
-                      {event.startAt.toLocaleTimeString("ja-JP", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
+                return (
+                  <li key={event.id} className={styles.eventLi}>
+                    <Link
+                      href={`/user/events/${event.id}`}
+                      className={styles.eventItemLink}
+                    >
+                      <article className={styles.eventItem}>
+                        {/* ✅ 左：本文 */}
+                        <div className={styles.eventInfo}>
+                          <h2 className={styles.eventTitle}>{event.title}</h2>
 
-                    {event.description && (
-                      <p className={styles.eventDesc}>{event.description}</p>
-                    )}
-                  </div>
-                </article>
-              </Link>
-            </li>
-          ))}
-        </ul>
+                          <p className={styles.eventMeta}>
+                            {event.startAt.toLocaleDateString("ja-JP")}{" "}
+                            {event.startAt.toLocaleTimeString("ja-JP", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
 
+                          {/* ✅ 作成者（アイコン＋名前） */}
+                          <div className={styles.ownerRow}>
+                            <div className={styles.ownerAvatar}>
+                              {owner.avatarUrl ? (
+                                <Image
+                                  src={owner.avatarUrl}
+                                  alt="作成者アイコン"
+                                  fill
+                                  className={styles.ownerAvatarImg}
+                                />
+                              ) : (
+                                <span className={styles.ownerAvatarFallback}>
+                                  {(owner.name?.trim()?.[0] ?? "A").toUpperCase()}
+                                </span>
+                              )}
+                            </div>
+
+                            <p className={styles.ownerName}>
+                              作成：{owner.name ?? "管理者"}
+                            </p>
+
+                            {joinedSet.has(event.id) && (
+                              <span className={styles.joinedBadge}>参加済み</span>
+                            )}
+                          </div>
+
+                          {event.location && (
+                            <p className={styles.locationLine}>
+                              📍 {event.location}
+                            </p>
+                          )}
+
+                          {event.description && (
+                            <p className={styles.eventDesc}>{event.description}</p>
+                          )}
+                        </div>
+                      </article>
+                    </Link>
+
+                    {/* ✅ もし一覧から参加させたいなら（任意）
+                        詳細ページで参加させるならこのブロックは削除でOK */}
+                    {/*
+                    <form action={joinEvent} className={styles.joinInline}>
+                      <input type="hidden" name="eventId" value={event.id} />
+                      <button className={styles.joinButton} type="submit">
+                        参加する
+                      </button>
+                    </form>
+                    */}
+                  </li>
+                );
+              })}
+            </ul>
           </section>
         )}
       </div>

@@ -38,8 +38,8 @@ export default function RadialMenu() {
     const size = 64;
     const margin = 24;
     setPosition({
-      x:1500,
-      y: 130,
+      x:1490,
+      y: 180,
     });
   }, []);
 

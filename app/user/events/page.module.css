@@ -3,6 +3,7 @@
 .pageRoot {
   min-height: 100vh;
   background: #f5f5f5;
+  color: #111827;
 }
 
 .pageContainer {
@@ -110,3 +111,105 @@
   transform: translateY(-2px);
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
 }
+.eventLi {
+  list-style: none;
+}
+
+.ownerRow {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ownerAvatar {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  flex: 0 0 auto;
+}
+
+.ownerAvatarImg {
+  object-fit: cover;
+}
+
+.ownerAvatarFallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #e60012, #ff8b8b);
+}
+
+.ownerName {
+  font-size: 0.82rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+.joinedBadge {
+  margin-left: auto;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #ecfdf3;
+  color: #166534;
+  border: 1px solid rgba(22, 101, 52, 0.25);
+}
+
+.locationLine {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: #374151;
+}
+.meta {
+  margin-top: 6px;
+  color: #111827;   /* ← ここを黒に */
+  opacity: 0.86;    /* ← “黒だけど少し控えめ” にしたい場合 */
+}
+
+/* 参加人数：黒 */
+.count {
+  margin-top: 10px;
+  color: #111827;
+}
+
+/* 説明：黒 */
+.description {
+  margin-top: 16px;
+  line-height: 1.8;
+  color: #111827;   /* ← ここも黒に */
+}
+
+/* 場所を出してるなら（location） */
+.location {
+  margin-top: 10px;
+  color: #111827;
+  opacity: 0.9;
+}
+
+/* 参加ボタンはそのままでOK */
+.joinArea {
+  margin-top: 32px;
+}
+
+.joinButton {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 14px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+
+
