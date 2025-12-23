@@ -3,27 +3,7 @@ import styles from "./page.module.css";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import crypto from "crypto";
-
-// ローカル用 participant（暫定）
-async function getCurrentParticipantId(): Promise<string> {
-  const LOGIN_KEY = "local-dev-user";
-
-  let participant = await prisma.participant.findUnique({
-    where: { studentId: LOGIN_KEY },
-  });
-
-  if (!participant) {
-    participant = await prisma.participant.create({
-      data: {
-        name: "ローカルテストユーザー",
-        studentId: LOGIN_KEY,
-        passwordHash: "dummy",
-      },
-    });
-  }
-
-  return participant.id;
-}
+import { getCurrentParticipant } from "@/lib/auth-participant"; // ✅追加
 
 function generateQrToken(): string {
   return crypto.randomUUID().replace(/-/g, "");
@@ -35,10 +15,15 @@ async function joinEvent(formData: FormData) {
   const eventId = formData.get("eventId")?.toString();
   if (!eventId) return;
 
-  const participantId = await getCurrentParticipantId();
+  // ✅ ログイン中ユーザーを使う（統一）
+  const participant = await getCurrentParticipant();
+  if (!participant) redirect("/user/login");
+
+  const participantId = participant.id;
 
   const existing = await prisma.eventAttendee.findFirst({
     where: { eventId, participantId },
+    select: { id: true },
   });
 
   if (!existing) {
@@ -62,12 +47,9 @@ export default async function EventDetailPage({
 }) {
   const { eventId } = await params;
 
-  // ★ heroImageUrl / location が Event に存在する想定
   const event = await prisma.event.findUnique({
     where: { id: eventId },
-    include: {
-      _count: { select: { attendees: true } },
-    },
+    include: { _count: { select: { attendees: true } } },
   });
 
   if (!event) {
@@ -93,7 +75,6 @@ export default async function EventDetailPage({
   return (
     <main className={styles.pageRoot}>
       <div className={styles.pageContainer}>
-        {/* ===== Hero ===== */}
         {event.heroImageUrl ? (
           <div className={styles.heroWrap}>
             <Image
@@ -115,7 +96,6 @@ export default async function EventDetailPage({
           </div>
         )}
 
-        {/* ===== Title + Meta ===== */}
         <h1 className={styles.title}>{event.title}</h1>
 
         <div className={styles.metaBlock}>
@@ -139,7 +119,6 @@ export default async function EventDetailPage({
           )}
         </div>
 
-        {/* ===== Info Card ===== */}
         <section className={styles.infoCard}>
           <div className={styles.countRow}>
             <div className={styles.countLabel}>現在の参加人数</div>
@@ -156,15 +135,12 @@ export default async function EventDetailPage({
           )}
         </section>
 
-        {/* ===== CTA ===== */}
         <form action={joinEvent} className={styles.joinArea}>
           <input type="hidden" name="eventId" value={event.id} />
           <button type="submit" className={styles.joinButton}>
             このイベントに参加する
           </button>
-          <p className={styles.joinHint}>
-            参加するとQRページに移動します
-          </p>
+          <p className={styles.joinHint}>参加するとQRページに移動します</p>
         </form>
       </div>
     </main>

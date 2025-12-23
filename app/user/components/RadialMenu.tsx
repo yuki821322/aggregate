@@ -13,9 +13,9 @@ type RadialItem = {
 const ITEMS: RadialItem[] = [
   { label: "ホーム", icon: "🏠", href: "/user/mypage" },
   { label: "出席履歴", icon: "📊", href: "/user/history" },
-  { label: "イベント管理", icon: "📅", href: "/user/events/today" },
+  { label: "イベント管理", icon: "📅", href: "/user/events/management" },
   { label: "プロフィール", icon: "👤", href: "/user/profile" },
-  {label:"イベント一覧",icon:"📅",href: "events"},
+  { label: "イベント一覧", icon: "🗂️", href: "/user/events" }, 
 ];
 
 export default function RadialMenu() {
