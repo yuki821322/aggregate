@@ -1,230 +1,554 @@
-/* ===== ページ全体 ===== */
+/* =========================================
+   ページ全体
+========================================= */
 .pageRoot {
   min-height: 100vh;
-  background: white;
-  color: #0f172a;
-  padding: 40px 20px;
+  background: 
+    radial-gradient(ellipse at top center, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom center, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    #f8fafc;
+  color: #111827;
+  padding: 40px 24px;
+  position: relative;
+}
+
+.pageRoot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(14, 165, 233, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .pageContainer {
-  max-width: 680px;
+  max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
-/* ===== ヘッダー ===== */
+/* =========================================
+   ヘッダー
+========================================= */
 .pageHeader {
-  margin-bottom: 24px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.pageHeaderRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .pageTitle {
-  font-size: 1.7rem;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  color: #0f172a;
-  margin-bottom: 6px;
+  color: #0284c7;
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  background: rgba(14, 165, 233, 0.06);
+  transition: all 0.3s ease;
+}
+
+.backLink:hover {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
 }
 
 .pageSubtitle {
-  font-size: 0.9rem;
-  color: #475569;
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-/* ===== 入力エリア ===== */
-.inputSection {
+/* =========================================
+   カメラトグル
+========================================= */
+.cameraToggleRow {
   margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.cameraButton,
+.cameraButtonActive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 100px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(14, 165, 233, 0.25);
+  background: #ffffff;
+  color: #0284c7;
+}
+
+.cameraButton:hover {
+  background: rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.15);
+}
+
+.cameraButtonActive {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(14, 165, 233, 0.15) 100%);
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.15);
+}
+
+.cameraButtonActive:hover {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0.18) 100%);
+  border-color: rgba(14, 165, 233, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.2);
+}
+
+/* =========================================
+   カメラセクション
+========================================= */
+.cameraSection {
+  margin-bottom: 32px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cameraContainer {
+  background: #000000;
+  border: 3px solid rgba(14, 165, 233, 0.3);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.2);
+  position: relative;
+}
+
+.cameraContainer::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #0ea5e9, #38bdf8, #0ea5e9);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+  z-index: -1;
+  border-radius: 20px;
+  opacity: 0.5;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.cameraNote {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* =========================================
+   入力セクション
+========================================= */
+.inputSection {
+  margin-bottom: 40px;
 }
 
 .form {
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.2);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 24px rgba(14, 165, 233, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(186, 230, 253, 0.9);
-  box-shadow: 0 18px 45px rgba(14, 165, 233, 0.15);
+  gap: 20px;
 }
 
 .label {
-  font-size: 0.85rem;
-  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #475569;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 }
 
 .input {
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(125, 211, 252, 0.9);
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 2px solid rgba(14, 165, 233, 0.2);
   background: #ffffff;
-  color: #0f172a;
-  font-size: 1rem;
+  color: #111827;
+  font-size: 1.05rem;
   outline: none;
+  transition: all 0.3s ease;
 }
 
 .input:focus {
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+  background: rgba(14, 165, 233, 0.02);
+}
+
+.input::placeholder {
+  color: #94a3b8;
 }
 
 .submitButton {
   align-self: flex-end;
-  padding: 8px 16px;
-  border-radius: 999px;
+  padding: 14px 32px;
+  border-radius: 100px;
   border: none;
-  background: linear-gradient(to right, #38bdf8, #60a5fa);
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
   color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1.05rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.1s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
 }
 
 .submitButton:hover:not(:disabled) {
-  opacity: 0.95;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .submitButton:disabled {
-  opacity: 0.6;
-  cursor: default;
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
-/* ===== 結果エリア ===== */
+/* =========================================
+   結果セクション
+========================================= */
 .resultSection {
-  margin-top: 12px;
+  margin-bottom: 40px;
 }
 
 .sectionTitle {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #0f172a;
-  margin-bottom: 10px;
-  display: inline-flex;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 20px;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .sectionTitle::before {
   content: "";
   width: 4px;
-  height: 18px;
-  border-radius: 999px;
-  background: linear-gradient(to bottom, #38bdf8, #60a5fa);
+  height: 28px;
+  border-radius: 100px;
+  background: linear-gradient(to bottom, #0ea5e9, #0284c7);
 }
 
 .placeholderBox {
+  background: #ffffff;
+  border: 2px dashed rgba(14, 165, 233, 0.3);
   border-radius: 16px;
-  padding: 16px 14px;
-  border: 1px dashed rgba(125, 211, 252, 0.9);
-  background: rgba(240, 249, 255, 0.8);
-  font-size: 0.9rem;
-  color: #334155;
+  padding: 48px 32px;
+  text-align: center;
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
 }
 
-/* ===== 結果カード ===== */
+/* =========================================
+   結果カード
+========================================= */
 .resultCardOk,
 .resultCardError {
-  border-radius: 16px;
-  padding: 16px 18px;
-  border: 1px solid rgba(125, 211, 252, 0.9);
-  background: radial-gradient(
-    circle at top left,
-    rgba(56, 189, 248, 0.18),
-    rgba(255, 255, 255, 0.95)
-  );
-  font-size: 0.9rem;
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.3);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.15);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.resultCardOk::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
 }
 
 .resultCardError {
-  border-color: rgba(251, 191, 36, 0.9);
-  background: radial-gradient(
-    circle at top left,
-    rgba(251, 191, 36, 0.2),
-    rgba(255, 255, 255, 0.95)
-  );
+  border-color: rgba(239, 68, 68, 0.3);
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.15);
+}
+
+.resultCardError::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #ef4444, #f87171);
 }
 
 .resultMain {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .resultStatus {
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  background: rgba(56, 189, 248, 0.15);
-  color: #0369a1;
-  border: 1px solid rgba(56, 189, 248, 0.7);
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: rgba(14, 165, 233, 0.12);
+  color: #0284c7;
+  border: 2px solid rgba(14, 165, 233, 0.3);
 }
 
 .resultStatusError {
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  background: rgba(251, 191, 36, 0.2);
-  color: #92400e;
-  border: 1px solid rgba(251, 191, 36, 0.9);
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  border: 2px solid rgba(239, 68, 68, 0.3);
 }
 
 .resultBadge,
 .resultBadgeSecondary {
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.75rem;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .resultBadge {
-  background: rgba(56, 189, 248, 0.15);
-  color: #075985;
-  border: 1px solid rgba(56, 189, 248, 0.7);
+  background: rgba(14, 165, 233, 0.15);
+  color: #0284c7;
+  border: 1px solid rgba(14, 165, 233, 0.3);
 }
 
 .resultBadgeSecondary {
-  background: rgba(226, 232, 240, 0.8);
-  color: #334155;
-  border: 1px solid rgba(203, 213, 225, 0.9);
+  background: rgba(148, 163, 184, 0.15);
+  color: #475569;
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 .resultRow {
   display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 4px 10px;
-  margin-top: 4px;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+}
+
+.resultRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.resultRow:first-child {
+  padding-top: 0;
 }
 
 .resultLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
   color: #64748b;
-  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .resultValue {
-  color: #0f172a;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .resultSubValue {
-  margin-left: 6px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: #64748b;
 }
 
 .resultErrorMessage {
-  margin-top: 4px;
-  color: #92400e;
-  font-size: 0.9rem;
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  color: #dc2626;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-/* ===== レスポンシブ ===== */
-@media (max-width: 640px) {
+/* =========================================
+   レスポンシブ
+========================================= */
+@media (max-width: 768px) {
   .pageRoot {
-    padding: 28px 14px;
+    padding: 24px 16px;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+  }
+
+  .pageHeaderRow {
+    gap: 12px;
+  }
+
+  .form {
+    padding: 24px;
+  }
+
+  .cameraButton,
+  .cameraButtonActive {
+    padding: 12px 24px;
+    font-size: 1rem;
   }
 
   .resultRow {
     grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .resultLabel {
+    font-size: 0.8rem;
+  }
+
+  .resultValue {
+    font-size: 1rem;
+  }
+
+  .resultCardOk,
+  .resultCardError {
+    padding: 24px;
+  }
+
+  .placeholderBox {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .pageSubtitle {
+    font-size: 0.85rem;
+  }
+
+  .cameraButton,
+  .cameraButtonActive {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+
+  .form {
+    padding: 20px;
+  }
+
+  .input {
+    padding: 14px 16px;
+    font-size: 1rem;
+  }
+
+  .submitButton {
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .resultMain {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .resultStatus,
+  .resultStatusError {
+    font-size: 0.85rem;
+    padding: 6px 16px;
+  }
+
+  .resultBadge,
+  .resultBadgeSecondary {
+    font-size: 0.8rem;
+    padding: 5px 12px;
   }
 }

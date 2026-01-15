@@ -1,35 +1,90 @@
-/* ページ全体 */
+/* =========================================
+   ページ全体
+========================================= */
 .pageRoot {
   min-height: 100vh;
-  background: #f9fafb;
+  background: 
+    radial-gradient(ellipse at top right, rgba(14, 165, 233, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
+    #f8fafc;
   color: #111827;
-  padding: 32px 16px;
+  padding: 40px 24px;
+  position: relative;
+}
+
+.pageRoot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(14, 165, 233, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .pageContainer {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
-/* ヘッダー */
+/* =========================================
+   ヘッダー
+========================================= */
 .pageHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 32px;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 2px solid rgba(14, 165, 233, 0.15);
+}
+
+.headerContent {
+  flex: 1;
+}
+
+.headerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(14, 165, 233, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0284c7;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badgeIcon {
+  font-size: 1rem;
 }
 
 .pageTitle {
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px 0;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .pageSubtitle {
-  margin-top: 4px;
-  font-size: 0.9rem;
-  color: #374151;
+  font-size: 1.05rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .userArea {
@@ -37,160 +92,618 @@
   align-items: center;
 }
 
-.userLabel {
-  font-size: 0.85rem;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(14, 165, 233, 0.35);
-  background: rgba(224, 242, 254, 0.8);
-  color: #111827;
-}
-
-/* ===== サマリー ===== */
-
-.summarySection {
-  margin-bottom: 20px;
-}
-
-.summaryCard {
-  border-radius: 16px;
-  padding: 14px 16px 12px;
-  background:
-    radial-gradient(circle at top left, rgba(186, 230, 253, 0.45), transparent 55%),
-    #ffffff;
-  border: 1px solid rgba(14, 165, 233, 0.25);
-  box-shadow: 0 6px 16px rgba(17, 24, 39, 0.08);
-}
-
-.summaryHeader {
+.userBadge {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: rgba(14, 165, 233, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: 100px;
+  transition: all 0.3s ease;
 }
 
-.summaryTitle {
+.userBadge:hover {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.15);
+}
+
+.userIcon {
+  font-size: 1.2rem;
+}
+
+.userLabel {
   font-size: 0.95rem;
-  color: #374151;
+  font-weight: 600;
+  color: #0284c7;
 }
 
-.summaryValue {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #0ea5e9; /* 水色メイン */
+/* =========================================
+   サマリーセクション
+========================================= */
+.summarySection {
+  margin-bottom: 56px;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+/* メインサマリーカード */
+.summaryMainCard {
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 24px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(14, 165, 233, 0.08);
+}
+
+.summaryMainCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.summaryCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.summaryCardIcon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 165, 233, 0.1);
+  border: 2px solid rgba(14, 165, 233, 0.25);
+  border-radius: 16px;
+  color: #0ea5e9;
+}
+
+.summaryCardLabel {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.summaryCardValue {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #0ea5e9;
+  line-height: 1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.summaryUnit {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-left: 4px;
 }
 
 .progressBarOuter {
   position: relative;
-  height: 10px;
-  border-radius: 999px;
-  background: #e5e7eb;
+  height: 12px;
+  border-radius: 100px;
+  background: rgba(14, 165, 233, 0.1);
   overflow: hidden;
+  margin-bottom: 24px;
 }
 
 .progressBarInner {
   height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(to right, #7dd3fc, #38bdf8);
-  transition: width 0.25s ease;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #0ea5e9 0%, #38bdf8 100%);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
 }
 
-.summaryFootRow {
-  margin-top: 8px;
+.progressBarInner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.summaryStats {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.8rem;
-  color: #4b5563;
+  align-items: center;
+  gap: 24px;
 }
 
-.summaryFootItem strong {
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 1.8rem;
+  font-weight: 800;
   color: #111827;
+  line-height: 1;
 }
 
-/* ===== カード ===== */
+.statDivider {
+  width: 1px;
+  height: 40px;
+  background: rgba(14, 165, 233, 0.15);
+}
 
-.gridSection {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+/* サブカード */
+.summarySubCards {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
-.cardLink {
+.summarySubCard {
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(14, 165, 233, 0.06);
+}
+
+.summarySubCard:hover {
+  border-color: rgba(14, 165, 233, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.12);
+}
+
+.subCardIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 165, 233, 0.1);
+  border: 2px solid rgba(14, 165, 233, 0.2);
+  border-radius: 12px;
+  color: #0ea5e9;
+  flex-shrink: 0;
+}
+
+.subCardLabel {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0 0 6px 0;
+  font-weight: 500;
+}
+
+.subCardValue {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  line-height: 1;
+}
+
+.subCardUnit {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 4px;
+  color: #64748b;
+}
+
+/* =========================================
+   メインセクション
+========================================= */
+.mainSection {
+  margin-bottom: 56px;
+}
+
+.sectionHeader {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.sectionSubtitle {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.mainCard {
+  position: relative;
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 24px;
+  padding: 32px;
   text-decoration: none;
   color: inherit;
-}
-
-.card {
-  height: 100%;
-  border-radius: 16px;
-  padding: 16px 16px 14px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
   display: flex;
   flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(14, 165, 233, 0.06);
+}
+
+.mainCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.03) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.mainCard:hover {
+  transform: translateY(-6px);
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 12px 32px rgba(14, 165, 233, 0.15);
+}
+
+.mainCard:hover::before {
+  opacity: 1;
+}
+
+.mainCardGlow {
+  position: absolute;
+  inset: -100px;
+  background: radial-gradient(circle at center, rgba(14, 165, 233, 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.mainCard:hover .mainCardGlow {
+  opacity: 1;
+}
+
+.mainCardIcon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 165, 233, 0.1);
+  border: 2px solid rgba(14, 165, 233, 0.2);
+  border-radius: 18px;
+  color: #0ea5e9;
+  margin-bottom: 20px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mainCard:hover .mainCardIcon {
+  background: rgba(14, 165, 233, 0.15);
+  border-color: rgba(14, 165, 233, 0.4);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.mainCardTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 12px 0;
+}
+
+.mainCardText {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+}
+
+.mainCardList {
+  margin: 0 0 24px 0;
+  padding-left: 20px;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.mainCardList li {
+  margin-bottom: 8px;
+}
+
+.mainCardList li::marker {
+  color: #0ea5e9;
+}
+
+.mainCardAction {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
   gap: 8px;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    border-color 0.12s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0ea5e9;
+  padding-top: 20px;
+  border-top: 2px solid rgba(14, 165, 233, 0.1);
 }
 
-.card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(14, 165, 233, 0.6);
-  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.12);
+.actionArrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
 }
 
-.cardTitle {
-  font-size: 1.05rem;
+.mainCard:hover .actionArrow {
+  transform: translateX(4px);
+}
+
+/* =========================================
+   データベースセクション
+========================================= */
+.databaseSection {
+  margin-bottom: 40px;
+}
+
+.databaseCard {
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 24px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(14, 165, 233, 0.06);
+}
+
+.databaseCard::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.databaseCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.databaseIcon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 165, 233, 0.1);
+  border: 2px solid rgba(14, 165, 233, 0.2);
+  border-radius: 16px;
+  color: #0ea5e9;
+}
+
+.databaseCardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.databaseCardText {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.databaseLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.databaseLink {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(14, 165, 233, 0.03);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.databaseLink:hover {
+  background: rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.25);
+  transform: translateX(8px);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
+}
+
+.databaseLinkDisabled {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(14, 165, 233, 0.02);
+  border: 1px solid rgba(14, 165, 233, 0.08);
+  border-radius: 16px;
+  opacity: 0.5;
+}
+
+.databaseLinkIcon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 165, 233, 0.1);
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 12px;
+  color: #0ea5e9;
+  flex-shrink: 0;
+}
+
+.databaseLinkTitle {
+  font-size: 1rem;
   font-weight: 600;
   color: #111827;
+  margin: 0 0 4px 0;
 }
 
-.cardText {
-  font-size: 0.9rem;
-  color: #374151;
-}
-
-.cardList {
-  margin: 4px 0 6px;
-  padding-left: 18px;
+.databaseLinkDesc {
   font-size: 0.85rem;
-  color: #4b5563;
+  color: #64748b;
+  margin: 0;
 }
 
-.cardList li + li {
-  margin-top: 2px;
+.databaseLinkArrow {
+  margin-left: auto;
+  font-size: 1.5rem;
+  color: #0ea5e9;
+  transition: transform 0.3s ease;
 }
 
-.cardAction {
-  margin-top: auto;
-  font-size: 0.85rem;
-  color: #0284c7;
+.databaseLink:hover .databaseLinkArrow {
+  transform: translateX(4px);
 }
 
-/* インラインリンク */
-.inlineLink {
-  color: #0369a1;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+.comingSoonBadge {
+  margin-left: auto;
+  padding: 6px 12px;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #a855f7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* レスポンシブ */
-@media (max-width: 640px) {
+/* =========================================
+   レスポンシブ
+========================================= */
+@media (max-width: 1024px) {
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mainGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
   .pageRoot {
-    padding: 24px 12px;
+    padding: 24px 16px;
   }
 
   .pageHeader {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
   }
 
-  .gridSection {
+  .pageTitle {
+    font-size: 2rem;
+  }
+
+  .pageSubtitle {
+    font-size: 0.95rem;
+  }
+
+  .summaryCardValue {
+    font-size: 2.5rem;
+  }
+
+  .summaryUnit {
+    font-size: 1.5rem;
+  }
+
+  .summaryStats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .statDivider {
+    display: none;
+  }
+
+  .mainGrid {
     grid-template-columns: 1fr;
+  }
+
+  .summarySubCards {
+    gap: 12px;
+  }
+
+  .databaseCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageTitle {
+    font-size: 1.6rem;
+  }
+
+  .summaryMainCard,
+  .summarySubCard,
+  .mainCard,
+  .databaseCard {
+    padding: 24px;
+  }
+
+  .mainCardIcon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .mainCardTitle {
+    font-size: 1.2rem;
   }
 }

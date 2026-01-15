@@ -1,438 +1,284 @@
-/* ===== ページ全体 ===== */
+/* =========================================
+   ページ全体
+========================================= */
 .pageRoot {
   min-height: 100vh;
-  background: white;
+  background: 
+    radial-gradient(ellipse at top right, rgba(14, 165, 233, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
+    #f8fafc;
   color: #111827;
-  padding: 40px 20px;
+  padding: 40px 24px;
+  position: relative;
+}
+
+.pageRoot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(14, 165, 233, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .pageContainer {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
-/* ===== ヘッダー ===== */
+/* =========================================
+   ヘッダー
+========================================= */
 .pageHeader {
-  margin-bottom: 24px;
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 2px solid rgba(14, 165, 233, 0.15);
 }
 
 .pageTitleRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 12px;
+  gap: 24px;
+  margin-bottom: 24px;
 }
 
 .pageTitle {
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: #111827;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.pageHeaderLinks {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .backLink {
-  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: #0284c7;
   text-decoration: none;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(2, 132, 199, 0.5);
-  background: #ffffff;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  background: rgba(14, 165, 233, 0.06);
+  transition: all 0.3s ease;
 }
 
 .backLink:hover {
-  background: rgba(2, 132, 199, 0.1);
-  border-color: rgba(2, 132, 199, 0.85);
-  transform: translateY(-1px);
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
 }
 
-/* ===== イベント情報 ===== */
+/* イベント情報カード */
 .eventMeta {
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #ffffff, rgba(2, 132, 199, 0.16));
-  border: 1px solid #dbeafe;
-  box-shadow: 0 12px 28px rgba(17, 24, 39, 0.09);
+  padding: 28px 32px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.2);
+  box-shadow: 0 4px 24px rgba(14, 165, 233, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.eventMeta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .eventTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 6px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 16px;
   color: #111827;
+  position: relative;
 }
 
 .eventSubMeta {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 18px;
-  font-size: 0.9rem;
-  color: #1f2937;
+  gap: 8px 24px;
+  font-size: 0.95rem;
+  color: #475569;
+  position: relative;
+}
+
+.eventSubMeta span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(14, 165, 233, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 100px;
+  font-weight: 500;
 }
 
 .eventSubMeta span::before {
   content: "●";
-  display: inline-block;
-  font-size: 0.55rem;
-  margin-right: 6px;
-  color: #0284c7;
-}
-
-/* ===== セクション共通 ===== */
-.section {
-  margin-top: 12px;
-  margin-bottom: 24px;
-}
-
-.sectionTitle {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #111827;
-  margin-bottom: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sectionTitle::before {
-  content: "";
-  width: 4px;
-  height: 18px;
-  border-radius: 999px;
-  background: linear-gradient(to bottom, #0ea5e9, #0284c7);
-}
-
-.placeholderBox {
-  border-radius: 16px;
-  padding: 18px 16px;
-  border: 1px dashed rgba(2, 132, 199, 0.55);
-  background: #ffffff;
-  font-size: 0.9rem;
-  color: #1f2937;
-}
-
-/* ===== イベント未検出 ===== */
-.notice {
-  margin-top: 32px;
-  border-radius: 16px;
-  padding: 18px 20px;
-  border: 1px solid rgba(2, 132, 199, 0.6);
-  background: rgba(2, 132, 199, 0.1);
-}
-
-.noticeTitle {
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #075985;
-}
-
-.noticeText {
-  font-size: 0.9rem;
-  color: #111827;
-}
-
-/* ===== ヘッダー右側リンク ===== */
-.pageHeaderLinks {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+  font-size: 0.6rem;
+  color: #0ea5e9;
 }
 
 /* =========================================
-   操作パネル（Actions）
+   操作パネル
 ========================================= */
 .actionsSection {
-  margin-top: 18px;
-  margin-bottom: 24px;
-  border-radius: 18px;
-  padding: 16px;
-  border: 1px solid #dbeafe;
-  background: linear-gradient(135deg, #ffffff, rgba(2, 132, 199, 0.08));
-  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
+  margin-bottom: 48px;
 }
 
 .actionsHeader {
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 }
 
 .actionsTitle {
-  margin: 0 0 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #075985;
-  letter-spacing: 0.04em;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.actionsTitle::before {
+  content: "";
+  width: 4px;
+  height: 28px;
+  border-radius: 100px;
+  background: linear-gradient(to bottom, #0ea5e9, #0284c7);
 }
 
 .actionsSubtitle {
+  font-size: 0.95rem;
+  color: #64748b;
   margin: 0;
-  font-size: 0.85rem;
-  color: #475569;
+  padding-left: 16px;
 }
 
 .actionsGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 20px;
 }
 
-@media (max-width: 768px) {
-  .actionsGrid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* カード（リンク/ボックス共通） */
+/* アクションカード共通スタイル */
 .actionCard,
-.actionCardPrimary {
+.actionCardPrimary,
+.actionCardButton,
+.actionCardDanger {
   display: block;
   text-decoration: none;
-  border-radius: 16px;
-  padding: 14px 14px 12px;
-  border: 1px solid rgba(2, 132, 199, 0.35);
+  border-radius: 20px;
+  padding: 28px;
   background: #ffffff;
-  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
-  transition: transform 0.12s ease, box-shadow 0.16s ease, border-color 0.16s ease,
-    background 0.16s ease;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.actionCard::before,
+.actionCardPrimary::before,
+.actionCardButton::before,
+.actionCardDanger::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .actionCard:hover,
-.actionCardPrimary:hover {
-  transform: translateY(-2px);
-  border-color: rgba(2, 132, 199, 0.75);
-  box-shadow: 0 18px 36px rgba(2, 132, 199, 0.14);
-  background: rgba(2, 132, 199, 0.06);
+.actionCardPrimary:hover,
+.actionCardButton:hover,
+.actionCardDanger:hover {
+  transform: translateY(-4px);
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 12px 32px rgba(14, 165, 233, 0.15);
+}
+
+.actionCard:hover::before,
+.actionCardPrimary:hover::before,
+.actionCardButton:hover::before {
+  opacity: 1;
 }
 
 .actionCard:active,
-.actionCardPrimary:active {
-  transform: translateY(0);
+.actionCardPrimary:active,
+.actionCardButton:active,
+.actionCardDanger:active {
+  transform: translateY(-2px);
 }
 
-.actionCardTitle {
-  font-weight: 650;
-  color: #0f172a;
-  margin-bottom: 6px;
-  font-size: 0.95rem;
-}
-
-.actionCardHint {
-  font-size: 0.83rem;
-  color: #475569;
-  line-height: 1.45;
-}
-
-/* メイン（チェックイン）を強調 */
+/* プライマリアクションカード（チェックイン） */
 .actionCardPrimary {
-  background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(14, 165, 233, 0.1));
-  border-color: rgba(2, 132, 199, 0.55);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(14, 165, 233, 0.12) 100%);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.actionCardPrimary::before {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, transparent 100%);
 }
 
 .actionCardPrimary:hover {
-  background: linear-gradient(135deg, rgba(2, 132, 199, 0.18), rgba(14, 165, 233, 0.14));
+  border-color: rgba(14, 165, 233, 0.5);
+  box-shadow: 0 12px 32px rgba(14, 165, 233, 0.25);
 }
 
-/* カード内のボタン配置 */
-.actionCardFooter {
-  margin-top: 10px;
-  display: flex;
-  justify-content: flex-end;
+/* ボタンスタイルのアクションカード */
+.actionCardButton {
+  appearance: none;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  text-align: left;
+  width: 100%;
 }
 
-/* 削除カード（danger） */
+/* 削除カード */
 .actionCardDanger {
-  display: block;
-  border-radius: 16px;
-  padding: 14px 14px 12px;
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  background: #ffffff;
-  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
-  transition: transform 0.12s ease, box-shadow 0.16s ease, border-color 0.16s ease,
-    background 0.16s ease;
+  border-color: rgba(239, 68, 68, 0.2);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08);
+}
+
+.actionCardDanger::before {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%);
 }
 
 .actionCardDanger:hover {
-  transform: translateY(-2px);
-  border-color: rgba(239, 68, 68, 0.75);
-  box-shadow: 0 18px 36px rgba(239, 68, 68, 0.14);
-  background: rgba(239, 68, 68, 0.04);
+  border-color: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 12px 32px rgba(239, 68, 68, 0.15);
 }
 
-.actionCardDanger:active {
-  transform: translateY(0);
+.actionCardDanger:hover::before {
+  opacity: 1;
 }
 
-/* 削除ボタン（カードトーンに合わせる） */
-.actionDangerButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #991b1b;
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.55);
-  cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease,
-    box-shadow 0.15s ease;
-  white-space: nowrap;
-}
-
-.actionDangerButton:hover {
-  background: rgba(239, 68, 68, 0.18);
-  border-color: rgba(239, 68, 68, 0.9);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(239, 68, 68, 0.14);
-}
-
-.actionDangerButton:active {
-  transform: translateY(0);
-}
-
-/* ===== サマリカード ===== */
-.statSection {
-  margin-top: 24px;
-  margin-bottom: 24px;
-}
-
-.statGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.statCard {
-  border-radius: 18px;
-  padding: 14px 16px;
-  border: 1px solid #dbeafe;
-  background: linear-gradient(135deg, #ffffff, rgba(2, 132, 199, 0.14));
-  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.statLabel {
-  font-size: 0.8rem;
-  color: #475569;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.statValue {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #0f172a;
-}
-
-.statHint {
-  font-size: 0.75rem;
-  color: #475569;
-}
-
-/* ===== 最近ログ（最低限の見た目） ===== */
-.logList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.logItem {
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 12px 14px;
-  background: #fff;
-}
-
-.logMainRow {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.logName {
-  font-weight: 600;
-  color: #111827;
-}
-
-.logStatus {
-  font-size: 0.85rem;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(2, 132, 199, 0.35);
-  background: rgba(2, 132, 199, 0.08);
-  color: #075985;
-  white-space: nowrap;
-}
-
-.logSubRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  font-size: 0.85rem;
-  color: #475569;
-}
-
-.logTime {
-  color: #111827;
-}
-
-.logCode,
-.logHandledBy,
-.logDevice {
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-}
-
-/* ===== レスポンシブ ===== */
-@media (max-width: 768px) {
-  .pageRoot {
-    padding: 24px 14px;
-  }
-
-  .pageTitleRow {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .statGrid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* ✅ 編集カード：button版（見た目は actionCard と同等） */
-.actionCardButton {
-  appearance: none;
-  border: 1px solid rgba(2, 132, 199, 0.35);
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 14px 14px 12px;
-  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
-  text-align: left;
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.16s ease, border-color 0.16s ease,
-    background 0.16s ease;
-}
-
-.actionCardButton:hover {
-  transform: translateY(-2px);
-  border-color: rgba(2, 132, 199, 0.75);
-  box-shadow: 0 18px 36px rgba(2, 132, 199, 0.14);
-  background: rgba(2, 132, 199, 0.06);
-}
-
-.actionCardButton:active {
-  transform: translateY(0);
-}
-
-/* ✅ 削除：form/ボタンでカード全体クリック（ボタンなし） */
 .actionCardDangerForm {
   margin: 0;
 }
@@ -441,125 +287,512 @@
   width: 100%;
   text-align: left;
   appearance: none;
-  border: 1px solid rgba(239, 68, 68, 0.35);
+  border: 2px solid rgba(239, 68, 68, 0.2);
   background: #ffffff;
-  border-radius: 16px;
-  padding: 14px 14px 12px;
-  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08);
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.16s ease, border-color 0.16s ease,
-    background 0.16s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.actionCardDangerButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .actionCardDangerButton:hover {
-  transform: translateY(-2px);
-  border-color: rgba(239, 68, 68, 0.75);
-  box-shadow: 0 18px 36px rgba(239, 68, 68, 0.14);
-  background: rgba(239, 68, 68, 0.04);
+  transform: translateY(-4px);
+  border-color: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 12px 32px rgba(239, 68, 68, 0.15);
+}
+
+.actionCardDangerButton:hover::before {
+  opacity: 1;
 }
 
 .actionCardDangerButton:active {
+  transform: translateY(-2px);
+}
+
+/* カードコンテンツ */
+.actionCardTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.actionCardHint {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+  position: relative;
+}
+
+.actionCardFooter {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.actionDangerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.actionDangerButton:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+.actionDangerButton:active {
   transform: translateY(0);
 }
 
-/* 送信用フォームは見えない */
-.hiddenForm {
-  display: none;
+/* =========================================
+   統計セクション
+========================================= */
+.statSection {
+  margin-bottom: 48px;
 }
 
-/* =========================
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.statCard {
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.statCard:hover {
+  border-color: rgba(14, 165, 233, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.12);
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+}
+
+.statValue {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #0ea5e9;
+  line-height: 1;
+  position: relative;
+}
+
+.statHint {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  position: relative;
+}
+
+/* =========================================
+   セクション共通
+========================================= */
+.section {
+  margin-bottom: 48px;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sectionTitle::before {
+  content: "";
+  width: 4px;
+  height: 28px;
+  border-radius: 100px;
+  background: linear-gradient(to bottom, #0ea5e9, #0284c7);
+}
+
+.placeholderBox {
+  background: #ffffff;
+  border: 2px dashed rgba(14, 165, 233, 0.25);
+  border-radius: 16px;
+  padding: 40px 32px;
+  font-size: 0.95rem;
+  color: #64748b;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* =========================================
+   ログリスト
+========================================= */
+.logList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.logItem {
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.12);
+  border-radius: 16px;
+  padding: 20px 24px;
+  transition: all 0.3s ease;
+}
+
+.logItem:hover {
+  border-color: rgba(14, 165, 233, 0.25);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.08);
+  transform: translateX(4px);
+}
+
+.logMainRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.logName {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.logStatus {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  background: rgba(14, 165, 233, 0.1);
+  color: #0284c7;
+  white-space: nowrap;
+}
+
+.logSubRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.logTime {
+  font-weight: 600;
+  color: #475569;
+}
+
+.logCode,
+.logHandledBy,
+.logDevice {
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  background: rgba(14, 165, 233, 0.05);
+  font-size: 0.85rem;
+}
+
+/* =========================================
+   通知・エラー
+========================================= */
+.notice {
+  margin-top: 40px;
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.25);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 24px rgba(14, 165, 233, 0.08);
+}
+
+.noticeTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0284c7;
+  margin-bottom: 12px;
+}
+
+.noticeText {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.noticeText code {
+  padding: 2px 8px;
+  background: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 6px;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #0284c7;
+}
+
+/* =========================================
    削除確認モーダル
-========================= */
+========================================= */
 .confirmOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.52);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 60;
-  padding: 18px;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .confirmModal {
-  width: min(520px, 100%);
-  border-radius: 18px;
+  width: min(540px, 100%);
   background: #ffffff;
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  box-shadow: 0 22px 60px rgba(17, 24, 39, 0.22);
-  padding: 18px 18px 16px;
+  border: 2px solid rgba(239, 68, 68, 0.25);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .confirmTitle {
-  font-size: 1.05rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .confirmText {
-  margin: 0 0 14px;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: #374151;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0 0 28px;
 }
 
 .confirmActions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 12px;
+}
+
+.confirmCancel,
+.confirmDelete {
+  appearance: none;
+  border-radius: 100px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .confirmCancel {
-  appearance: none;
-  border: 1px solid #e5e7eb;
+  border: 2px solid rgba(14, 165, 233, 0.2);
   background: #ffffff;
-  color: #111827;
-  border-radius: 999px;
-  padding: 9px 14px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: transform 0.1s ease, background 0.15s ease, border-color 0.15s ease;
+  color: #0284c7;
 }
 
 .confirmCancel:hover {
-  background: #f9fafb;
-  border-color: #d1d5db;
-  transform: translateY(-1px);
-}
-
-.confirmCancel:active {
-  transform: translateY(0);
+  background: rgba(14, 165, 233, 0.06);
+  border-color: rgba(14, 165, 233, 0.4);
+  transform: translateY(-2px);
 }
 
 .confirmDelete {
-  appearance: none;
-  border: 1px solid rgba(239, 68, 68, 0.55);
-  background: rgba(239, 68, 68, 0.12);
-  color: #991b1b;
-  border-radius: 999px;
-  padding: 9px 14px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.1s ease, background 0.15s ease, border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  border: 2px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
 }
 
 .confirmDelete:hover {
-  background: rgba(239, 68, 68, 0.18);
-  border-color: rgba(239, 68, 68, 0.9);
-  transform: translateY(-1px);
-  box-shadow: 0 12px 26px rgba(239, 68, 68, 0.14);
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
 }
 
+.confirmCancel:active,
 .confirmDelete:active {
   transform: translateY(0);
 }
 
 .confirmCancel:disabled,
 .confirmDelete:disabled {
-  opacity: 0.65;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+}
+
+/* 非表示フォーム */
+.hiddenForm {
+  display: none;
+}
+
+/* =========================================
+   レスポンシブ
+========================================= */
+@media (max-width: 1024px) {
+  .actionsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .statGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pageRoot {
+    padding: 24px 16px;
+  }
+
+  .pageTitleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+  }
+
+  .eventMeta {
+    padding: 24px;
+  }
+
+  .eventTitle {
+    font-size: 1.3rem;
+  }
+
+  .actionsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .statGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionCard,
+  .actionCardPrimary,
+  .actionCardButton,
+  .actionCardDanger,
+  .actionCardDangerButton,
+  .statCard {
+    padding: 24px;
+  }
+
+  .actionCardTitle {
+    font-size: 1.1rem;
+  }
+
+  .statValue {
+    font-size: 2rem;
+  }
+
+  .confirmModal {
+    padding: 24px;
+  }
+
+  .confirmActions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .confirmCancel,
+  .confirmDelete {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .eventSubMeta span {
+    font-size: 0.85rem;
+    padding: 5px 12px;
+  }
+
+  .logMainRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logName {
+    font-size: 1rem;
+  }
 }

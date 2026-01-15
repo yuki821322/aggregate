@@ -1,92 +1,148 @@
-/* ===== ページ全体 ===== */
+/* =========================================
+   ページ全体
+========================================= */
 .pageRoot {
   min-height: 100vh;
-  background: #f9fafb; /* 白基調 */
+  background: 
+    radial-gradient(ellipse at top right, rgba(14, 165, 233, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
+    #f8fafc;
   color: #111827;
-  padding: 40px 16px;
+  padding: 40px 24px;
+  position: relative;
+}
+
+.pageRoot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(14, 165, 233, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .pageContainer {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
-/* ===== ヘッダー ===== */
+/* =========================================
+   ヘッダー
+========================================= */
 .pageHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 2px solid rgba(14, 165, 233, 0.15);
 }
 
 .pageTitleRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 24px;
+  margin-bottom: 16px;
 }
 
 .pageTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 2.2rem;
+  font-weight: 800;
   letter-spacing: -0.02em;
-  color: #111827;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
 }
 
 .backLink {
-  font-size: 0.8rem;
-  color: #0ea5e9;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0284c7;
   text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  background: rgba(14, 165, 233, 0.06);
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .backLink:hover {
-  color: #0369a1;
-  text-decoration: underline;
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
 }
 
 .eventMeta {
-  font-size: 0.85rem;
-  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #475569;
+  padding: 12px 20px;
+  background: rgba(14, 165, 233, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 12px;
+  display: inline-block;
 }
 
-/* ===== ツールバー ===== */
+/* =========================================
+   ツールバー
+========================================= */
 .toolbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 20px 24px;
+  background: #ffffff;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .addButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   border: none;
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 0.85rem;
-  font-weight: 500;
+  border-radius: 100px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
   color: #ffffff;
-  background: #0ea5e9; /* green → 水色 */
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
   cursor: pointer;
-  transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
+  transition: all 0.3s ease;
 }
 
 .addButton:hover {
-  filter: brightness(1.05);
-  box-shadow: 0 8px 18px rgba(14, 165, 233, 0.35);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
 }
 
 .addButton:active {
   transform: translateY(0);
-  box-shadow: none;
 }
 
-/* ===== テーブル ===== */
+/* =========================================
+   テーブル
+========================================= */
 .tableWrapper {
   background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .table {
@@ -95,182 +151,365 @@
 }
 
 .tableHead {
-  background: #f3f4f6;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(14, 165, 233, 0.12) 100%);
 }
 
 .th {
   text-align: left;
-  padding: 10px 14px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #374151;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0284c7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid rgba(14, 165, 233, 0.2);
+}
+
+.tr {
+  transition: all 0.2s ease;
 }
 
 .tr:nth-child(even) {
-  background: #f9fafb;
+  background: rgba(14, 165, 233, 0.02);
 }
 
 .tr:hover {
   background: rgba(14, 165, 233, 0.08);
+  transform: translateX(4px);
 }
 
 .td {
-  padding: 10px 14px;
-  font-size: 0.85rem;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.08);
   color: #111827;
+  vertical-align: top;
+}
+
+.tr:last-child .td {
+  border-bottom: none;
 }
 
 .tdSub {
-  font-size: 0.75rem;
-  color: #6b7280;
-  margin-top: 2px;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 4px;
+  font-weight: 400;
 }
 
-/* ===== 空のとき ===== */
-.emptyBox {
-  margin-top: 12px;
-  padding: 16px 18px;
-  border-radius: 12px;
-  border: 1px dashed rgba(14, 165, 233, 0.45);
-  background: #ffffff;
+.tdActions {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.08);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.tr:last-child .tdActions {
+  border-bottom: none;
+}
+
+/* =========================================
+   アクションボタン
+========================================= */
+.deleteButton {
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+  border-radius: 100px;
+  padding: 8px 16px;
   font-size: 0.85rem;
-  color: #111827;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 8px;
+}
+
+.deleteButton:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.deleteButton:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   空の状態
+========================================= */
+.emptyBox {
+  background: #ffffff;
+  border: 2px dashed rgba(14, 165, 233, 0.3);
+  border-radius: 20px;
+  padding: 60px 40px;
+  text-align: center;
+  font-size: 1.05rem;
+  color: #64748b;
+  line-height: 1.6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .emptyHint {
-  margin-top: 4px;
-  font-size: 0.75rem;
-  color: #6b7280;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #94a3b8;
 }
 
-/* ===== イベント未指定のとき ===== */
+/* =========================================
+   通知
+========================================= */
 .notice {
-  margin-top: 24px;
-  padding: 16px 18px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  margin-top: 40px;
   background: #ffffff;
-  font-size: 0.9rem;
-  color: #111827;
+  border: 2px solid rgba(14, 165, 233, 0.25);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .noticeTitle {
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0284c7;
+  margin-bottom: 12px;
 }
 
 .noticeText {
-  font-size: 0.8rem;
-  color: #6b7280;
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
 }
 
-/* ===== 参加者追加フォーム ===== */
+.noticeText code {
+  padding: 2px 8px;
+  background: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 6px;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #0284c7;
+}
+
+/* =========================================
+   フォーム
+========================================= */
 .formWrapper {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 12px;
+  margin-top: 32px;
   background: #ffffff;
-  border: 1px solid #e5e7eb;
+  border: 2px solid rgba(14, 165, 233, 0.15);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .formTitle {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #111827;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.formTitle::before {
+  content: "";
+  width: 4px;
+  height: 28px;
+  border-radius: 100px;
+  background: linear-gradient(to bottom, #0ea5e9, #0284c7);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .label {
-  font-size: 0.85rem;
-  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .required {
-  color: #0ea5e9; /* pink → 水色 */
-  margin-left: 4px;
+  color: #ef4444;
+  font-weight: 700;
 }
 
 .input,
 .textarea {
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  border: 2px solid rgba(14, 165, 233, 0.2);
   background: #ffffff;
-  padding: 8px 10px;
+  padding: 14px 16px;
   color: #111827;
-  font-size: 0.85rem;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
 }
 
 .input:focus,
 .textarea:focus {
   border-color: #0ea5e9;
-  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.4);
-  outline: none;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
 }
 
 .textarea {
-  min-height: 60px;
+  min-height: 100px;
   resize: vertical;
+  font-family: inherit;
 }
 
 .submitButton {
   align-self: flex-end;
   border: none;
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  background: #0ea5e9;
+  border-radius: 100px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
   color: #ffffff;
   cursor: pointer;
-  transition: transform 0.1s ease, filter 0.15s ease;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
+  transition: all 0.3s ease;
 }
 
 .submitButton:hover {
-  filter: brightness(1.05);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
 }
 
-/* ===== 一覧テーブル内の操作セル ===== */
-.tdActions {
-  padding: 10px 14px;
-  font-size: 0.8rem;
-  border-bottom: 1px solid #e5e7eb;
-  text-align: right;
-}
-
-/* 削除ボタン（赤 → 水色トーン） */
-.deleteButton {
-  border: 1px solid rgba(3, 105, 161, 0.7);
-  background: rgba(14, 165, 233, 0.12);
-  color: #0369a1;
-  border-radius: 999px;
-  padding: 4px 10px;
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
-}
-
-.deleteButton:hover {
-  background: rgba(14, 165, 233, 0.18);
-  box-shadow: 0 6px 14px rgba(14, 165, 233, 0.25);
-  transform: translateY(-1px);
-}
-
-.deleteButton:active {
+.submitButton:active {
   transform: translateY(0);
-  box-shadow: none;
+}
+
+/* =========================================
+   レスポンシブ
+========================================= */
+@media (max-width: 1024px) {
+  .pageContainer {
+    max-width: 100%;
+  }
+
+  .tableWrapper {
+    overflow-x: auto;
+  }
+
+  .table {
+    min-width: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageRoot {
+    padding: 24px 16px;
+  }
+
+  .pageTitleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .addButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .th,
+  .td,
+  .tdActions {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+
+  .formWrapper {
+    padding: 24px 20px;
+  }
+
+  .emptyBox {
+    padding: 40px 24px;
+  }
+
+  .notice {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .eventMeta {
+    font-size: 0.9rem;
+    padding: 10px 16px;
+  }
+
+  .th,
+  .td,
+  .tdActions {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+
+  .deleteButton {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .formTitle {
+    font-size: 1.2rem;
+  }
+
+  .input,
+  .textarea {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+
+  .submitButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* =========================================
+   テーブルのスクロールヒント
+========================================= */
+@media (max-width: 1024px) {
+  .tableWrapper::after {
+    content: '← スクロールして全体を表示';
+    display: block;
+    text-align: center;
+    padding: 12px;
+    font-size: 0.85rem;
+    color: #64748b;
+    background: rgba(14, 165, 233, 0.04);
+    border-top: 1px solid rgba(14, 165, 233, 0.1);
+  }
 }

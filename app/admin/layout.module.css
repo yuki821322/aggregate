@@ -1,208 +1,462 @@
-/* === 全体 & navbar === */
-
+/* =========================================
+   全体レイアウト
+========================================= */
 .adminRoot {
   min-height: 100vh;
-  background: #f9fafb;
+  background: 
+    radial-gradient(ellipse at top right, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    #ffffff;
   color: #111827;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
+.adminRoot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* =========================================
+   ナビゲーションバー
+========================================= */
 .navbar {
-  height: 48px;
-  padding: 0 16px;
+  height: 64px;
+  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 2px solid rgba(14, 165, 233, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 4px 24px rgba(14, 165, 233, 0.08);
 }
 
 .navLeft {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
 }
 
+/* ロゴ */
 .logo {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #0ea5e9; /* ← 赤 → 水色 */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0ea5e9;
   text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  transition: all 0.3s ease;
+  line-height: 1;
 }
 
+.logo:hover {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+}
+
+.logoIcon {
+  width: 90px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* 右側エリア */
 .navRight {
-  font-size: 0.9rem;
-  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: #6b7280;
 }
 
 .userName {
   font-weight: 700;
-  color: #111827;
+  color: #0ea5e9;
+  padding: 8px 16px;
+  background: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: 100px;
+  transition: all 0.3s ease;
 }
 
-/* ハンバーガー */
+.userName:hover {
+  background: rgba(14, 165, 233, 0.15);
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.15);
+}
 
+/* ハンバーガーメニュー */
 .menuButton {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 6px;
-  width: 32px;
-  height: 32px;
-  padding: 4px;
-  background: transparent;
-  border: none;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menuButton:hover {
+  background: rgba(14, 165, 233, 0.15);
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.15);
 }
 
 .menuButton span {
   display: block;
   width: 100%;
   height: 3px;
-  background: #111827;
+  background: #0ea5e9;
   border-radius: 4px;
-  transition: 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* === 本体 === */
+/* アクティブ状態（×印） */
+.active {
+  background: rgba(14, 165, 233, 0.15);
+}
 
+.active span:nth-of-type(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.active span:nth-of-type(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.active span:nth-of-type(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* =========================================
+   本体
+========================================= */
 .body {
   position: relative;
-  min-height: calc(100vh - 48px);
+  min-height: calc(100vh - 64px);
+  display: flex;
 }
 
-/* ===== サイドバー ===== */
-
+/* =========================================
+   サイドバー
+========================================= */
 .sidebar {
   position: fixed;
-  top: 48px;
+  top: 64px;
   left: 0;
-  width: 240px;
-  height: calc(100vh - 48px);
-  padding: 16px 12px;
-
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
-
+  width: 280px;
+  height: calc(100vh - 64px);
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  border-right: 2px solid rgba(14, 165, 233, 0.15);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   transform: translateX(-100%);
-  transition: transform 0.25s ease-out;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 40;
-
   overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(14, 165, 233, 0.08);
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(14, 165, 233, 0.05);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.3);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.5);
 }
 
 .sidebarOpen {
   transform: translateX(0);
 }
 
-/* サイドバー中身 */
-
+/* サイドバーメニュー */
 .navMenu {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.sidebarBottom {
-  margin-top: 24px;
-  padding-top: 12px;
-  border-top: 1px solid #e5e7eb;
-}
-
 .navItem,
 .navItemDanger {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
   text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
+.navItem::before,
+.navItemDanger::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #0ea5e9;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+/* 通常ナビアイテム */
 .navItem {
-  color: #111827;
+  color: #4b5563;
+  background: rgba(14, 165, 233, 0.04);
+  border: 1px solid rgba(14, 165, 233, 0.1);
 }
 
 .navItem:hover {
-  background: rgba(14, 165, 233, 0.10); /* ← 赤 → 水色 */
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.3);
   color: #0ea5e9;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
 }
 
-/* 危険系（色だけ水色寄せ） */
+.navItem:hover::before {
+  transform: scaleY(1);
+}
+
+/* 危険系アイテム */
 .navItemDanger {
-  color: #0369a1; /* ← 濃赤 → 濃い水色 */
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.04);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.navItemDanger::before {
+  background: #ef4444;
 }
 
 .navItemDanger:hover {
-  background: rgba(3, 105, 161, 0.10);
-  color: #0369a1;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+}
+
+.navItemDanger:hover::before {
+  transform: scaleY(1);
+}
+
+/* サイドバー下部 */
+.sidebarBottom {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(14, 165, 233, 0.15);
+}
+
+/* サイドバーアイコン */
+.sidebarIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.8;
+  filter: none;
+  transition: all 0.3s ease;
+}
+
+.navItem:hover .sidebarIcon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.navItemDanger:hover .sidebarIcon {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 /* 背景オーバーレイ */
-
 .sidebarBackdrop {
   position: fixed;
-  top: 48px;
+  top: 64px;
   left: 0;
   right: 0;
   bottom: 0;
-
-  background: rgba(17, 24, 39, 0.35);
-  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   z-index: 30;
+  animation: fadeIn 0.3s ease;
 }
 
-/* ===== メインコンテンツ ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
+/* =========================================
+   メインコンテンツ
+========================================= */
 .main {
-  padding: 24px;
-  max-width: 1100px;
-  margin: 0 auto;
+  flex: 1;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  width: 100%;
 }
 
-/* === アイコン === */
+/* =========================================
+   レスポンシブ
+========================================= */
+@media (min-width: 1024px) {
+  .menuButton {
+    display: none;
+  }
 
-.sidebarIcon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  margin-right: 10px;
-  opacity: 0.9;
-  filter: none;
+  .sidebar {
+    transform: translateX(0);
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    flex-shrink: 0;
+  }
+
+  .sidebarBackdrop {
+    display: none;
+  }
+
+  .body {
+    display: flex;
+  }
+
+  .main {
+    margin-left: 0;
+  }
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;          /* アイコンが大きくなる分、少し余白を足す */
-  font-size: 1rem;
-  font-weight: 600;
-  color: #0ea5e9;
-  text-decoration: none;
-  line-height: 1;
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+  }
 }
 
-.logoIcon {
-  width: 80px;        /* ← 24 → 28 */
-  height: 80px;
-  flex-shrink: 0;
+@media (max-width: 768px) {
+  .navbar {
+    height: 56px;
+    padding: 0 16px;
+  }
+
+  .logo {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .logoIcon {
+    width: 70px;
+  }
+
+  .navRight {
+    font-size: 0.85rem;
+  }
+
+  .userName {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  .sidebar {
+    top: 56px;
+    height: calc(100vh - 56px);
+    width: 260px;
+    padding: 20px;
+  }
+
+  .body {
+    min-height: calc(100vh - 56px);
+  }
+
+  .sidebarBackdrop {
+    top: 56px;
+  }
 }
 
-.active span:nth-of-type(1) {
-  transform: translateY(9px) rotate(45deg);
-}
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 12px;
+  }
 
-.active span:nth-of-type(2) {
-  opacity: 0;
-}
+  .logo {
+    font-size: 0.9rem;
+    gap: 8px;
+    padding: 6px 10px;
+  }
 
-.active span:nth-of-type(3) {
-  transform: translateY(-9px) rotate(-45deg);
+  .logoIcon {
+    width: 60px;
+  }
+
+  .navRight span:not(.userName) {
+    display: none;
+  }
+
+  .userName {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .menuButton {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+
+  .sidebar {
+    width: 240px;
+    padding: 16px;
+  }
+
+  .navItem,
+  .navItemDanger {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
 }
