@@ -3,40 +3,66 @@
 ========================================= */
 .pageRoot {
   min-height: 100vh;
-  background: linear-gradient(180deg, #f8fafc 0%, #f5f5f5 60%);
+  background: 
+    radial-gradient(ellipse at top right, rgba(230, 0, 18, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(239, 68, 68, 0.04) 0%, transparent 50%),
+    #f8fafc;
+  color: #111827;
+  position: relative;
+}
+
+.pageRoot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(230, 0, 18, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 0, 18, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .pageContainer {
-  max-width: 720px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 18px 16px 44px;
-}
-
-.notFound {
-  padding: 20px;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-  color: #111827;
+  padding: 40px 24px 80px;
+  position: relative;
+  z-index: 1;
 }
 
 /* =========================================
-   Hero
+   Not Found
+========================================= */
+.notFound {
+  background: #ffffff;
+  border: 2px solid rgba(230, 0, 18, 0.2);
+  border-radius: 20px;
+  padding: 48px 32px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #64748b;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* =========================================
+   Hero Image
 ========================================= */
 .heroWrap {
   position: relative;
   width: 100%;
-  height: 260px;
-  border-radius: 22px;
+  height: 320px;
+  border-radius: 24px;
   overflow: hidden;
-  margin-bottom: 18px;
-  background: #e5e7eb;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #e5e7eb 0%, #cbd5e1 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .heroImage {
   object-fit: cover;
-  transform: scale(1.04);
+  width: 100%;
+  height: 100%;
 }
 
 .heroShade {
@@ -44,199 +70,410 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.05) 0%,
-    rgba(0, 0, 0, 0.55) 100%
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6) 100%
   );
 }
 
 .heroBadge {
   position: absolute;
-  left: 14px;
-  top: 14px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
+  left: 20px;
+  top: 20px;
+  padding: 10px 20px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   color: #111827;
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(230, 0, 18, 0.1);
 }
 
-/* 画像がない時の見た目 */
+/* Hero Fallback (画像なし) */
 .heroFallback {
   width: 100%;
-  height: 260px;
-  border-radius: 22px;
-  margin-bottom: 18px;
-  background: radial-gradient(circle at 20% 10%, #fff 0%, #f1f5f9 55%, #e5e7eb 100%);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
-  display: grid;
-  place-items: center;
+  height: 320px;
+  border-radius: 24px;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid rgba(230, 0, 18, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroFallback::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -25%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(230, 0, 18, 0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .heroFallbackInner {
   text-align: center;
+  position: relative;
 }
 
 .heroFallbackTitle {
   font-weight: 900;
-  letter-spacing: 0.18em;
-  color: #111827;
-  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  color: #e60012;
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 8px rgba(230, 0, 18, 0.1);
 }
 
 .heroFallbackSub {
-  margin-top: 6px;
-  color: #6b7280;
+  color: #64748b;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
 }
 
 /* =========================================
-   Title + Meta
+   Title
 ========================================= */
 .title {
-  font-size: 1.75rem;
-  font-weight: 900;
-  letter-spacing: 0.02em;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: #111827;
-  margin: 0;
+  margin: 0 0 24px 0;
+  line-height: 1.3;
 }
 
+/* =========================================
+   Meta Block
+========================================= */
 .metaBlock {
-  margin-top: 10px;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: #ffffff;
+  border: 2px solid rgba(230, 0, 18, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 
 .metaRow,
 .metaRowMuted {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  font-size: 0.92rem;
-  line-height: 1.55;
+  gap: 12px;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .metaRow {
-  color: #4b5563;
+  color: #475569;
 }
 
 .metaRowMuted {
-  color: #9ca3af;
+  color: #94a3b8;
+  font-style: italic;
 }
 
 .metaIcon {
-  font-size: 1rem;
-  line-height: 1.2;
-  margin-top: 2px;
+  font-size: 1.3rem;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .metaText {
   word-break: break-word;
+  font-weight: 500;
 }
 
 /* =========================================
    Info Card
 ========================================= */
 .infoCard {
-  margin-top: 18px;
-  padding: 18px 20px;
-  border-radius: 18px;
+  margin-bottom: 32px;
+  padding: 32px;
+  border-radius: 24px;
   background: #ffffff;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  border: 2px solid rgba(230, 0, 18, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.infoCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(230, 0, 18, 0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .countRow {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #eef2f7;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid rgba(230, 0, 18, 0.1);
+  position: relative;
 }
 
 .countLabel {
-  font-size: 0.9rem;
-  color: #6b7280;
-  font-weight: 700;
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .countValue {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 8px;
   color: #111827;
 }
 
 .countValue strong {
-  font-size: 1.35rem;
-  color: #ef4444;
+  font-size: 2.5rem;
+  color: #e60012;
   font-weight: 900;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
 .countUnit {
-  font-size: 0.95rem;
-  color: #6b7280;
+  font-size: 1.1rem;
+  color: #64748b;
   font-weight: 700;
 }
 
 .description {
-  margin-top: 14px;
-  font-size: 0.95rem;
-  line-height: 1.9;
-  color: #374151;
+  margin-top: 24px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #475569;
   white-space: pre-wrap;
+  position: relative;
 }
 
 .descriptionMuted {
-  margin-top: 14px;
-  font-size: 0.95rem;
-  line-height: 1.9;
-  color: #9ca3af;
+  margin-top: 24px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #94a3b8;
+  font-style: italic;
+  position: relative;
 }
 
 /* =========================================
-   CTA
+   Join Area (CTA)
 ========================================= */
 .joinArea {
   position: sticky;
-  bottom: 14px;
-  margin-top: 22px;
-  padding-top: 10px;
+  bottom: 24px;
+  margin-top: 32px;
+  padding: 24px;
+  background: #ffffff;
+  border: 2px solid rgba(230, 0, 18, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(230, 0, 18, 0.15);
+  z-index: 10;
 }
 
 .joinButton {
   width: 100%;
   border: none;
-  border-radius: 999px;
-  padding: 16px 18px;
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: #fff;
-  font-size: 1.05rem;
-  font-weight: 900;
-  letter-spacing: 0.06em;
+  border-radius: 100px;
+  padding: 18px 32px;
+  background: linear-gradient(135deg, #e60012 0%, #ff3b3b 100%);
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  box-shadow: 0 12px 28px rgba(239, 68, 68, 0.45);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(230, 0, 18, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.joinButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .joinButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 36px rgba(239, 68, 68, 0.55);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(230, 0, 18, 0.5);
+}
+
+.joinButton:hover::before {
+  opacity: 1;
 }
 
 .joinButton:active {
-  transform: translateY(0);
-  box-shadow: 0 10px 24px rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(230, 0, 18, 0.4);
 }
 
 .joinHint {
-  margin-top: 10px;
+  margin-top: 12px;
   text-align: center;
-  font-size: 0.82rem;
-  color: #6b7280;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* =========================================
+   レスポンシブ
+========================================= */
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 24px 16px 80px;
+  }
+
+  .heroWrap,
+  .heroFallback {
+    height: 240px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  .heroBadge {
+    left: 16px;
+    top: 16px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .heroFallbackTitle {
+    font-size: 2rem;
+  }
+
+  .heroFallbackSub {
+    font-size: 1rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .metaBlock {
+    padding: 20px;
+    gap: 14px;
+  }
+
+  .metaRow,
+  .metaRowMuted {
+    font-size: 0.95rem;
+  }
+
+  .metaIcon {
+    font-size: 1.2rem;
+  }
+
+  .infoCard {
+    padding: 24px;
+  }
+
+  .countRow {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 20px;
+  }
+
+  .countValue strong {
+    font-size: 2rem;
+  }
+
+  .countUnit {
+    font-size: 1rem;
+  }
+
+  .description,
+  .descriptionMuted {
+    font-size: 1rem;
+  }
+
+  .joinArea {
+    bottom: 16px;
+    padding: 20px;
+  }
+
+  .joinButton {
+    padding: 16px 28px;
+    font-size: 1.05rem;
+  }
+
+  .joinHint {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageContainer {
+    padding: 20px 12px 80px;
+  }
+
+  .heroWrap,
+  .heroFallback {
+    height: 200px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+
+  .heroBadge {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .heroFallbackTitle {
+    font-size: 1.6rem;
+  }
+
+  .heroFallbackSub {
+    font-size: 0.9rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .metaBlock {
+    padding: 16px;
+  }
+
+  .infoCard {
+    padding: 20px;
+  }
+
+  .countValue strong {
+    font-size: 1.8rem;
+  }
+
+  .joinArea {
+    padding: 16px;
+  }
+
+  .joinButton {
+    padding: 14px 24px;
+    font-size: 1rem;
+  }
 }

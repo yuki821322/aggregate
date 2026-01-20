@@ -1,33 +1,76 @@
-/* app/user/events/page.module.css */
-
+/* =========================================
+   ページ全体
+========================================= */
 .pageRoot {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: 
+    radial-gradient(ellipse at top right, rgba(230, 0, 18, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(239, 68, 68, 0.04) 0%, transparent 50%),
+    #f8fafc;
   color: #111827;
+  position: relative;
+}
+
+.pageRoot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(230, 0, 18, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 0, 18, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .pageContainer {
-  max-width: 960px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 32px 16px 40px;
+  padding: 40px 24px;
+  position: relative;
+  z-index: 1;
 }
 
+/* =========================================
+   ヘッダー
+========================================= */
 .pageHeader {
-  margin-bottom: 24px;
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 2px solid rgba(230, 0, 18, 0.15);
 }
 
 .pageTitle {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #111827;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #e60012 0%, #ff3b3b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
 }
 
+/* =========================================
+   空の状態
+========================================= */
 .emptyMessage {
-  color: #6b7280;
+  background: #ffffff;
+  border: 2px dashed rgba(230, 0, 18, 0.3);
+  border-radius: 20px;
+  padding: 60px 40px;
+  text-align: center;
+  font-size: 1.05rem;
+  color: #64748b;
+  line-height: 1.6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
+/* =========================================
+   イベントリスト
+========================================= */
 .listSection {
-  margin-top: 8px;
+  margin-top: 0;
 }
 
 .eventList {
@@ -35,181 +78,354 @@
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 16px;
+  gap: 24px;
 }
 
-.eventItem {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
-}
-
-.eventTitle {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.eventMeta {
-  margin-top: 4px;
-  font-size: 0.85rem;
-  color: #6b7280;
-}
-
-.eventActions {
-  display: flex;
-  align-items: center;
-}
-
-.joinButton {
-  border: none;
-  border-radius: 999px;
-  background: #ef4444;
-  color: #ffffff;
-  padding: 8px 18px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
-}
-
-.joinButton:hover {
-  background: #f97373;
-  transform: translateY(-1px);
-}
-
-.qrLink {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 999px;
-  border: 1px solid #111827;
-  font-size: 0.9rem;
-  text-decoration: none;
-  color: #111827;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.qrLink:hover {
-  background: #111827;
-  color: #ffffff;
+.eventLi {
+  list-style: none;
 }
 
 .eventItemLink {
   text-decoration: none;
   color: inherit;
+  display: block;
 }
 
+/* =========================================
+   イベントカード
+========================================= */
 .eventItem {
+  background: #ffffff;
+  border: 2px solid rgba(230, 0, 18, 0.15);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.eventItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(230, 0, 18, 0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .eventItem:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
-}
-.eventLi {
-  list-style: none;
+  transform: translateY(-6px);
+  border-color: rgba(230, 0, 18, 0.35);
+  box-shadow: 0 12px 32px rgba(230, 0, 18, 0.15);
 }
 
-.ownerRow {
-  margin-top: 10px;
+/* =========================================
+   イベント情報
+========================================= */
+.eventInfo {
+  position: relative;
+}
+
+.eventTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.eventMeta {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 16px 0;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+}
+
+.eventMeta::before {
+  content: "📅";
+  font-size: 1.1rem;
+}
+
+/* =========================================
+   作成者情報
+========================================= */
+.ownerRow {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(230, 0, 18, 0.04);
+  border: 1px solid rgba(230, 0, 18, 0.1);
+  border-radius: 12px;
 }
 
 .ownerAvatar {
   position: relative;
-  width: 34px;
-  height: 34px;
-  border-radius: 9999px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  flex: 0 0 auto;
+  border: 2px solid rgba(230, 0, 18, 0.2);
+  background: #ffffff;
+  flex-shrink: 0;
 }
 
 .ownerAvatarImg {
   object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 .ownerAvatarFallback {
   width: 100%;
   height: 100%;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 800;
+  font-size: 1.1rem;
   color: #ffffff;
-  background: linear-gradient(135deg, #e60012, #ff8b8b);
+  background: linear-gradient(135deg, #e60012 0%, #ff3b3b 100%);
 }
 
 .ownerName {
-  font-size: 0.82rem;
-  color: #4b5563;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #475569;
   margin: 0;
+  flex: 1;
 }
 
 .joinedBadge {
-  margin-left: auto;
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  background: #ecfdf3;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
   color: #166534;
-  border: 1px solid rgba(22, 101, 52, 0.25);
+  white-space: nowrap;
 }
 
+/* =========================================
+   場所情報
+========================================= */
 .locationLine {
-  margin-top: 8px;
-  font-size: 0.82rem;
-  color: #374151;
-}
-.meta {
-  margin-top: 6px;
-  color: #111827;   /* ← ここを黒に */
-  opacity: 0.86;    /* ← “黒だけど少し控えめ” にしたい場合 */
-}
-
-/* 参加人数：黒 */
-.count {
-  margin-top: 10px;
-  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #475569;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* 説明：黒 */
-.description {
-  margin-top: 16px;
-  line-height: 1.8;
-  color: #111827;   /* ← ここも黒に */
+/* =========================================
+   説明文
+========================================= */
+.eventDesc {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.7;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* 場所を出してるなら（location） */
-.location {
-  margin-top: 10px;
-  color: #111827;
-  opacity: 0.9;
-}
-
-/* 参加ボタンはそのままでOK */
-.joinArea {
-  margin-top: 32px;
+/* =========================================
+   アクション（インラインフォーム）
+========================================= */
+.joinInline {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(230, 0, 18, 0.1);
 }
 
 .joinButton {
   width: 100%;
   border: none;
-  border-radius: 999px;
-  padding: 14px;
-  background: #ef4444;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 800;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #e60012 0%, #ff3b3b 100%);
+  color: #ffffff;
+  padding: 14px 32px;
+  font-size: 1.05rem;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 4px 16px rgba(230, 0, 18, 0.3);
+  transition: all 0.3s ease;
 }
 
+.joinButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(230, 0, 18, 0.4);
+}
 
+.joinButton:active {
+  transform: translateY(0);
+}
 
+/* QRリンク（使う場合） */
+.qrLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 100px;
+  border: 2px solid rgba(230, 0, 18, 0.3);
+  background: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #e60012;
+  transition: all 0.3s ease;
+}
+
+.qrLink:hover {
+  background: rgba(230, 0, 18, 0.08);
+  border-color: rgba(230, 0, 18, 0.5);
+  transform: translateY(-2px);
+}
+
+/* アクションエリア */
+.eventActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(230, 0, 18, 0.1);
+}
+
+/* =========================================
+   詳細ページ用スタイル（念のため）
+========================================= */
+.meta {
+  margin-top: 12px;
+  font-size: 1rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.count {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.description {
+  margin-top: 20px;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #475569;
+}
+
+.location {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: #475569;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.joinArea {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 2px solid rgba(230, 0, 18, 0.1);
+}
+
+/* =========================================
+   レスポンシブ
+========================================= */
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 24px 16px;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+  }
+
+  .eventList {
+    gap: 20px;
+  }
+
+  .eventItem {
+    padding: 24px;
+  }
+
+  .eventTitle {
+    font-size: 1.3rem;
+  }
+
+  .ownerRow {
+    padding: 10px 12px;
+  }
+
+  .ownerAvatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .ownerName {
+    font-size: 0.85rem;
+  }
+
+  .joinedBadge {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+
+  .emptyMessage {
+    padding: 40px 24px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageContainer {
+    padding: 20px 12px;
+  }
+
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .eventItem {
+    padding: 20px;
+  }
+
+  .eventTitle {
+    font-size: 1.2rem;
+  }
+
+  .eventMeta {
+    font-size: 0.9rem;
+  }
+
+  .ownerRow {
+    flex-wrap: wrap;
+  }
+
+  .joinedBadge {
+    width: 100%;
+    text-align: center;
+  }
+
+  .joinButton {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+}
