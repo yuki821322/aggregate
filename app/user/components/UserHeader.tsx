@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./UserHeader.module.css";
 
 // ログアウトを共通化したいなら、この actions の場所に合わせて変えてOK
-import { logoutParticipant } from "../mypage/actions";
+import { logoutParticipant } from "../(app)/mypage/actions";
 
 type Props = {
   participant: { name: string | null; studentId: string | null } | null;
