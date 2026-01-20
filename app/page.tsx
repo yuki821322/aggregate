@@ -144,14 +144,51 @@ export default function LandingPage() {
           </div>
 
           <nav className={styles.globalNav}>
-            <Link href="/user/login" className={cn(styles.navLink, styles.navLinkUser)}>
-              <span className={styles.navIcon}>👤</span>
-              Userログイン
-            </Link>
-            <Link href="/admin" className={cn(styles.navLink, styles.navLinkAdmin)}>
-              <span className={styles.navIcon}>⚙️</span>
-              Adminへ
-            </Link>
+            <div className={styles.navGroup}>
+              <span className={styles.navGroupLabel}>
+                <span className={styles.navIcon}>
+                  <Image
+                    src="/human.svg"
+                    alt="User"
+                    width={18}
+                    height={18}
+                  />
+                </span>
+                参加者
+              </span>
+              <div className={styles.navButtons}>
+                <Link href="/user/login" className={cn(styles.navLink, styles.navLinkUser)}>
+                  ログイン
+                </Link>
+                <Link href="/user/register" className={cn(styles.navLink, styles.navLinkUserSecondary)}>
+                  新規登録
+                </Link>
+              </div>
+            </div>
+            
+            <div className={styles.navDivider} />
+            
+            <div className={styles.navGroup}>
+              <span className={styles.navGroupLabel}>
+                <span className={styles.navIcon}>
+                  <Image
+                    src="/gear.svg"
+                    alt="Admin"
+                    width={18}
+                    height={18}
+                  />
+                </span>
+                運営
+              </span>
+              <div className={styles.navButtons}>
+                <Link href="/admin/login" className={cn(styles.navLink, styles.navLinkAdmin)}>
+                  ログイン
+                </Link>
+                <Link href="/admin/register" className={cn(styles.navLink, styles.navLinkAdminSecondary)}>
+                  新規登録
+                </Link>
+              </div>
+            </div>
           </nav>
         </div>
       </header>
@@ -214,10 +251,12 @@ export default function LandingPage() {
               <div className={cn(styles.roleCard, styles.roleCardUser)}>
                 <div className={styles.roleCardGlow} />
                 <div className={styles.roleIconLarge}>
-                  <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
+                  <Image
+                    src="/human.svg"
+                    alt="User"
+                    width={56}
+                    height={56}
+                  />
                 </div>
                 <h3 className={styles.roleTitle}>参加者（User）</h3>
                 <p className={styles.roleDescription}>
@@ -256,11 +295,12 @@ export default function LandingPage() {
               <div className={cn(styles.roleCard, styles.roleCardAdmin)}>
                 <div className={styles.roleCardGlow} />
                 <div className={styles.roleIconLarge}>
-                  <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M12 1v6m0 6v6m-9-9h6m6 0h6" />
-                    <path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24M4.93 19.07l4.24-4.24m5.66-5.66 4.24-4.24" />
-                  </svg>
+                  <Image
+                    src="/gear.svg"
+                    alt="Admin"
+                    width={56}
+                    height={56}
+                  />
                 </div>
                 <h3 className={styles.roleTitle}>運営（Admin）</h3>
                 <p className={styles.roleDescription}>
@@ -283,12 +323,12 @@ export default function LandingPage() {
                 </ul>
                 
                 <div className={styles.roleButtons}>
-                  <Link href="/admin" className={cn(styles.roleButton, styles.roleButtonAdmin)}>
-                    <span>管理画面へ</span>
+                  <Link href="/admin/login" className={cn(styles.roleButton, styles.roleButtonAdmin)}>
+                    <span>ログイン</span>
                     <span className={styles.roleButtonArrow}>→</span>
                   </Link>
-                  <Link href="/admin/login" className={styles.roleButtonSecondary}>
-                    ログインはこちら
+                  <Link href="/admin/register" className={styles.roleButtonSecondary}>
+                    新規登録はこちら
                   </Link>
                 </div>
               </div>
@@ -312,7 +352,7 @@ export default function LandingPage() {
 
           <div className={styles.featureGrid}>
             <RevealOnScroll variant="up" enabled={!showIntro} delay={0}>
-              <div className={styles.featureCard}>
+              <div className={cn(styles.featureCard, styles.featureCardRed)}>
                 <div className={styles.featureCardGlow} />
                 <div className={styles.featureIcon}>
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -328,7 +368,7 @@ export default function LandingPage() {
             </RevealOnScroll>
 
             <RevealOnScroll variant="up" enabled={!showIntro} delay={100}>
-              <div className={styles.featureCard}>
+              <div className={cn(styles.featureCard, styles.featureCardRed)}>
                 <div className={styles.featureCardGlow} />
                 <div className={styles.featureIcon}>
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -346,7 +386,7 @@ export default function LandingPage() {
             </RevealOnScroll>
 
             <RevealOnScroll variant="up" enabled={!showIntro} delay={200}>
-              <div className={styles.featureCard}>
+              <div className={cn(styles.featureCard, styles.featureCardBlue)}>
                 <div className={styles.featureCardGlow} />
                 <div className={styles.featureIcon}>
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -364,7 +404,7 @@ export default function LandingPage() {
             </RevealOnScroll>
 
             <RevealOnScroll variant="up" enabled={!showIntro} delay={300}>
-              <div className={styles.featureCard}>
+              <div className={cn(styles.featureCard, styles.featureCardBlue)}>
                 <div className={styles.featureCardGlow} />
                 <div className={styles.featureIcon}>
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -457,8 +497,8 @@ export default function LandingPage() {
                 <h4 className={styles.footerLinkTitle}>サービス</h4>
                 <Link href="/user/login" className={styles.footerLink}>Userログイン</Link>
                 <Link href="/user/register" className={styles.footerLink}>User新規登録</Link>
-                <Link href="/admin" className={styles.footerLink}>Admin管理画面</Link>
                 <Link href="/admin/login" className={styles.footerLink}>Adminログイン</Link>
+                <Link href="/admin/register" className={styles.footerLink}>Admin新規登録</Link>
               </div>
               
               <div className={styles.footerLinkGroup}>

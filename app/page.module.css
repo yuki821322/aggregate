@@ -384,43 +384,106 @@
 .globalNav {
   display: flex;
   align-items: center;
+  gap: 24px;
+}
+
+.navGroup {
+  display: flex;
+  align-items: center;
   gap: 12px;
+}
+
+.navGroupLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.navIcon img {
+  display: block;
+  filter: brightness(0) invert(1) opacity(0.6);
+}
+
+.navButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.navDivider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .navLink {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.95rem;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
-  padding: 12px 24px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
+  padding: 10px 20px;
+  border-radius: 8px;
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.12);
   transition: all 0.3s ease;
   white-space: nowrap;
 }
 
-.navIcon {
-  font-size: 1.1rem;
-}
-
-.navLink:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
+.navLinkUser {
+  background: linear-gradient(135deg, #e60012, #b80010);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .navLinkUser:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(230, 0, 18, 0.4);
+}
+
+.navLinkUserSecondary {
+  background: rgba(230, 0, 18, 0.1);
+  border-color: rgba(230, 0, 18, 0.3);
+  color: #ff3b3b;
+}
+
+.navLinkUserSecondary:hover {
+  background: rgba(230, 0, 18, 0.2);
   border-color: rgba(230, 0, 18, 0.5);
-  box-shadow: 0 4px 16px rgba(230, 0, 18, 0.25);
+  transform: translateY(-2px);
+}
+
+.navLinkAdmin {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .navLinkAdmin:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.4);
+}
+
+.navLinkAdminSecondary {
+  background: rgba(14, 165, 233, 0.1);
+  border-color: rgba(14, 165, 233, 0.3);
+  color: #38bdf8;
+}
+
+.navLinkAdminSecondary:hover {
+  background: rgba(14, 165, 233, 0.2);
   border-color: rgba(14, 165, 233, 0.5);
-  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.25);
+  transform: translateY(-2px);
 }
 
 /* =========================================
@@ -891,14 +954,6 @@
   opacity: 1;
 }
 
-.featureCard:nth-child(odd) .featureCardGlow {
-  background: radial-gradient(circle at center, rgba(230, 0, 18, 0.12), transparent 70%);
-}
-
-.featureCard:nth-child(even) .featureCardGlow {
-  background: radial-gradient(circle at center, rgba(14, 165, 233, 0.12), transparent 70%);
-}
-
 .featureIcon {
   width: 72px;
   height: 72px;
@@ -923,11 +978,20 @@
   transform: scale(1.15);
 }
 
-.featureCard:nth-child(odd):hover .featureIcon svg {
+/* 個別カラー設定 */
+.featureCardRed .featureCardGlow {
+  background: radial-gradient(circle at center, rgba(230, 0, 18, 0.12), transparent 70%);
+}
+
+.featureCardRed:hover .featureIcon svg {
   color: #ff3b3b;
 }
 
-.featureCard:nth-child(even):hover .featureIcon svg {
+.featureCardBlue .featureCardGlow {
+  background: radial-gradient(circle at center, rgba(14, 165, 233, 0.12), transparent 70%);
+}
+
+.featureCardBlue:hover .featureIcon svg {
   color: #38bdf8;
 }
 
@@ -1215,7 +1279,7 @@
   .globalInner {
     padding: 16px 24px;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
   }
 
   .headerBrand {
@@ -1230,14 +1294,33 @@
 
   .globalNav {
     width: 100%;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .navGroup {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .navGroupLabel {
     justify-content: center;
+  }
+
+  .navButtons {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navDivider {
+    width: 100%;
+    height: 1px;
   }
 
   .navLink {
     flex: 1;
-    justify-content: center;
-    padding: 10px 16px;
-    font-size: 0.85rem;
+    min-width: 120px;
   }
 
   .heroInnerCenter {
@@ -1332,5 +1415,10 @@
 
   .flowStep {
     padding: 32px 24px;
+  }
+
+  .navLink {
+    padding: 10px 16px;
+    font-size: 0.85rem;
   }
 }
