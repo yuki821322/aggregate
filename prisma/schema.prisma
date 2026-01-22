@@ -35,11 +35,12 @@ model AccountUser {
 model Participant {
   id           String   @id @default(uuid())
   name         String
-  studentId    String?  @unique   
-  
+  studentId    String?  @unique
+
   // code        String?  @unique
 
-  passwordHash String           
+  passwordHash String
+  avatarUrl    String?
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

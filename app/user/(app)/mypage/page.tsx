@@ -20,7 +20,15 @@ export default async function UserMyPage() {
           <div className={styles.profileCard}>
             <div className={styles.profileHeader}>
               <div className={styles.avatar}>
-                <span className={styles.avatarInitial}>{initial}</span>
+                {participant.avatarUrl ? (
+                  <img
+                    src={participant.avatarUrl}
+                    alt={`${name}のプロフィール画像`}
+                    className={styles.avatarImage}
+                  />
+                ) : (
+                  <span className={styles.avatarInitial}>{initial}</span>
+                )}
               </div>
               <div>
                 <h1 className={styles.profileName}>{name}</h1>

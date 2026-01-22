@@ -4,6 +4,46 @@
 import { getCurrentParticipant } from "@/lib/auth-participant";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { redirect } from "next/navigation";
+
+// ==============================
+//  プロフィール画像の更新
+// ==============================
+export async function updateAvatar(formData: FormData) {
+  const participant = await getCurrentParticipant();
+
+  if (!participant) {
+    redirect("/user/login");
+  }
+
+  const file = formData.get("avatar") as File | null;
+
+  if (!file || file.size === 0) {
+    redirect("/user/profile");
+  }
+
+  if (!file.type.startsWith("image/")) {
+    redirect("/user/profile");
+  }
+
+  const MAX_SIZE = 1024 * 1024; // 1MB
+  if (file.size > MAX_SIZE) {
+    redirect("/user/profile");
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const base64 = Buffer.from(arrayBuffer).toString("base64");
+  const dataUrl = `data:${file.type};base64,${base64}`;
+
+  await prisma.participant.update({
+    where: { id: participant.id },
+    data: {
+      avatarUrl: dataUrl,
+    },
+  });
+
+  redirect("/user/profile");
+}
 
 // ==============================
 //  パスワード変更用の状態型

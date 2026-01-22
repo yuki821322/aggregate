@@ -87,10 +87,18 @@
   box-shadow: 0 8px 24px rgba(230, 0, 18, 0.3);
   border: 3px solid #ffffff;
   flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
 }
 
 .avatarInitial {
   transform: translateY(1px);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .profileName {

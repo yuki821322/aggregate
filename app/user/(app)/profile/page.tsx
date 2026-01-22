@@ -2,6 +2,7 @@ import styles from "./page.module.css";
 import { getCurrentParticipant } from "@/lib/auth-participant";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import AvatarWithModal from "./AvatarWithModal";
 
 export default async function UserProfilePage() {
   const participant = await getCurrentParticipant();
@@ -33,9 +34,11 @@ export default async function UserProfilePage() {
         <section className={styles.profileSection}>
           {/* 上部プロフィール概要 */}
           <div className={styles.profileHeader}>
-            <div className={styles.avatar}>
-              <span className={styles.avatarInitial}>{initial}</span>
-            </div>
+            <AvatarWithModal
+              avatarUrl={participant.avatarUrl ?? null}
+              initial={initial}
+              displayName={displayName}
+            />
 
             <div className={styles.profileMeta}>
               <h2 className={styles.profileName}>{displayName}</h2>
