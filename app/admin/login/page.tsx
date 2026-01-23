@@ -59,6 +59,13 @@ export default function AdminLoginPage() {
             管理者アカウントを新規登録
           </a>
         </p>
+
+        {/* LPへのリンク */}
+        <div className={styles.lpLinkArea}>
+          <a href="/" className={styles.lpLink}>
+            ← トップページへ戻る
+          </a>
+        </div>
       </div>
     </main>
   );

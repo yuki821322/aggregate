@@ -432,6 +432,30 @@
 }
 
 /* =========================================
+   LPリンク
+========================================= */
+.lpLinkArea {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.lpLink {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lpLink:hover {
+  color: #6b7280;
+}
+
+/* =========================================
    アニメーション
 ========================================= */
 @keyframes spinner {
@@ -477,7 +501,8 @@
   .formInput,
   .passwordToggle,
   .loginButton,
-  .cardFooterLink {
+  .cardFooterLink,
+  .lpLink {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

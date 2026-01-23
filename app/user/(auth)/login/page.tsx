@@ -130,6 +130,13 @@ export default function UserLoginPage() {
               </Link>
             </p>
           </div>
+
+          {/* LPへのリンク */}
+          <div className={styles.lpLinkArea}>
+            <Link href="/" className={styles.lpLink}>
+              ← トップページへ戻る
+            </Link>
+          </div>
         </div>
       </div>
     </main>

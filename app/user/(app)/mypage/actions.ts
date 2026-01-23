@@ -9,5 +9,5 @@ export async function logoutParticipant() {
   await clearParticipantSession();
 
   // ログイン画面へ戻す
-  redirect("/user");
+  redirect("/user/login");
 }

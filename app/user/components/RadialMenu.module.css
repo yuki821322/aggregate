@@ -1,15 +1,29 @@
 /* =========================================
    RadialMenu.module.css
    ラジアルメニュー（円形ホイール＋ドラッグ移動）
+   Enhanced Animation Version
 ========================================= */
 
-/* ===== 背景クリック用オーバーレイ（開いているときのみ表示） ===== */
+/* ===== 背景クリック用オーバーレイ ===== */
 .overlay {
   position: fixed;
   inset: 0;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
   border: none;
   z-index: 40;
+  animation: overlayFadeIn 0.3s ease-out;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
 }
 
 /* ===== ルート（ドラッグ移動の基準） ===== */
@@ -20,67 +34,134 @@
   z-index: 50;
 }
 
+/* ===== 波紋エフェクト ===== */
+.root::before,
+.root::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid rgba(230, 0, 18, 0.4);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.open::before {
+  animation: ripple 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.open::after {
+  animation: ripple 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s forwards;
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
 /* ===== ホイール（メニューの土台） ===== */
 .wheel {
   position: absolute;
   inset: 0;
-  pointer-events: none; /* itemだけクリック可 */
+  pointer-events: none;
 }
 
 /* ===== 各メニューアイテム ===== */
 .item {
   --angle: calc(360deg / var(--count));
+  --delay: calc(var(--i) * 0.06s);
 
   position: absolute;
   left: 50%;
   top: 50%;
 
-  width: 72px;
-  height: 72px;
+  width: 76px;
+  height: 76px;
   border-radius: 9999px;
 
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #020617;
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border: 2px solid transparent;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2px;
 
   transform:
     translate(-50%, -50%)
     rotate(calc(var(--i) * var(--angle)))
     translateX(0)
-    rotate(calc(-1 * var(--i) * var(--angle)));
+    rotate(calc(-1 * var(--i) * var(--angle)))
+    scale(0.3);
 
   opacity: 0;
-  transition:
-    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-    opacity 0.3s ease;
+  pointer-events: none;
+  cursor: pointer;
 
-  pointer-events: auto;
+  transition:
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.4s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease;
+  transition-delay: 0s;
 }
 
-/* open時に展開 */
+/* open時に展開（スタッガーアニメーション） */
 .open .item {
   opacity: 1;
-  transform:
-    translate(-50%, -50%)
-    rotate(calc(var(--i) * var(--angle)))
-    translateX(-110px)
-    rotate(calc(-1 * var(--i) * var(--angle)));
-}
-
-/* hover時の強調 */
-.item:hover {
-  background: #111;
-  color: #fff;
+  pointer-events: auto;
   transform:
     translate(-50%, -50%)
     rotate(calc(var(--i) * var(--angle)))
     translateX(-120px)
     rotate(calc(-1 * var(--i) * var(--angle)))
-    scale(1.1);
+    scale(1);
+  transition-delay: var(--delay);
+}
+
+/* hover時の強調 */
+.item:hover {
+  background: linear-gradient(145deg, #e60012, #ff3b3b);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(var(--i) * var(--angle)))
+    translateX(-130px)
+    rotate(calc(-1 * var(--i) * var(--angle)))
+    scale(1.15);
+  box-shadow:
+    0 8px 32px rgba(230, 0, 18, 0.4),
+    0 4px 16px rgba(230, 0, 18, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition-delay: 0s !important;
+}
+
+/* active時 */
+.item:active {
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(var(--i) * var(--angle)))
+    translateX(-125px)
+    rotate(calc(-1 * var(--i) * var(--angle)))
+    scale(1.05);
+  transition-duration: 0.1s;
 }
 
 /* ===== アイコン & ラベル ===== */
@@ -88,15 +169,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+  transition: transform 0.3s ease;
+}
+
+.item:hover .icon {
+  transform: scale(1.1);
+  animation: iconBounce 0.4s ease;
+}
+
+@keyframes iconBounce {
+  0%, 100% { transform: scale(1.1); }
+  50% { transform: scale(1.25); }
 }
 
 .iconImage {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: filter 0.2s ease;
+  transition: filter 0.3s ease;
 }
 
 /* hover時にアイコンを白くする */
@@ -105,8 +197,14 @@
 }
 
 .label {
-  margin-top: 4px;
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: transform 0.3s ease;
+}
+
+.item:hover .label {
+  transform: translateY(1px);
 }
 
 /* ===== トグルボタン（中央のハンバーガー） ===== */
@@ -121,22 +219,85 @@
   background: linear-gradient(145deg, #ff4b4b, #e60012);
   transform: translate(-50%, -50%);
   cursor: pointer;
+  box-shadow:
+    0 6px 24px rgba(230, 0, 18, 0.4),
+    0 3px 12px rgba(230, 0, 18, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
+  animation: pulse 2s ease-in-out infinite;
 }
 
+@keyframes pulse {
+  0%, 100% {
+    box-shadow:
+      0 6px 24px rgba(230, 0, 18, 0.4),
+      0 3px 12px rgba(230, 0, 18, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 0 0 0 rgba(230, 0, 18, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 6px 24px rgba(230, 0, 18, 0.4),
+      0 3px 12px rgba(230, 0, 18, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 0 0 12px rgba(230, 0, 18, 0);
+  }
+}
+
+.toggle:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow:
+    0 10px 36px rgba(230, 0, 18, 0.5),
+    0 5px 16px rgba(230, 0, 18, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  animation: none;
+}
+
+.toggle:active {
+  transform: translate(-50%, -50%) scale(0.95);
+  transition-duration: 0.1s;
+}
+
+/* オープン時のトグルボタン */
+.toggleOpen {
+  transform: translate(-50%, -50%) rotate(180deg);
+  background: linear-gradient(145deg, #1f2937, #111827);
+  animation: none;
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.3),
+    0 3px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.toggleOpen:hover {
+  transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
+}
+
+/* ハンバーガーライン */
 .toggle span {
   position: absolute;
   left: 50%;
   width: 24px;
-  height: 2px;
+  height: 2.5px;
   background: #fff;
   border-radius: 999px;
   transform: translateX(-50%);
-  transition: 0.2s;
+  transition:
+    top 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+    transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+    opacity 0.2s ease,
+    width 0.3s ease;
 }
 
 .toggle span:nth-child(1) { top: 22px; }
-.toggle span:nth-child(2) { top: 31px; }
+.toggle span:nth-child(2) { top: 31px; width: 18px; }
 .toggle span:nth-child(3) { top: 40px; }
+
+.toggle:hover span:nth-child(2) {
+  width: 24px;
+}
 
 /* open時：×に変形 */
 .toggleOpen span:nth-child(1) {
@@ -146,9 +307,26 @@
 
 .toggleOpen span:nth-child(2) {
   opacity: 0;
+  width: 0;
 }
 
 .toggleOpen span:nth-child(3) {
   top: 31px;
   transform: translateX(-50%) rotate(-45deg);
+}
+
+/* ===== モーション低減設定に対応 ===== */
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .root::before,
+  .root::after,
+  .item,
+  .toggle,
+  .toggle span,
+  .icon,
+  .iconImage,
+  .label {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
 }
