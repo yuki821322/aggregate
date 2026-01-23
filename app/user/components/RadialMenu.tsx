@@ -11,11 +11,11 @@ type RadialItem = {
 };
 
 const ITEMS: RadialItem[] = [
-  { label: "ホーム", icon: "🏠", href: "/user/mypage" },
-  { label: "出席履歴", icon: "📊", href: "/user/history" },
-  { label: "イベント管理", icon: "📅", href: "/user/events/management" },
-  { label: "プロフィール", icon: "👤", href: "/user/profile" },
-  { label: "イベント一覧", icon: "🗂️", href: "/user/events" }, 
+  { label: "ホーム", icon: "/admin-icons/home.svg", href: "/user/mypage" },
+  { label: "出席履歴", icon: "/admin-icons/participants.svg", href: "/user/history" },
+  { label: "イベント管理", icon: "/admin-icons/event.svg", href: "/user/events/management" },
+  { label: "プロフィール", icon: "/admin-icons/profile.svg", href: "/user/profile" },
+  { label: "イベント一覧", icon: "/admin-icons/event.svg", href: "/user/events" },
 ];
 
 export default function RadialMenu() {
@@ -122,7 +122,9 @@ export default function RadialMenu() {
                 setOpen(false);
               }}
             >
-              <span className={styles.icon}>{item.icon}</span>
+              <span className={styles.icon}>
+                <img src={item.icon} alt={item.label} className={styles.iconImage} />
+              </span>
               <span className={styles.label}>{item.label}</span>
             </button>
           ))}
